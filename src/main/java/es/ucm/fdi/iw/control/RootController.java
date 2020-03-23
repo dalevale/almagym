@@ -54,5 +54,10 @@ public class RootController {
 		List<Equipment> e = entityManager.createQuery("select e from Equipment e").getResultList();
 		model.addAttribute("equipments", e);
 		return "salas";
-	}
+	} 
+    
+    @GetMapping("/horarios/")
+	public String getHorarios(HttpSession session, Model model) { 
+		return "horarios";
+	} 
 }

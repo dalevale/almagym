@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<title>Nav fragment - rest intentionally left empty</title>
+	<meta charset="utf-8">
+	<title>Nav fragment - rest intentionally left empty</title>
 </head>
 <body>
 	<nav th:fragment="nav">
@@ -10,11 +11,15 @@
 
 		<div class="logx" th:if="${session.u}">
 
-			<div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary"
+			<div
+				class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary ml-2"
 				style="">
 				<div class="container">
-					<a href="../" class="navbar-brand animated bounceIn"><img
-						th:src="@{/img/logo-ejemplo.png}" class="img-rounded" alt="logo"></a>
+					<div href="../"
+						class="navbar-brand animated bounceIn pt-0 pb-0 pr-0">
+						<img th:src="@{/img/logo-ejemplo.png}" class="img-rounded"
+							alt="logo" style="width: 75px;">
+					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarResponsive" aria-controls="navbarResponsive"
 						aria-expanded="false" aria-label="Toggle navigation">
@@ -22,26 +27,23 @@
 					</button>
 
 					<div class="collapse navbar-collapse" id="navbarResponsive">
-						<ul class="navbar-nav">
+						<ul class="navbar-nav col-10 mt-2">
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/inicio/}"><i class="fas fa-home"></i> Inicio</a></li>
-							<li class="nav-item"><a class="nav-link"
-								th:href="@{/horarios}"><i class="far fa-calendar-alt"></i>Horarios</a></li>
-							<li class="nav-item"><a class="nav-link"
-								th:href="@{/salas/}"><i class="fas fa-person-booth"></i>
-									Salas</a></li>
-							<li class="nav-item"><a class="nav-link"
-								th:href="@{/clases/}"><i class="fas fa-person-booth"></i>Clases</a></li>
-							<li class="nav-item"><a class="nav-link" th:href="@{/form}"><i
-									class="fas fa-info-circle"></i>Form</a></li>
-							<li class="nav-item"><a class="nav-link"
+								th:href="@{/inicio/}"><i class="fas fa-home mr-1"></i>Inicio</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:href="@{/horarios/}"><i class="far fa-calendar-alt mr-1"></i>Horarios</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:href="@{/salas/}"><i class="fas fa-person-booth mr-1"></i>Salas</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:href="@{/clases/}"><i class="fas fa-person-booth mr-1"></i>Clases</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
 								th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}"><i
 									class="fas fa-info-circle"></i>Administrar</a></li>
 						</ul>
 
-						<ul class="nav navbar-nav ml-auto">
+						<ul class="nav navbar-nav ml-auto col-2">
 							<li class="nav-item dropdown"><a
-								class="nav-link dropdown-toggle" data-toggle="dropdown"
+								class="nav-link" data-toggle="dropdown"
 								id="themes" aria-expanded="false" href="#"> <img
 									class="userthumb"
 									th:src="@{/user/{id}/photo(id=${session.u.id})}"> <span
@@ -51,11 +53,13 @@
 									<a class="dropdown-item" th:href="@{/mensajes/}"><i
 										class="fas fa-comments"></i> Mis mensajes</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" th:if="${not session.u.hasRole('ADMIN')}" th:href="@{/user/{id}(id=${session.u.id})}"><i
+									<a class="dropdown-item"
+										th:if="${not session.u.hasRole('ADMIN')}"
+										th:href="@{/user/{id}(id=${session.u.id})}"><i
 										class="fas fa-user-edit"></i> Editar Perfil</a>
 									<div class="dropdown-divider"></div>
 									<a class="dropdown-item" th:href="@{/logout}"><i
-										class="fas fa-sign-out-alt"></i> Cerrar sesi�n</a>
+										class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
 								</div></li>
 						</ul>
 					</div>
@@ -64,9 +68,9 @@
 		</div>
 		<div class="logx" th:unless="${session.u}">
 			<!--/*
-				Esto es un comentario "thymeleaf" - no se verá en el HTML
-				El bloque de "debug" sólo está activado si application.properties tiene debug a "true"
-				(ver StartupConfig.java para ver cómo se lee el atributo y se pone en ${application.debug})
+				Esto es un comentario "thymeleaf" - no se verÃ¡ en el HTML
+				El bloque de "debug" sÃ³lo estÃ¡ activado si application.properties tiene debug a "true"
+				(ver StartupConfig.java para ver cÃ³mo se lee el atributo y se pone en ${application.debug})
 			*/-->
 			<div class="debug" th:if="${application.debug}">
 				<form th:action="@{/login}" method="post">
