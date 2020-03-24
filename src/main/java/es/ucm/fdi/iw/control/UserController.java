@@ -82,7 +82,8 @@ public class UserController {
 			// save encoded version of password
 			target.setPassword(passwordEncoder.encode(edited.getPassword()));
 		}
-		target.setUsername(edited.getUsername());
+		//target.setUsername(edited.getUsername());
+		target = entityManager.merge(edited);
 		return "user";
 	}
 
