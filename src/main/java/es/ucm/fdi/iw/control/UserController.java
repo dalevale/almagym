@@ -80,10 +80,10 @@ public class UserController {
 
 		if (edited.getPassword() != null && edited.getPassword().equals(pass2)) {
 			// save encoded version of password
+			target = entityManager.merge(edited);
 			target.setPassword(passwordEncoder.encode(edited.getPassword()));
 		}
 		//target.setUsername(edited.getUsername());
-		target = entityManager.merge(edited);
 		return "user";
 	}
 
