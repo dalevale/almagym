@@ -134,21 +134,4 @@ public class UserController {
 		return "user";
 	}
 
-	/*
-	@RequestMapping(value = "/form")
-	public String create(Map<String, Object> model) {
-		User user = new User();
-		model.put("user", user); // modelAttribute se pone el mismo nombre ""
-		model.put("title", "Customer form");
-		return "form";
-	}
-	*/
-	/*
-	@RequestMapping(value = "/{id}(id=${user.id}))", method = RequestMethod.POST)
-	public String guardar(@ModelAttribute("user") User user) { // valid: anotar validacion
-		entityManager.merge(user);
-		return "redirect:user";
-	}
-	*/
-
 }
