@@ -8,9 +8,9 @@
     "\\src\\main\\java\\es\\ucm",
     "\\src\\main\\java\\es\\ucm\\fdi",
     "\\src\\main\\java\\es\\ucm\\fdi\\iw",
-    "\\src\\main\\java\\es\\ucm\\fdi\\iw\\control",
-    "\\src\\main\\java\\es\\ucm\\fdi\\iw\\model"
+    "\\src\\main\\resources",
+    "\\src\\main\\resources\\templates"
   ],
-  "SelectedNode": "\\src\\main\\resources\\templates\\clases.html",
+  "SelectedNode": "\\src\\main\\resources\\templates\\user.html",
   "PreviewInSolutionExplorer": false
 }

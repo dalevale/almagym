@@ -47,15 +47,6 @@ public class RootController {
     	return "clases";
     }
     
-    @GetMapping("/salas/")
-	public String getRooms(HttpSession session, Model model) {
-		List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
-		model.addAttribute("rooms", r);
-		List<Equipment> e = entityManager.createQuery("select e from Equipment e").getResultList();
-		model.addAttribute("equipments", e);
-		return "salas";
-	} 
-    
     @GetMapping("/horarios/")
 	public String getHorarios(HttpSession session, Model model) { 
 		return "horarios";
