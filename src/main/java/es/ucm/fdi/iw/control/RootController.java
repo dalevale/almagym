@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import es.ucm.fdi.iw.model.Equipment;
 import es.ucm.fdi.iw.model.Lesson;
 import es.ucm.fdi.iw.model.Room;
+import es.ucm.fdi.iw.model.User;
 
 @Controller
 public class RootController {
@@ -50,5 +51,12 @@ public class RootController {
     @GetMapping("/horarios/")
 	public String getHorarios(HttpSession session, Model model) { 
 		return "horarios";
+	} 
+    
+    @GetMapping("/usuarios/")
+	public String getUsers(HttpSession session, Model model) {
+		List<User> u = entityManager.createQuery("SELECT u FROM User u").getResultList();
+		model.addAttribute("users", u);
+		return "usuarios";
 	} 
 }
