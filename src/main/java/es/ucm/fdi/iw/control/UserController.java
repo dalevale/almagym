@@ -134,4 +134,10 @@ public class UserController {
 		return "user";
 	}
 
+	@GetMapping(value="/adduser")
+	public String create(Model model, HttpSession session){
+		User u = new User();
+		model.addAttribute("user", u);
+		return "user";
+	}
 }
