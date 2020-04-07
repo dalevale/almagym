@@ -8,6 +8,7 @@
 	type="text/css" />
 </head>
 <body>
+<div>
 	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
 
 	<div class="container">
@@ -29,7 +30,7 @@
 						<td th:text="${u.username}" /></td>
 						<td><a class="btn btn-primary btn-xs"
 							th:href=@{/user/{id}(id=${u.id})} th:text="'edit'" /></td>
-						<td>
+						<td th:unless="${u.getId()==1}">
 							<form method="post" th:action="@{/admin/delete(id=${u.id})}">
 								<button class="btn btn-danger btn-xs"
 									th:text="'delete'" onclick="return confirm('Estar Seguro?')"
@@ -40,7 +41,7 @@
 					</tr>
 				</tbody>
 			</table>
-
+</div>
 		</div>
 	</div>
 
