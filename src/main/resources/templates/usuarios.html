@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<th:block th:replace="fragments/head :: header" />
+<title>Usuarios</title>
+<link rel="stylesheet" th:href="@{/css/admin.css}" href="css/admin.css"
+	type="text/css" />
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
+
+	<div class="container">
+		<div class="main">
+			<h1 th:text="#{admin.welcome}">Ojo solo admines</h1>
+
+			<h4>Usuarios</h4>
+
+			<table class="adminTable">
+				<thead>
+					<tr>
+						<th>Nombre</th>
+						<th>Modificar</th>
+						<th>Eliminar</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="u: ${users}">
+						<td th:text="${u.username}" /></td>
+						<td><a class="btn btn-primary btn-xs"
+							th:href=@{/user/{id}(id=${u.id})} th:text="'edit'" /></td>
+						<td>
+							<form method="post" th:action="@{/admin/delete(id=${u.id})}">
+								<button class="btn btn-danger btn-xs"
+									th:text="'delete'" onclick="return confirm('Estar Seguro?')"
+									type="submit">
+								</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+
+	<footer th:replace="fragments/footer.html :: footer"> Footer
+		goes here </footer>
+</body>
+</html>
