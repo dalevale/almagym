@@ -52,6 +52,8 @@ public class User {
 	}
 	
 	// do not change these fields
+	@Id // Atributo llave - Autoincremental
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String username;
 	private String password;
