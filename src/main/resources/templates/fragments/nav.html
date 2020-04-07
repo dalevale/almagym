@@ -2,8 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<meta charset="utf-8">
-	<title>Nav fragment - rest intentionally left empty</title>
+<meta charset="utf-8">
+<title>Nav fragment - rest intentionally left empty</title>
 </head>
 <body>
 	<nav th:fragment="nav">
@@ -39,13 +39,15 @@
 							<li class="nav-item ml-2"><a class="nav-link"
 								th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}"><i
 									class="fas fa-info-circle"></i>Administrar</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:if="${session.u.hasRole('ADMIN')}" th:href="@{/usuarios/}"><i
+									class="fas fa-info-circle"></i>Usuarios</a></li>
 						</ul>
 
 						<ul class="nav navbar-nav ml-auto col-2">
-							<li class="nav-item dropdown"><a
-								class="nav-link" data-toggle="dropdown"
-								id="themes" aria-expanded="false" href="#"> <img
-									class="userthumb"
+							<li class="nav-item dropdown"><a class="nav-link"
+								data-toggle="dropdown" id="themes" aria-expanded="false"
+								href="#"> <img class="userthumb"
 									th:src="@{/user/{id}/photo(id=${session.u.id})}"> <span
 									class="caret" th:text="${session.u.username}">Pepe</span></a>
 								<div class="dropdown-menu animate slideIn"
