@@ -38,44 +38,51 @@ public class RoomController {
     private static Logger log = LogManager.getLogger(
         RoomController.class);
 
-    @GetMapping("/")
-	public String getRooms(HttpSession session, Model model) {
-		List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
+    public void getRooms(Model model) {
+    	List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
 		model.addAttribute("rooms", r);
 		List<Equipment> e = entityManager.createQuery("select e from Equipment e where e.room != null").getResultList();
 		model.addAttribute("equipments", e);
+    }
+    
+    @GetMapping("/")
+	public String getIndex(Model model) {
+    	getRooms(model);
 		return "salas";
 	}
 	
-    @PostMapping("edit/{id}")
+    @PostMapping("edit")
 	@Transactional
-	public String editRoom(HttpServletResponse response, @PathVariable long id, @ModelAttribute Room edited,
+	public String editRoom(HttpServletResponse response, @ModelAttribute Room edited,
 			Model model) throws IOException {
-		Room target = entityManager.find(Room.class, id);
-		model.addAttribute("room", target);
-		entityManager.remove(target);
+		Room target = entityManager.find(Room.class, edited.getId());
+//		model.addAttribute("room", target);
 		target.setName(edited.getName());
 		target.setMaxSize(edited.getMaxSize());
 		target.setDescrip(edited.getDescrip());
-		List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
-		model.addAttribute("rooms", r);
-		List<Equipment> e = entityManager.createQuery("select e from Equipment e where e.room != null").getResultList();
-		model.addAttribute("equipments", e);
-		return "salas";
+   		getRooms(model);
+   		return "salas";
 	}
     
-    @PostMapping("del/{id}")
+    @PostMapping("del")
    	@Transactional
-   	public String deleteRoom(@PathVariable long id, @ModelAttribute Room edited,
+   	public String deleteRoom(@ModelAttribute Room edited,
    			Model model) throws IOException {
-   		Room target = entityManager.find(Room.class, id);
-//   		model.addAttribute("room", target);
+   		Room target = entityManager.find(Room.class, edited.getId());
    		entityManager.remove(target);
-   		List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
-   		model.addAttribute("rooms", r);
-   		List<Equipment> e = entityManager.createQuery("select e from Equipment e where e.room != null").getResultList();
-   		model.addAttribute("equipments", e);
+   		getRooms(model);
    		return "salas";
    	}
+    
+    @PostMapping("add")
+   	@Transactional
+   	public String addRoom(@ModelAttribute Room toAdd,
+   			Model model) throws IOException {
+    	toAdd.setImgPath("img/default-salas.jpg");
+   		entityManager.persist(toAdd);
+   		getRooms(model);
+   		return "salas";
+   	}
+   
 
 }

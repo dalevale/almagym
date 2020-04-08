@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
@@ -34,33 +34,40 @@
 			function() {
 				$(".listActions>.btn-success").click(
 						function() {
-							$("#editModalName input").val(
-									$(
+							$("#editModalName input").val($(
 											$(this).parent().parent().parent()
 													.parent().parent()
-													.children().eq(0)
+													.children().eq(1)
 													.children()).text());
-							$("#editModalDesc textarea").val(
-									$(
+							$("#editModalDesc textarea").val($(
+											$(this).parent().parent().parent()
+													.parent().parent()
+													.children().eq(4)
+													.children()).text());
+							$("#editModalCapacidad input").val($(
 											$(this).parent().parent().parent()
 													.parent().parent()
 													.children().eq(3)
-													.children()).text());
-							$("#editModalCapacidad input").val(
-									$(
-											$(this).parent().parent().parent()
-													.parent().parent()
-													.children().eq(2)
 													.children().eq(1)).text());
 
-							var id = ($($(this).parent().parent().parent()
-									.parent().parent().children().eq(2)
-									.children().eq(4)).text());
+							$("#editModalId input").val($($(this).parent().parent().parent()
+													.parent().parent()
+													.children().eq(0)
+													.children()).val());
 
 							$("#editModal").modal("toggle");
 						});
 				$(".listActions>.btn-danger").click(function() {
+					
+					$("#removeModalId input").val($($(this).parent().parent().parent()
+							.parent().parent()
+							.children().eq(0)
+							.children()).val());
 					$("#removeModal").modal("toggle");
+				});
+				$(".listActions>.btn-primary").click(function() {
+				
+					$("#addModal").modal("toggle");
 				});
 			});
 </script>
@@ -75,6 +82,9 @@
 				<div class="row sala p-3 rounded-top"
 					style="background-color: #f7f4f4;">
 					<div class="col-3 sala-left">
+						<div>
+							<input type="hidden" name="roomId" id="roomId" th:value="${room.id}"></input>
+						</div>
 						<div class="row">
 							<div class="mt-0 h3 salaName" th:text="${room.name}">Nada</div>
 						</div>
@@ -84,7 +94,7 @@
 								th:src="@{${room.imgPath}}">
 						</div>
 						<div class="row mt-1">
-							<p>Capacidad:</p>
+							<p>Capacidad:&nbsp</p>
 							<p class="sala-plazos" th:text="${room.maxSize}">0</p>
 						</div>
 						<div class="row mt-1">
@@ -123,8 +133,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- 				<div>class="buttons p-3 mb-3 justify-content-end row -->
-				<!-- 					rounded-bottom" style="background-color: #f7f4f4;"></div> -->
 				<!-- Modal -->
 				<div id="editModal" class="modal fade" role="dialog">
 					<div class="modal-dialog">
@@ -137,7 +145,10 @@
 							</div>
 							<div class="modal-body">
 								<form class="form-horizontal"
-									th:action="@{/salas/edit/{id}(id=${room.id})}" method="POST">
+									th:action="@{/salas/edit}" method="POST">
+									<div class="form-group" id="editModalId">
+										<input type="hidden" name="id">
+									</div>
 									<div class="form-group" id="editModalName">
 										<label class="col-sm-4 control-label text-success">
 											Nombre de la sala </label>
@@ -183,8 +194,10 @@
 								<p>¿Estás seguro?</p>
 							</div>
 							<div class="modal-footer">
-								<form th:action="@{/salas/del/{id}(id=${room.id})}" method="POST">
-<!-- 									<input type="hidden" th:field="${id}" /> -->
+								<form th:action="@{/salas/del}" method="POST">
+									<div class="form-group" id="removeModalId">
+										<input type="hidden" name="id">
+									</div>
 									<button type="submit" class="btn btn-default">Eliminar</button>
 								</form>
 								<!-- 									<button class="btn btn-default"	data-dismiss="modal"  -->
@@ -198,12 +211,53 @@
 				</div>
 			</div>
 		</div>
-		<div class="añadir d-flex justify-content-center mb-4
-				">
-			<button type="button" class="btn btn-primary btn-lg">Añadir
-				Sala</button>
+		<div class="listActions añadir d-flex justify-content-center mb-4">
+			<button type="button" class="btn btn-primary btn-lg">Añadir Sala</button>
 		</div>
-		</div>
+		<div id="addModal" class="modal fade" role="dialog">
+					<div class="modal-dialog">
+
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header bg-primary">
+								<button type="button" class="close" data-dismiss="modal">&times;</button>
+								<h4 class="modal-title">Añadir Clase</h4>
+							</div>
+							<div class="modal-body">
+								<form class="form-horizontal"
+									th:action="@{/salas/add}" method="POST">
+									<div class="form-group" id="addModalName">
+										<label class="col-sm-4 control-label text-primary">
+											Nombre de la sala </label>
+										<div class="col-sm-8">
+											<input name="name" class="form-control"></input>
+										</div>
+									</div>
+									<div class="form-group" id="addModalCapacidad">
+										<label class="col-sm-4 control-label text-primary">
+											Capacidad </label>
+										<div class="col-sm-8">
+											<input name="maxSize" class="form-control"></input>
+										</div>
+									</div>
+									<div class="form-group" id="addModalDesc">
+										<label class="col-sm-4 control-label text-primary">
+											Descripción </label>
+										<div class="col-sm-8">
+											<textarea name="descrip" class="form-control"></textarea>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="submit" class="btn btn-default">Submit</button>
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+									</div>
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
 		<!-- Fin del contenedor -->
 	</main>
 	<footer th:replace="fragments/footer.html :: footer"> Footer
