@@ -34,9 +34,7 @@ public class RoomController {
 
 	@Autowired
 	private EntityManager entityManager;
-	
-    private static Logger log = LogManager.getLogger(
-        RoomController.class);
+    private static Logger log = LogManager.getLogger(RoomController.class);
 
     public void getRooms(Model model) {
     	List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
@@ -56,7 +54,6 @@ public class RoomController {
 	public String editRoom(HttpServletResponse response, @ModelAttribute Room edited,
 			Model model) throws IOException {
 		Room target = entityManager.find(Room.class, edited.getId());
-//		model.addAttribute("room", target);
 		target.setName(edited.getName());
 		target.setMaxSize(edited.getMaxSize());
 		target.setDescrip(edited.getDescrip());
@@ -83,6 +80,4 @@ public class RoomController {
    		getRooms(model);
    		return "salas";
    	}
-   
-
 }
