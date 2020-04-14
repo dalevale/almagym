@@ -66,7 +66,7 @@ public class AdminController {
 			// enable user
 			target.setEnabled((byte) 1);
 		}
-		return index(model);
+		return "redirect:/usuarios/";
 	}
 
 	@PostMapping("/delete")
