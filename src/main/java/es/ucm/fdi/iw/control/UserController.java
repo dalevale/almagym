@@ -134,9 +134,11 @@ public class UserController {
 		return "user";
 	}
 
-	@GetMapping(value="/adduser")
-	public String create(Model model, HttpSession session){
+	@GetMapping(value = "/adduser")
+	@Transactional
+	public String create(Model model, HttpSession session) {
 		User u = new User();
+		u.setRoles("USER");
 		model.addAttribute("user", u);
 		return "user";
 	}
