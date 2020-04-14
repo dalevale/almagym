@@ -70,20 +70,27 @@ public class UserController {
 	@Transactional
 	public String postUser(HttpServletResponse response, @PathVariable long id, @ModelAttribute User edited,
 			@RequestParam(required = false) String pass2, Model model, HttpSession session) throws IOException {
+		
 		User target = entityManager.find(User.class, id);
+		
+		if(target == null) {
+			entityManager.persist(edited);
+			entityManager.flush();
+			
+			return "redirect:/usuarios/";
+		}
+		
 		model.addAttribute("user", target);
 
 		User requester = (User) session.getAttribute("u");
 		if (requester.getId() != target.getId() && !requester.hasRole(Role.ADMIN)) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "No eres administrador, y éste no es tu perfil");
+			response.sendError(HttpServletResponse.SC_FORBIDDEN, "No eres administrador, y Ã©ste no es tu perfil");
 		}
 
 		if (edited.getPassword() != null && edited.getPassword().equals(pass2)) {
-			// save encoded version of password
 			target = entityManager.merge(edited);
 			target.setPassword(passwordEncoder.encode(edited.getPassword()));
 		}
-		//target.setUsername(edited.getUsername());
 		return "user";
 	}
 
