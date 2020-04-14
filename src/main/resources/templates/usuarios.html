@@ -8,43 +8,56 @@
 	type="text/css" />
 </head>
 <body>
-<div>
-	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
+	<div>
+		<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
 
-	<div class="container">
-		<div class="main">
-			<h1 th:text="#{admin.welcome}">Ojo solo admines</h1>
+		<div class="container">
+			<div class="main">
+				<h1 th:text="#{admin.welcome}">Ojo solo admines</h1>
 
-			<h4>Usuarios</h4>
+				<h4>Usuarios (👤)</h4>
 
-			<table class="adminTable">
-				<thead>
-					<tr>
-						<th>Nombre</th>
-						<th>Modificar</th>
-						<th>Eliminar</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="u: ${users}">
-						<td th:text="${u.username}" /></td>
-						<td><a class="btn btn-primary btn-xs"
-							th:href=@{/user/{id}(id=${u.id})} th:text="'edit'" /></td>
-						<td th:unless="${u.getId()==1}">
-							<form method="post" th:action="@{/admin/delete(id=${u.id})}">
-								<button class="btn btn-danger btn-xs"
-									th:text="'delete'" onclick="return confirm('Estar Seguro?')"
-									type="submit">
-								</button>
-							</form>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-			<div>
-				<p><a th:href="@{/user/adduser}"class="btn btn-success btn-xs">crear cliente</a></p>
+				<table class="adminTable">
+					<thead>
+						<tr>
+							<th>Nombre</th>
+							<th>&#x1f513; &#x2b64; &#x1f512;</th>
+							<th>Modificar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="u: ${users}">
+							<td th:text="${u.username}" /></td>
+							<td>
+								<form method="post" th:action="@{/admin/toggleuser(id=${u.id})}"
+									&&  th:unless="${u.getId()==1}">
+									<button
+										th:text="${u.enabled eq 1 ? '🔓 → 🔒' : '🔒 → 🔓'}"
+										type="submit">🗑
+										</button>
+								</form>
+							</td>
+							<td><a class="btn btn-primary btn-xs"
+								th:href=@{/user/{id}(id=${u.id})} th:text="'&#x270e;'" /></td>
+							<td>
+								<form method="post" th:action="@{/admin/delete(id=${u.id})}"
+									th:unless="${u.getId()==1}">
+									<button class="btn btn-danger btn-xs"
+										onclick="return confirm('Estar Seguro?')" th:text="'&#x2620;'" type="submit">
+									</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div>
+					<p>
+						<a th:href="@{/user/adduser}" class="btn btn-success btn-xs">crear
+							cliente</a>
+					</p>
+				</div>
 			</div>
-		</div>
 		</div>
 	</div>
 
