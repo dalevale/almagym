@@ -98,7 +98,7 @@ public class Lesson {
 		this.totalStudents = totalStudents;
 	}
 
-	@ManyToOne(targetEntity = Room.class)
+	@ManyToOne(targetEntity = Room.class) // <-- evita crear User_Book
 	public Room getRoom() {
 		return room;
 	}

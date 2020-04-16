@@ -1,13 +1,18 @@
 package es.ucm.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
 public class Room {
@@ -15,9 +20,8 @@ public class Room {
 	private String name;
 	private int maxSize;
 	private String descrip;
-	private String imgPath;
-	private List<Lesson> lessons;
-	private List<Equipment> equipments;
+	private List<Lesson> lessons = new ArrayList<>();
+	private List<Equipment> equipments = new ArrayList<>();
 //	private List<Clase> classes = new ArrayList<Clase>();
 
 	@Id
@@ -53,17 +57,10 @@ public class Room {
 	public void setDescrip(String descrip) {
 		this.descrip = descrip;
 	}
-
-	public String getImgPath() {
-		return imgPath;
-	}
-
-	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
-	}
-
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity = Lesson.class)
-	@JoinColumn(name = "room_id") // <-- evita crear User_Book
+	@JoinColumn(name = "room_id")
 	public List<Lesson> getLessons() {
 		return lessons;
 	}
@@ -71,7 +68,8 @@ public class Room {
 	public void setLessons(List<Lesson> lessons) {
 		this.lessons = lessons;
 	}
-
+	
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity = Equipment.class)
 	@JoinColumn(name = "room_id") // <-- evita crear User_Book
 	public List<Equipment> getEquipments() {
@@ -82,4 +80,13 @@ public class Room {
 		this.equipments = equipments;
 	}
 
+	
+	/** Checks if this room is deletable
+	 * 	or in other words
+	 *  checks if this room has classes inscribed in it
+	 *  returns boolean
+	 */
+	public boolean hasNoClasses() {
+		return lessons.isEmpty();
+	}
 }

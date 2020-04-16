@@ -29,22 +29,22 @@ INSERT INTO user(id,enabled,username,password,roles,first_name,last_name) VALUES
 
 
 -- Aquí empieza la table de rooms
-INSERT INTO room(id,name,descrip,img_path,max_size) VALUES (
+INSERT INTO room(id,name,descrip,max_size) VALUES (
 	1, 'Sala Spinning',
 	'En esta sala podras disfrutar de nuestras bicicletas estaticas, a la vez que te pones mas fuerte que la clavicula de un transformer.',
-	'/img/sala1.jpg', 30
+	30
 );
 
-INSERT INTO room(id,name,descrip,img_path,max_size) VALUES (
+INSERT INTO room(id,name,descrip,max_size) VALUES (
 	2, 'Sala Aerobics',
 	'En esta sala podras disfrutar de nuestras bicicletas estaticas, a la vez que te pones mas fuerte que la clavicula de un transformer.',
-	'/img/sala1.jpg', 50
+	50
 );
 
-INSERT INTO room(id,name,descrip,img_path,max_size) VALUES (
+INSERT INTO room(id,name,descrip,max_size) VALUES (
 	3, 'Sala Ejercicio',
 	'En esta sala podras disfrutar de nuestras bicicletas estaticas, a la vez que te pones mas fuerte que la clavicula de un transformer.',
-	'/img/sala2.jpg', 40
+	40
 );
 
 --Aquí empieza la tabla de lessons

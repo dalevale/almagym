@@ -95,30 +95,30 @@ public class LessonController {
 //	}
 //    
     @RequestMapping(value = "addLesson", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
-    consumes = MediaType.APPLICATION_JSON_VALUE, Model model)
-    public @ResponseBody String addLesson(@RequestBody Lesson lessonRequest) {
+    consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String addLesson(@RequestBody Lesson lessonRequest, Model model) {
         Lesson lesson = new Lesson();
         model.addAttribute("lesson", lesson);
         return "exito";
     }
  
-    @RequestMapping(value = "editLesson", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
-    consumes = MediaType.APPLICATION_JSON_VALUE, Model model)
-    public @ResponseBody String editLesson(@RequestBody Lesson lessonRequest) {
-        Lesson target = entityManager.find(Lesson.class, id);
-		model.addAttribute("lesson", target);
-		entityManager.remove(target);
-		target.setName(edited.getName());
-		target.setMaxSize(edited.getMaxSize());
-		target.setDescrip(edited.getDescrip());
-		return "exito";
-    }
-    
-    @RequestMapping(value = "removeLesson", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
-    consumes = MediaType.APPLICATION_JSON_VALUE, Model model)
-    public @ResponseBody String removeLesson(@RequestBody Lesson lessonRequest) {
-        Lesson target = entityManager.find(Lesson.class, id);
-   		entityManager.remove(target);
-   		return "exito";
-    }
+//    @RequestMapping(value = "editLesson", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
+//    consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public @ResponseBody String editLesson(@RequestBody Lesson lessonRequest, Model model) {
+//        Lesson target = entityManager.find(Lesson.class, id);
+//		model.addAttribute("lesson", target);
+//		entityManager.remove(target);
+//		target.setName(edited.getName());
+//		target.setMaxSize(edited.getMaxSize());
+//		target.setDescrip(edited.getDescrip());
+//		return "exito";
+//    }
+//    
+//    @RequestMapping(value = "removeLesson", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
+//    consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public @ResponseBody String removeLesson(@RequestBody Lesson lessonRequest, Model model) {
+//        Lesson target = entityManager.find(Lesson.class, id);
+//   		entityManager.remove(target);
+//   		return "exito";
+//    }
 }

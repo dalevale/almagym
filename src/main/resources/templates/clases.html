@@ -166,7 +166,7 @@
 					<tr th:each="lesson: ${lessons}">
 						<td class="d-none" th:text="${lesson.id}">Nada</td>
 						<td th:text="${lesson.name}">Nada</td>
-						<td th:text="${lesson.room.id}">Sala 0</td>
+						<td th:text="${lesson.room.name}">Sala 0</td>
 						<td th:text="${lesson.totalStudents}">0</td>
 						<td th:text="${#temporals.format(lesson.dateIni, 'MM-dd-yyyy')}">01/01/1990</td>
 						<td th:text="${#temporals.format(lesson.dateIni, 'MM-dd-yyyy')}">01/01/1990</td>

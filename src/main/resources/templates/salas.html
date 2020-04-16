@@ -6,8 +6,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+<!-- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 	
 	
 	<!-- <link rel="stylesheet" type="text/css" href="./info/estilo.css"> -->
@@ -52,204 +52,252 @@
 							$("#editModal").modal("toggle");
 						});
 				
-				$(".listActions>.btn-danger").click(function() {
+				$(".listActions>.btn-danger.deletable").click(function() {
 					$("#removeModalId input").val($($(this).parent().parent().parent()
 							.parent().parent()
 							.children().eq(0)
 							.children()).val());
+					$("#removeModal .modal-title").text("¿Estás seguro?");
+					$("#removeModal .modal-body p").text("¿Estás seguro?");
+					$("#removeModal .modal-footer button.modalBtnSbmit").show();					
 					$("#removeModal").modal("toggle");
-				});
+				});	
+				
+				$(".listActions>.btn-danger.undeletable").click(function() {
+
+					$("#removeModal .modal-title").text("Acción invalida!");
+					$("#removeModal .modal-body p").text("No se puede borrar! Hay clases en esta sala!");
+					$("#removeModal .modal-footer button.modalBtnSbmit").hide();	
+					$("#removeModal").modal("toggle");
+				});	
 				
 				$(".listActions>.btn-primary").click(function() {
 				
 					$("#addModal").modal("toggle");
+				});	
+				$(".listActions>.btn-info").click(function() {
+					$("#changePhotoModalId input").val($($(this).parent().parent().parent()
+							.parent().parent()
+							.children().eq(0)
+							.children()).val());
+					$("#changePhotoModal").modal("toggle");
 				});
 			});
 	</script>
 </head>
 
-<body class="d-flex flex-column h-100">
-	
+<body>
 	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
-	
-	<main role="main" class="flex-shrink-0">
-		<div class="container flex-column">
-			<div class="row h2">Salas</div>
-			
-			<!-- Iteración de las salas -->
-			<div class="iteration" th:each="room: ${rooms}">
-				<div class="row sala p-3 rounded-top" style="background-color: #f7f4f4;">
-					<div class="col-3 sala-left">
-						<div>
-							<input type="hidden" name="roomId" id="roomId" th:value="${room.id}"></input>
-						</div>
-						<div class="row">
-							<div class="mt-0 h3 salaName" th:text="${room.name}">Nada</div>
-						</div>
-						<div class="row">
-							<img class="sala-img"style="width: 180px; height: 110px; margin: auto;"
-								th:src="@{${room.imgPath}}">
-						</div>
-						<div class="row mt-1">
-							<p>Capacidad:&nbsp</p>
-							<p class="sala-plazos" th:text="${room.maxSize}">0</p>
-						</div>
-						<div class="row mt-1">
-							<p class="sala-desc" th:text="${room.descrip}">Nada</p>
-						</div>
-						<table>
-							<tr>
-							
-								<!-- Botones para los modales -->
-								<td class="listActions">
-									<button type="button"
-										class="btn btn-success btn-default btn-xs ml-2">
-										<span class="glyphicon glyphicon-pencil" aria-hidden="true">Editar</span>
-									</button>
-									<button type="button"
-										class="btn btn-danger btn-default btn-xs ml-2">
-										<span class="glyphicon glyphicon-remove" aria-hidden="true">Eliminar</span>
-									</button>
-								</td>
-							</tr>
-						</table>
+	<div class="container flex-column">
+		<div class="row h2">Salas</div>
+		
+		<!-- Iteración de las salas -->
+		<div class="iteration" th:each="room: ${rooms}">
+			<div class="row sala p-3 rounded-top" style="background-color: #f7f4f4;">
+				<div class="col-3 sala-left">
+					<div>
+						<input type="hidden" th:value="${room.id}"/>
 					</div>
-					
-					<!-- Iteración de los equipos en cada sala -->
-					<div class="col-9 sala-right">
-						<h5>En esta sala están las siguientes máquinas:</h5>
-						<div class="row ">
-							<div th:each="equipment: ${equipments}" th:if="${equipment.room.id == room.id}" class="col">
-								<div class="card p-3">
-									<img class="card-img-top"
-										style="width: 180px; height: 110px; margin: auto;"
-										th:src="@{${equipment.imgPath}}">
-									<div class="card-body">
-										<h5 th:text="${equipment.name}">Nada</h5>
-										<p th:text="|Cantidad: ${equipment.quantity}|">0</p>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div class="row">
+						<div class="mt-0 h3 salaName" th:text="${room.name}">Nada</div>
 					</div>
+					<div class="row">
+						<img class="sala-img"style="width: 180px; height: 110px; margin: auto;"
+							th:src="@{/salas/{id}/photo(id=${room.id})}">
+					</div>
+					<div class="row mt-1">
+						<p>Capacidad:&nbsp</p>
+						<p class="sala-plazos" th:text="${room.maxSize}">0</p>
+					</div>
+					<div class="row mt-1">
+						<p class="sala-desc" th:text="${room.descrip}">Nada</p>
+					</div>
+					<table th:if="${session.u.hasRole('ADMIN')}">
+						<tr>
+							<!-- Botones para los modales -->
+							<td class="listActions">
+								<button type="button"
+									class="btn btn-info btn-default btn-xs ml-2">
+									<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
+								</button>
+								<button type="button"
+									class="btn btn-success btn-default btn-xs ml-2">
+									<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
+								</button>
+									<button type="button" th:if="${room.hasNoClasses()}"
+										class="btn btn-danger deletable btn-default btn-xs ml-2">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
+									</button>
+									<button type="button" th:unless="${room.hasNoClasses()}"
+										class="btn btn-danger undeletable btn-default btn-xs ml-2">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
+									</button>		
+											
+							</td>
+						</tr>
+					</table>
 				</div>
 				
-			</div>
-		</div>
-		<div class="listActions añadir d-flex justify-content-center mb-4">
-			<button type="button" class="btn btn-primary btn-lg">Añadir Sala</button>
-		</div>
-		
-		<!-- Modal de Editar-->
-		<div id="editModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-
-				<!-- Modal contenido-->
-				<div class="modal-content">
-					<div class="modal-header bg-success">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Editar Clase</h4>
-					</div>
-					<div class="modal-body">
-						<form class="form-horizontal" th:action="@{/salas/edit}" method="POST">
-							<div class="form-group" id="editModalId">
-								<input type="hidden" name="id">
-							</div>
-							<div class="form-group" id="editModalName">
-								<label class="col-sm-4 control-label text-success"> Nombre de la sala </label>
-								<div class="col-sm-8">
-									<input name="name" class="form-control"></input>
+				<!-- Iteración de los equipos en cada sala -->
+				<div class="col-9 sala-right">
+					<h5>En esta sala están las siguientes máquinas:</h5>
+					<div class="row ">
+						<div th:each="equipment: ${room.equipments}" class="col">
+							<div class="card p-3">
+								<img class="card-img-top"
+									style="width: 180px; height: 110px; margin: auto;"
+									th:src="@{${equipment.imgPath}}">
+								<div class="card-body">
+									<h5 th:text="${equipment.name}">Nada</h5>
+									<p th:text="|Cantidad: ${equipment.quantity}|">0</p>
 								</div>
 							</div>
-							<div class="form-group" id="editModalCapacidad">
-								<label class="col-sm-4 control-label text-success"> Capacidad </label>
-								<div class="col-sm-8">
-									<input name="maxSize" class="form-control"></input>
-								</div>
-							</div>
-							<div class="form-group" id="editModalDesc">
-								<label class="col-sm-4 control-label text-success"> Descripción </label>
-								<div class="col-sm-8">
-									<textarea name="descrip" class="form-control"></textarea>
-								</div>
-							</div>
-							<div class="modal-footer">
-								<button type="submit" class="btn btn-default">Submit</button>
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
+			
 		</div>
-		
-		<!-- Modal de Eliminar -->
-		<div id="removeModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
+	</div>
+	<div th:if="${session.u.hasRole('ADMIN')}" class="listActions añadir d-flex justify-content-center mb-4">
+		<button type="button" class="btn btn-primary btn-lg">&#10133 Añadir Sala</button>
+	</div>
+	
+	<!-- Modal de Cambiar foto -->
+	<div id="changePhotoModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
-				<!-- Modal contenido-->
-				<div class="modal-content">
-					<div class="modal-header bg-danger">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Estas seguro?</h4>
+			<!-- Modal contenido-->
+			<div class="modal-content">
+				<div class="modal-header bg-info">
+					<h4 class="modal-title">Cambiar foto?</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<form th:action="@{/salas/changephoto}" method="POST" enctype="multipart/form-data">
+					<div id="changePhotoModalId">
+						<input type="hidden" name="id"/>
 					</div>
-					<div class="modal-body">
-						<p>¿Estás seguro?</p>
-					</div>
-					<div class="modal-footer">
-						<form th:action="@{/salas/del}" method="POST">
+					<input type="file" name="photo"/>
+				<div class="modal-footer">	
+					<button type="submit" class="btn btn-default">Actualizar</button>					 
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal de Editar-->
+	<div id="editModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal contenido-->
+			<div class="modal-content">
+				<div class="modal-header bg-success">
+					<h4 class="modal-title">Editar Clase</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form class="form-horizontal" th:action="@{/salas/edit}" method="POST">
+						<div class="form-group" id="editModalId">
+							<input type="hidden" name="id">
+						</div>
+						
+						<div class="form-group" id="editModalName">
+							<label class="col-sm-4 control-label text-success"> Nombre de la sala </label>
+							<div class="col-sm-8">
+								<input name="name" class="form-control"></input>
+							</div>
+						</div>
+						<div class="form-group" id="editModalCapacidad">
+							<label class="col-sm-4 control-label text-success"> Capacidad </label>
+							<div class="col-sm-8">
+								<input name="maxSize" class="form-control"></input>
+							</div>
+						</div>
+						<div class="form-group" id="editModalDesc">
+							<label class="col-sm-4 control-label text-success"> Descripción </label>
+							<div class="col-sm-8">
+								<textarea name="descrip" class="form-control"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-default">Submit</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal de Eliminar -->
+	<div id="removeModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal contenido-->
+			<div class="modal-content">
+				<div class="modal-header bg-danger">
+					<h4 class="modal-title">Acción invalida</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+					<form th:action="@{/salas/del}" method="POST">
+						<div class="modal-body">
+							<p>No se puede borrar! Hay clases en esta sala!</p>
+						</div>
+						<div class="modal-footer">
+						
 							<div class="form-group" id="removeModalId">
 								<input type="hidden" name="id">
 							</div>
-							<button type="submit" class="btn btn-default">Eliminar</button>
-						</form>							 -->
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					</div>
-				</div>
+							<button type="submit" class="btn modalBtnSbmit btn-default" style="display: block;">Eliminar</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</form>	
 			</div>
 		</div>
-		
-		<!-- Modal de Añadir -->
-		<div id="addModal" class="modal fade" role="dialog">
-					<div class="modal-dialog">
+	</div>
+	
+	<!-- Modal de Añadir -->
+	<div id="addModal" class="modal fade" role="dialog">
+				<div class="modal-dialog">
 
-						<!-- Modal contenido-->
-						<div class="modal-content">
-							<div class="modal-header bg-primary">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">Añadir Clase</h4>
-							</div>
-							<div class="modal-body">
-								<form class="form-horizontal" th:action="@{/salas/add}" method="POST">
-									<div class="form-group" id="addModalName">
-										<label class="col-sm-4 control-label text-primary"> Nombre de la sala </label>
-										<div class="col-sm-8">
-											<input name="name" class="form-control"></input>
-										</div>
+					<!-- Modal contenido-->
+					<div class="modal-content">
+						<div class="modal-header bg-primary">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Añadir Clase</h4>
+						</div>
+						<div class="modal-body">
+							<form class="form-horizontal" th:action="@{/salas/add}" method="POST">
+								<div class="form-group" id="addModalName">
+									<label class="col-sm-4 control-label text-primary"> Nombre de la sala </label>
+									<div class="col-sm-8">
+										<input name="name" class="form-control"></input>
 									</div>
-									<div class="form-group" id="addModalCapacidad">
-										<label class="col-sm-4 control-label text-primary"> Capacidad </label>
-										<div class="col-sm-8">
-											<input name="maxSize" class="form-control"></input>
-										</div>
+								</div>
+								<div class="form-group" id="addModalCapacidad">
+									<label class="col-sm-4 control-label text-primary"> Capacidad </label>
+									<div class="col-sm-8">
+										<input name="maxSize" class="form-control"></input>
 									</div>
-									<div class="form-group" id="addModalDesc">
-										<label class="col-sm-4 control-label text-primary"> Descripción </label>
-										<div class="col-sm-8">
-											<textarea name="descrip" class="form-control"></textarea>
-										</div>
+								</div>
+								<div class="form-group" id="addModalDesc">
+									<label class="col-sm-4 control-label text-primary"> Descripción </label>
+									<div class="col-sm-8">
+										<textarea name="descrip" class="form-control"></textarea>
 									</div>
-									<div class="modal-footer">
-										<button type="submit" class="btn btn-default">Submit</button>
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									</div>
-								</form>
-							</div>
+								</div>
+								<div class="modal-footer">
+									<button type="submit" class="btn btn-default">Submit</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>
-		<!-- Fin del contenedor -->
-	</main>
+			</div>
+	<!-- Fin del contenedor -->
 	<footer th:replace="fragments/footer.html :: footer"> Footer goes here </footer>
 </body>
 </html>
