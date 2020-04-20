@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,7 +21,6 @@ public class Room {
 	private String descrip;
 	private List<Lesson> lessons = new ArrayList<>();
 	private List<Equipment> equipments = new ArrayList<>();
-//	private List<Clase> classes = new ArrayList<Clase>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

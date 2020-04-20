@@ -93,6 +93,7 @@ public class EquipmentController {
     	}
     	else
        		log.info("Failed to add Equipment with id {} ", toAdd.getId());
+
    		return "redirect:/salas/";
    	}
     
