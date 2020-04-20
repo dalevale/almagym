@@ -5,7 +5,6 @@ package es.ucm.fdi.iw.control;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpSession;
 
@@ -15,11 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import es.ucm.fdi.iw.model.Equipment;
 import es.ucm.fdi.iw.model.Lesson;
-import es.ucm.fdi.iw.model.Room;
 import es.ucm.fdi.iw.model.User;
 
 @Controller
