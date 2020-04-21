@@ -1,6 +1,7 @@
 package es.ucm.fdi.iw.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -22,10 +23,33 @@ public class Lesson {
 	private String name;
 	private LocalDateTime dateIni;
 	private LocalDateTime dateFin;
-	private int timeIni;
-	private int duration;
 	private int totalStudents;
 	private List<Inscription> inscriptions; // tiene esta relacion ya que una clase esta enlazada con muchos usuarios
+
+	/**
+	 * Objeto para persistir a/de JSON
+	 * @author mfreire
+	 * @author EnriqueTorrijos
+	 */
+	public static class Transfer {
+		public long id;
+		public long profeId;
+		public long roomId;
+		public String name;
+		public String dateIni;
+		public String dateFin;
+		public int totalStudents;
+
+		public Transfer(Lesson l) {
+			this.id = l.getId();
+			this.profeId = l.profe.getId();
+			this.roomId = l.room.getId();
+			this.name = l.getName();
+			this.dateIni = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(l.getDateIni());
+			this.dateFin = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(l.getDateFin());
+			this.totalStudents = l.getTotalStudents();
+		}
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,22 +84,6 @@ public class Lesson {
 
 	public void setDateFin(LocalDateTime dateFin) {
 		this.dateFin = dateFin;
-	}
-
-	public int getTimeIni() {
-		return timeIni;
-	}
-
-	public void setTimeIni(int timeIni) {
-		this.timeIni = timeIni;
-	}
-
-	public int getDuration() {
-		return duration;
-	}
-
-	public void setDuration(int duration) {
-		this.duration = duration;
 	}
 
 	/**

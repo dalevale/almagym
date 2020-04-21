@@ -1,11 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <th:block th:replace="fragments/head :: header" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-
 <title>Clases</title>
 <script>
         $(document).ready(function(){
@@ -59,24 +58,18 @@
             	 $("#addClassModal").modal("toggle");
             });
             
-            $("#yesRemove").click(function() {   
-            	  var json = {
-      		       "id" : $(this).val()
-      		      };
-      		 
+            $("#yesRemove").click((e) => {   
+				  console.log(e.source);
+				  var id = 1; // rellena esto
       		      $.ajax({
+					   headers: {"X-CSRF-TOKEN": config.csrf.value},
 	      		       type : "POST",
-	      		       contentType : "application/json",
-	      		       url : "/clases/removeLesson",
-	      		       data : JSON.stringify(json),
-	      		       dataType : 'json', 
-	      		       success : function(data) { 
-	      		    	   var daata=2;
-	      		    	 $("#removeModal").modal("toggle");
+	      		       url : config.rootUrl + "clases/removeLesson/" + id,
+	      		       success: data => { 
+	      		    	  var daata=2;
+	      		    	  $("#removeModal").modal("toggle");
 	      		       },
-	      		       error : function(e) {
-	      		        	alert(e);
-	      		       }
+	      		       error: e => console.log(e)
       		      });
             });
             
@@ -113,7 +106,7 @@
           	});
             
             $("#addClassBtn").click(function() {     
-            	  var json = {
+				var json0 = {
       		       "id" : $(this).val(),
       		       "name" : $("#addClassModalName input").val(),
       		       "room": $("#addClassModalSala input").val(),
@@ -121,30 +114,30 @@
       		       "dateIni": $("#addClassModalFechaIni input").val(),
       		       "dateFin":$("#addClassModalFechaFin input").val()
       		      };
+
+            	  var clase = {
+      		       name: "Una clase",
+      		       room: 1,
+				   profe: 2,
+      		       totalStudents: 42,
+      		       dateIni: "2011-12-03T10:15:30",
+      		       dateFin: "2011-12-03T10:17:30"
+      		      };
       		 
       		      $.ajax({
-  	      		       type : "POST",
-  	      		       contentType : "application/json",
-  	      		       url : "/clases/addLesson",
-  	      		       data : JSON.stringify(json),
-  	      		       dataType : 'json', 
-  	      		       success : function(data) { 
-  	      		    	   var daata=2;
-  	      		    	   $("table>tbody").append("<tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>")
-  	      		    	   $("#addClassModal").modal("toggle");
-  	      		       },
-  	      		       error : function(e) {
-  	      		        	alert(e);
-  	      		       }
-      		      });
-            	});
-            
-            
+					   headers: {"X-CSRF-TOKEN": config.csrf.value},
+  	      		       type: "POST",
+  	      		       contentType: "application/json",
+  	      		       url: "/clases/addLesson",
+  	      		       data: JSON.stringify(clase),
+  	      		       dataType: 'json', 
+  	      		       success: d => console.log("yay", data),
+  	      		       error: e => console.log(":-(", e)
+  	      		 });
+            });
         });
-        
-    </script>
-    
-</head>
+</script>
+  	    </head> 		       
 <body>
 	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>	
 	<div class="container flex-column">
@@ -169,7 +162,7 @@
 						<td th:text="${lesson.room.name}">Sala 0</td>
 						<td th:text="${lesson.totalStudents}">0</td>
 						<td th:text="${#temporals.format(lesson.dateIni, 'MM-dd-yyyy')}">01/01/1990</td>
-						<td th:text="${#temporals.format(lesson.dateIni, 'MM-dd-yyyy')}">01/01/1990</td>
+						<td th:text="${#temporals.format(lesson.dateFin, 'MM-dd-yyyy')}">01/01/1990</td>
 						<td class="listActions text-center">
 							<button type="button" class="btn btn-info btn-default btn-xs" style="min-width: 50px;">
 								<span class="glyphicon glyphicon-info-sign" aria-hidden="true">&#10069</span>

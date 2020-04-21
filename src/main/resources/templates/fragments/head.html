@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title>IW 2019-20</title>
@@ -17,7 +17,7 @@
 	<script type="text/javascript">
 		const config = {
 			socketUrl: '[[${session.ws}?:false]]',
-			apiUrl: '[[${session.ws}?@{/api/v/}:false]]',
+			rootUrl: '[[${session.ws}?@{/}:false]]',
 			csrf: {
 				name: "[[${_csrf.parameterName}]]",
 				value: "[[${_csrf.token}]]"

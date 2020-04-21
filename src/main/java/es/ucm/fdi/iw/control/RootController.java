@@ -39,12 +39,7 @@ public class RootController {
     	return "inicio";
     }
     
-    @GetMapping("/clases/")
-    public String getLessons(HttpSession session, Model model) {
-    	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
-    	model.addAttribute("lessons", l);
-    	return "clases";
-    }
+  
     
     @GetMapping("/horarios/")
 	public String getHorarios(HttpSession session, Model model) { 
