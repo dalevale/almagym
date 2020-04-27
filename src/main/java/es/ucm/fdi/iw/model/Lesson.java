@@ -39,7 +39,10 @@ public class Lesson {
 		public String dateIni;
 		public String dateFin;
 		public int totalStudents;
-
+		
+		public Transfer() { 
+		}
+		
 		public Transfer(Lesson l) {
 			this.id = l.getId();
 			this.profeId = l.profe.getId();

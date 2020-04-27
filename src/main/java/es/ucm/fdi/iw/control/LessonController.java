@@ -38,7 +38,9 @@ public class LessonController {
     @GetMapping("/")
     public String getLessons(HttpSession session, Model model) {
     	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
+    	List<Lesson> r = entityManager.createQuery("select r from Room r").getResultList();
     	model.addAttribute("lessons", l);
+    	model.addAttribute("rooms", r);
     	return "clases";
     }
 //    @PostMapping("remove/{id}")
@@ -104,21 +106,24 @@ public class LessonController {
         lesson.setDateIni(LocalDateTime.parse(lessonRequest.dateIni, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         lesson.setDateFin(LocalDateTime.parse(lessonRequest.dateFin, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         entityManager.persist(lesson);
-        return "exito";
+        return String.valueOf(lesson.getId());
     }
  
-//    @RequestMapping(value = "editLesson", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE,
-//    consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public @ResponseBody String editLesson(@RequestBody Lesson lessonRequest, Model model) {
-//        Lesson target = entityManager.find(Lesson.class, id);
-//		model.addAttribute("lesson", target);
-//		entityManager.remove(target);
-//		target.setName(edited.getName());
-//		target.setMaxSize(edited.getMaxSize());
-//		target.setDescrip(edited.getDescrip());
-//		return "exito";
-//    }
-//    
+    @PostMapping("editLesson")        
+    @ResponseBody
+    @Transactional
+    public String editLesson(@RequestBody Lesson.Transfer lessonRequest) { 
+        Lesson lesson = new Lesson();
+        lesson.setId(lessonRequest.id); 
+        lesson.setRoom(entityManager.find(Room.class, lessonRequest.roomId)); 
+        lesson.setName(lessonRequest.name);
+        lesson.setTotalStudents(lessonRequest.totalStudents);
+        lesson.setDateIni(LocalDateTime.parse(lessonRequest.dateIni, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        lesson.setDateFin(LocalDateTime.parse(lessonRequest.dateFin, DateTimeFormatter.ISO_LOCAL_DATE_TIME)); 
+		entityManager.merge(lesson);  
+		return "exito";
+    }
+    
     @PostMapping("removeLesson/{id}")    
     @ResponseBody
     @Transactional
