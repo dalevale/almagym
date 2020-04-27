@@ -68,11 +68,4 @@ public class AdminController {
 		return "redirect:/usuarios/";
 	}
 
-	@PostMapping("/delete")
-	@Transactional
-	public String delete(Model model, @RequestParam long id) {
-		User target = entityManager.find(User.class, id);
-		entityManager.remove(target);
-		return "redirect:/usuarios/";
-	}
 }

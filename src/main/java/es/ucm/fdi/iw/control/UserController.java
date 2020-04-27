@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletResponse;
@@ -27,10 +28,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import es.ucm.fdi.iw.LocalData;
+import es.ucm.fdi.iw.model.Lesson;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
 
@@ -66,16 +69,16 @@ public class UserController {
 	@Transactional
 	public String postUser(HttpServletResponse response, @PathVariable long id, @ModelAttribute User edited,
 			@RequestParam(required = false) String pass2, Model model, HttpSession session) throws IOException {
-		
+
 		User target = entityManager.find(User.class, id);
-		
-		if(target == null) {
+
+		if (target == null) {
 			entityManager.persist(edited);
 			entityManager.flush();
-			
+
 			return "redirect:/usuarios/";
 		}
-		
+
 		model.addAttribute("user", target);
 
 		User requester = (User) session.getAttribute("u");
@@ -144,5 +147,15 @@ public class UserController {
 		u.setRoles("USER");
 		model.addAttribute("user", u);
 		return "user";
+	}
+
+	@PostMapping("/delete/{id}")
+	@ResponseBody
+	@Transactional
+	public String remove(@PathVariable long id, Model model) {
+		User target = entityManager.find(User.class, id);
+		entityManager.remove(target);
+		log.info("Successfully removed User with id {} ", target.getId());
+		return "exito";
 	}
 }
