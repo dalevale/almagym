@@ -7,86 +7,190 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-<!-- 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-
-
-<!-- <link rel="stylesheet" type="text/css" href="./info/estilo.css"> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
-<!-- 	<link rel="stylesheet" th:href="@{/css/main3.css}" href="css/main3.css" -->
-<!-- 		type="text/css" /> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	href="//cdnjs.cloudflare.com/ajax/libs/datatables/1.10.12/css/dataTables.bootstrap.min.css" /> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.bootstrap.min.css" -->
-<!-- 	type="text/css" /> -->
-<!-- <link rel="stylesheet" -->
-<!-- 	href="https://cdn.datatables.net/buttons/1.2.1/css/buttons.bootstrap.min.css" -->
-<!-- 	type="text/css" /> -->
-
 <title>Salas</title>
 	<script>
 	$(document).ready(
 			function() {
-				$(".listActions>.edit-sala").click(function() {
-							$("#editModalName input").val($(
-											$(this).parent().parent().parent()
-													.parent().parent()
-													.children().eq(1)
-													.children()).text());
-							$("#editModalDesc textarea").val($(
-											$(this).parent().parent().parent()
-													.parent().parent()
-													.children().eq(4)
-													.children()).text());
-							$("#editModalCapacidad input").val($(
-											$(this).parent().parent().parent()
-													.parent().parent()
-													.children().eq(3)
-													.children().eq(1)).text());
-
-							$("#editModalId input").val($($(this).parent().parent().parent()
-													.parent().parent()
-													.children().eq(0)
-													.children()).val());
+				$(".listActions>.photoSala").click(function() {
+					var id= $($(this).parent().parent().parent()
+							.parent().parent()
+							.children().eq(0)
+							.children()).val();
+					$("#photoSalaSbmit").val(id);
+					$("#changePhotoModal").modal("toggle");
+					var src = $("#salaIteracion div div.table"+id+" div div img.salaImg").attr("src");
+     		    	$("#changePhotoModal div div form img.salaImg").attr("src", src);
+				});
+				
+				$(".listActions>.editSala").click(function() {
+							var id = $($(this).parent().parent().parent()
+									.parent().parent()
+									.children().eq(0)
+									.children()).val();
+							var table = "#salaIteracion div div.table"+id;
+							$("#editSalaSbmit").val(id);
+							$("#editModalName input").val($(table+" .salaName").text());
+							$("#editModalCapacidad input").val($(table+" .salaCapacidad").text());
+							$("#editModalDesc textarea").val($(table+" .salaDesc").text());
 							$("#editModal").modal("toggle");
 						});
 				
-				$(".listActions>.remove-sala.deletable").click(function() {
-					$("#removeModalId input").val($($(this).parent().parent().parent()
+				$(".listActions>.removeSala.deletable").click(function() {
+					var id= $($(this).parent().parent().parent()
 							.parent().parent()
 							.children().eq(0)
-							.children()).val());
+							.children()).val();
 					$("#removeModal .modal-title").text("¿Estás seguro?");
 					$("#removeModal .modal-body p").text("¿Estás seguro?");
-					$("#removeModal .modal-footer button.modalBtnSbmit").show();					
+					$("#removeSalaSbmit").show();
+					$("#removeSalaSbmit").val(id);
 					$("#removeModal").modal("toggle");
 				});	
 				
-				$(".listActions>.remove-sala.undeletable").click(function() {
-
+				$(".listActions>.removeSala.undeletable").click(function() {
 					$("#removeModal .modal-title").text("Acción invalida!");
 					$("#removeModal .modal-body p").text("No se puede borrar! Hay clases en esta sala!");
-					$("#removeModal .modal-footer button.modalBtnSbmit").hide();	
+					$("#removeSalaSbmit").hide();	
 					$("#removeModal").modal("toggle");
 				});	
 				
-				$(".listActions>.add-sala").click(function() {
+				$(".listActions>.addSala").click(function() {
 					$("#addModal").modal("toggle");
 				});	
 
-				$(".listActions>.foto-sala").click(function() {
-					$("#changePhotoModalId input").val($($(this).parent().parent().parent()
-							.parent().parent()
-							.children().eq(0)
-							.children()).val());
-					$("#changePhotoModal").modal("toggle");
-				});
+
+				 $("#salaPhotoInput").on("change", function previewFile() {
+					  const preview = $("#changePhotoModal div div form img.salaImg");
+					  const file = document.getElementById('salaPhotoInput').files[0];
+					  const reader = new FileReader();
+					  reader.addEventListener("load", function () {
+					    preview.attr("src", reader.result);
+	    		    	preview.show();
+					  }, false);
+					  if (file) {
+					    reader.readAsDataURL(file);
+					  }
+					});
+	            
+				 $("#photoSalaSbmit").click((e) => {   
+					  console.log(e.source);
+					  var id = $("#photoSalaSbmit").val();
+    		    	  var table = "#salaIteracion div div.table"+id;
+    		    	  var file = document.getElementById('uploadPhotoForm');
+    		    	  var fd = new FormData(file);
+	      		      $.ajax({
+						   headers: {"X-CSRF-TOKEN": config.csrf.value},
+		      		       type : "POST",
+		      		       data : fd,
+		      		       url : config.rootUrl + "salas/changephoto/" + id,
+		      		       data: fd,
+		      		   	   enctype: 'multipart/form-data',
+		      		       processData: false,
+		      		       contentType: false,
+		      		       cache: false,
+		      		       success: data => { 
+		      		    	 $("#changePhotoModal").modal("toggle");
+		      		    	 $(table+" div div img").attr("src", $("#changePhotoModal div div form img.salaImg").attr("src"));
+		      		       },
+		      		       error: e => console.log(e)
+	      		      });
+	            });
+				
+				 $("#editSalaSbmit").click((e) => {     
+		          	  var sala = {
+		    		       "id" : $("#editSalaSbmit").val(),
+		    		       "name" : $("#editModalName input").val(), 
+		    		       "maxSize": $("#editModalCapacidad input").val(),
+		    		       "descrip": $("#editModalDesc textarea").val()
+		    		      };
+		    		 
+		    		      $.ajax({ 
+			      		      headers: {"X-CSRF-TOKEN": config.csrf.value},
+			      		       type: "POST",
+			      		       contentType: "application/json",
+			      		       url: "/salas/edit", 
+			      		       data: JSON.stringify(sala), 
+			      		       success : data => { 
+				      		    	var id= $("#editSalaSbmit").val();
+			      		    		var table = "#salaIteracion div div.table"+id;
+			      		    	$("#editModal").modal("toggle");
+			      		    	$(table+" .salaName").text($("#editModalName input").val()); //nombre clase
+			      		    	$(table+" .salaCapacidad").text($("#editModalCapacidad input").val());
+			      		    	$(table+" .salaDesc").text($("#editModalNumPlazas input").val());
+			      		       },
+			      		       error : e => {
+			      		        	alert(e);
+			      		       }
+		    		      });
+		    		      
+		          	});
+				 
+				 $("#removeSalaSbmit").click((e) => {   
+					  console.log(e.source);
+					  var id = $("#removeSalaSbmit").val();
+     		    	  var table = "#salaIteracion div div.table"+id;
+	      		      $.ajax({
+						   headers: {"X-CSRF-TOKEN": config.csrf.value},
+		      		       type : "POST",
+		      		       url : config.rootUrl + "salas/del/" + id,
+		      		       success: data => { 
+		      		    	 $(table).hide();
+		      		    	 $("#removeModal").modal("toggle");
+		      		       },
+		      		       error: e => console.log(e)
+	      		      });
+	            });
+				 
+				 $("#addSalaSbmit").click((e) => {     
+		          	  var sala = {
+		    		       "name" : $("#addModalName input").val(), 
+		    		       "maxSize": $("#addModalCapacidad input").val(),
+		    		       "descrip": $("#addModalDesc textarea").val()
+		    		      };
+		    		 
+		    		      $.ajax({ 
+			      		      headers: {"X-CSRF-TOKEN": config.csrf.value},
+			      		       type: "POST",
+			      		       contentType: "application/json",
+			      		       url: "/salas/add", 
+			      		       data: JSON.stringify(sala), 
+			      		       success : data => {
+				      		    	$("#addModal").modal("toggle");
+			      		    		var newTable = $('<div class="table'+data+' row sala p-3 rounded-top" style="background-color: #f7f4f4;">'+
+			      						'<div class="col-3 sala-left">'+
+			      							'<div><input class="salaId" type="hidden" value="'+data+'" /></div>'+
+			      							'<div class="row"><div class="mt-0 h3 salaName" >'+$("#addModalName input").val()+'</div></div>'+
+			      							'<div class="row"><img class="salaImg"style="width: 180px; height: 110px; margin: auto;" src="/img/default-sala.jpg"></div>'+
+			      							'<div class="row mt-1"><p>Capacidad:&nbsp</p><p class="salaCapacidad">'+$("#addModalCapacidad input").val()+'</p></div>'+
+			      							'<div class="row mt-1"><p class="salaDesc">'+$("#addModalDesc textarea").val()+'</p></div>'+
+			      							'<table>'+
+			      								'<tr><td class="listActions">'+
+			      										'<button type="button" class="btn photoSala btn-info btn-default btn-xs ml-2">'+
+			      											'<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span></button>'+
+			      										'<button type="button" class="btn editSala btn-success btn-default btn-xs ml-2">'+
+			      											'<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span></button>'+
+			      										'<button type="button" class="btn removeSala btn-danger deletable btn-default btn-xs ml-2">'+
+			      											'<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span></button>'+
+			      									'</td></tr></table></div>'+
+			      						'<div class="col-9 sala-right">'+
+			      							'<h5>En esta sala están las siguientes máquinas:</h5>'+
+			      							'<div class="row ">'+
+			      								'<div class="listActions añadir d-flex justify-content-center mb-4">'+
+			      									'<button type="button" class="btn addEquipo btn-primary btn-lg">&#10133Añadir Equipo</button>'+
+			      								'</div></div></div></div>');
+			      		    		$("#salaIteracion").append(newTable);
+			      		    	
+			      		       },
+			      		       error : e => {
+			      		        	alert(e);
+			      		       }
+		    		      });
+		    		      
+		          	});
 
 				//////////////////////EQUIPOSSSSSSSSSSSSSSSSSS////////////////////////////////////////////////
 				
-				$(".listActions>.remove-equipo").click(function() {
+				$(".listActions>.removeEquipo").click(function() {
 					$("#removeModalId input").val($($(this).parent().parent().parent()
 							.parent().parent()
 							.children().eq(0)
@@ -99,7 +203,7 @@
 				
 			
 				
-				$(".listActions>.edit-equipo").click(function() {
+				$(".listActions>.editEquipo").click(function() {
 							$("#editEquipoModalName input").val($(
 											$(this).parent().parent().parent()
 													.parent().parent()
@@ -118,7 +222,7 @@
 							$("#editModalEquipo").modal("toggle");
 						});
 			
-			$(".listActions>.add-equipo").click(function() {
+			$(".listActions>.addEquipo").click(function() {
 				$("#addModalRoom input").val($($(this).parent().parent().parent().parent()
 						.children().eq(0).children().eq(0).children()).val());
 				$("#addModalRoom").val($($(this).parent().parent().parent().parent()
@@ -126,7 +230,7 @@
 						.children().eq(0).val()));
 				$("#addModalEquipo").modal("toggle");
 			});	
-			$(".listActions>.foto-equipo").click(function() {
+			$(".listActions>.photoEquipo").click(function() {
 				$("#changePhotoModalId input").val($($(this).parent().parent().parent()
 						.parent().parent()
 						.children().eq(0)
@@ -139,50 +243,50 @@
 
 <body>
 	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
-	<div class="container flex-column">
+	<div id="salaIteracion" class="container flex-column">
 		<div class="row h2">Salas</div>
 
 		<!-- Iteración de las salas -->
 		<div class="iteration" th:each="room: ${rooms}">
-			<div class="row sala p-3 rounded-top"
+			<div th:class="|table${room.id} row sala p-3 rounded-top|"
 				style="background-color: #f7f4f4;">
 				<div class="col-3 sala-left">
 					<div>
-						<input type="hidden" th:value="${room.id}" />
+						<input class="salaId" type="hidden" th:value="${room.id}" />
 					</div>
 					<div class="row">
 						<div class="mt-0 h3 salaName" th:text="${room.name}">Nada</div>
 					</div>
 					<div class="row">
-						<img class="sala-img"
+						<img class="salaImg"
 							style="width: 180px; height: 110px; margin: auto;"
 							th:src="@{/salas/{id}/photo(id=${room.id})}">
 					</div>
 					<div class="row mt-1">
 						<p>Capacidad:&nbsp</p>
-						<p class="sala-plazos" th:text="${room.maxSize}">0</p>
+						<p class="salaCapacidad" th:text="${room.maxSize}">0</p>
 					</div>
 					<div class="row mt-1">
-						<p class="sala-desc" th:text="${room.descrip}">Nada</p>
+						<p class="salaDesc" th:text="${room.descrip}">Nada</p>
 					</div>
 					<table th:if="${session.u.hasRole('ADMIN')}">
 						<tr>
 							<!-- Botones para los modales -->
 							<td class="listActions">
 								<button type="button"
-									class="btn foto-sala btn-info btn-default btn-xs ml-2">
+									class="btn photoSala btn-info btn-default btn-xs ml-2">
 									<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
 								</button>
 								<button type="button"
-									class="btn edit-sala btn-success btn-default btn-xs ml-2">
+									class="btn editSala btn-success btn-default btn-xs ml-2">
 									<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
 								</button>
-								<button type="button" th:if="${room.hasNoClasses()}"
-									class="btn remove-sala btn-danger deletable btn-default btn-xs ml-2">
+								<button type="button" th:if="${#lists.isEmpty(room.lessons)}"
+									class="btn removeSala btn-danger deletable btn-default btn-xs ml-2">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 								</button>
-								<button type="button" th:unless="${room.hasNoClasses()}"
-									class="btn remove-sala btn-danger undeletable btn-default btn-xs ml-2">
+								<button type="button" th:unless="${#lists.isEmpty(room.lessons)}"
+									class="btn removeSala btn-danger undeletable btn-default btn-xs ml-2">
 									<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 								</button>
 
@@ -213,19 +317,19 @@
 										<!-- Botones para los modales Equipo-->
 										<td class="listActions">
 											<button type="button"
-												class="btn foto-equipo btn-info btn-default btn-xs ml-2">
+												class="btn photoEquipo btn-info btn-default btn-xs ml-2">
 												<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
 											</button>
 											<button type="button"
-												class="btn edit-equipo btn-success btn-default btn-xs ml-2">
+												class="btn editEquipo btn-success btn-default btn-xs ml-2">
 												<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
 											</button>
 											<button type="button" th:if="${room.hasNoClasses()}"
-												class="btn remove-equipo btn-danger deletable btn-default btn-xs ml-2 remove-equipo">
+												class="btn removeEquipo btn-danger deletable btn-default btn-xs ml-2 removeEquipo">
 												<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 											</button>
 											<button type="button" th:unless="${room.hasNoClasses()}"
-												class="btn remove-equipo btn-danger undeletable btn-default btn-xs ml-2">
+												class="btn removeEquipo btn-danger undeletable btn-default btn-xs ml-2">
 												<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 											</button>
 
@@ -236,7 +340,7 @@
 						</div>
 						<div th:if="${session.u.hasRole('ADMIN')}"
 							class="listActions añadir d-flex justify-content-center mb-4">
-							<button type="button" class="btn add-equipo btn-primary btn-lg">&#10133
+							<button type="button" class="btn addEquipo btn-primary btn-lg">&#10133
 								Añadir Equipo</button>
 						</div>
 					</div>
@@ -247,7 +351,7 @@
 	</div>
 	<div th:if="${session.u.hasRole('ADMIN')}"
 		class="listActions añadir d-flex justify-content-center mb-4">
-		<button type="button" class="btn add-sala btn-primary btn-lg">&#10133
+		<button type="button" class="btn addSala btn-primary btn-lg">&#10133
 			Añadir Sala</button>
 	</div>
 
@@ -261,14 +365,17 @@
 					<h4 class="modal-title">Cambiar foto?</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-				<form th:action="@{/salas/changephoto}" method="POST"
-					enctype="multipart/form-data">
-					<div id="changePhotoModalId">
-						<input type="hidden" name="id" />
-					</div>
-					<input type="file" name="photo" />
+				<form id="uploadPhotoForm" class="form-horizontal">
+					<img class="salaImg form-group"
+							style="width: 300px; height: 200px; margin: auto;"
+							src="/img/default-sala.jpg">
+							<div>
+							<label for="salaPhotoInput" class="col-sm-4 control-label">Upload your file:</label>
+							<input id="salaPhotoInput" class="form-control" type="file" name="photo" accept="*" />
+							</div>
+					
 					<div class="modal-footer">
-						<button type="submit" class="btn btn-default">Actualizar</button>
+						<button id="photoSalaSbmit" type="button" class="btn btn-default">Actualizar</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
 				</form>
@@ -287,11 +394,11 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" th:action="@{/salas/edit}"
-						method="POST">
-						<div class="form-group" id="editModalId">
-							<input type="hidden" name="id">
-						</div>
+<!-- 					<form class="form-horizontal" th:action="@{/salas/edit}" -->
+<!-- 						method="POST"> -->
+<!-- 						<div class="form-group" id="editModalId"> -->
+<!-- 							<input type="hidden" name="id"> -->
+<!-- 						</div> -->
 
 						<div class="form-group" id="editModalName">
 							<label class="col-sm-4 control-label text-success">
@@ -315,11 +422,11 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-default">Submit</button>
+							<button id="editSalaSbmit" type="button" class="btn btn-default">Submit</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
 						</div>
-					</form>
+<!-- 					</form> -->
 				</div>
 			</div>
 		</div>
@@ -335,20 +442,14 @@
 					<h4 class="modal-title">Acción invalida</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
-				<form th:action="@{/salas/del}" method="POST">
 					<div class="modal-body">
 						<p>No se puede borrar! Hay clases en esta sala!</p>
 					</div>
 					<div class="modal-footer">
-
-						<div class="form-group" id="removeModalId">
-							<input type="hidden" name="id">
-						</div>
-						<button type="submit" class="btn modalBtnSbmit btn-default"
+						<button type="button" id="removeSalaSbmit" class="btn btn-default"
 							style="display: block;">Eliminar</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					</div>
-				</form>
 			</div>
 		</div>
 	</div>
@@ -365,8 +466,8 @@
 					<h4 class="modal-title">Añadir Clase</h4>
 				</div>
 				<div class="modal-body">
-					<form class="form-horizontal" th:action="@{/salas/add}"
-						method="POST">
+<!-- 					<form class="form-horizontal" th:action="@{/salas/add}" -->
+<!-- 						method="POST"> -->
 						<div class="form-group" id="addModalName">
 							<label class="col-sm-4 control-label text-primary">
 								Nombre de la sala </label>
@@ -389,11 +490,11 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="submit" class="btn btn-default">Submit</button>
+							<button id="addSalaSbmit" type="submit" class="btn btn-default">Submit</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal">Close</button>
 						</div>
-					</form>
+<!-- 					</form> -->
 				</div>
 			</div>
 		</div>

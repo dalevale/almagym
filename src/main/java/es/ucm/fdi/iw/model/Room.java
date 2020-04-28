@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,27 @@ public class Room {
 	private List<Lesson> lessons = new ArrayList<>();
 	private List<Equipment> equipments = new ArrayList<>();
 
+	/**
+	 * Objeto para persistir a/de JSON
+	 * @author mfreire
+	 * @author EnriqueTorrijos
+	 */
+	public static class Transfer {
+		public long id;
+		public String name;
+		public int maxSize;
+		public String descrip;
+		public Transfer() { 
+		}
+		
+		public Transfer(Room r) {
+			this.id = r.getId();
+			this.name = r.getName();
+			this.maxSize = r.getMaxSize();
+			this.descrip = r.getDescrip();
+		}
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
