@@ -16,10 +16,12 @@
 							.parent().parent()
 							.children().eq(0)
 							.children()).val();
+					var table = "#salaIteracion div div.table"+id;
 					$("#photoSalaSbmit").val(id);
-					$("#changePhotoModal").modal("toggle");
+					$("#salaPhotoName").text($(table+" .salaName").text());
 					var src = $("#salaIteracion div div.table"+id+" div div img.salaImg").attr("src");
      		    	$("#changePhotoModal div div form img.salaImg").attr("src", src);
+					$("#changePhotoModal").modal("toggle");
 				});
 				
 				$(".listActions>.editSala").click(function() {
@@ -366,17 +368,18 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<form id="uploadPhotoForm" class="form-horizontal">
+					<h4 id="salaPhotoName" class="col-sm-4 control-label">Name</h4>
 					<img class="salaImg form-group"
 							style="width: 300px; height: 200px; margin: auto;"
-							src="/img/default-sala.jpg">
+							src="/img/default-sala.jpg"/>
 							<div>
 							<label for="salaPhotoInput" class="col-sm-4 control-label">Upload your file:</label>
 							<input id="salaPhotoInput" class="form-control" type="file" name="photo" accept="*" />
 							</div>
 					
 					<div class="modal-footer">
-						<button id="photoSalaSbmit" type="button" class="btn btn-default">Actualizar</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button id="photoSalaSbmit" type="button" class="btn btn-info">Actualizar</button>
+						<button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
 					</div>
 				</form>
 			</div>
@@ -422,8 +425,8 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button id="editSalaSbmit" type="button" class="btn btn-default">Submit</button>
-							<button type="button" class="btn btn-default"
+							<button id="editSalaSbmit" type="button" class="btn btn-success">Submit</button>
+							<button type="button" class="btn btn-success"
 								data-dismiss="modal">Close</button>
 						</div>
 <!-- 					</form> -->
@@ -446,9 +449,9 @@
 						<p>No se puede borrar! Hay clases en esta sala!</p>
 					</div>
 					<div class="modal-footer">
-						<button type="button" id="removeSalaSbmit" class="btn btn-default"
+						<button type="button" id="removeSalaSbmit" class="btn btn-danger"
 							style="display: block;">Eliminar</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 					</div>
 			</div>
 		</div>
@@ -462,8 +465,8 @@
 			<!-- Modal contenido-->
 			<div class="modal-content">
 				<div class="modal-header bg-primary">
+					<h4 class="modal-title">Añadir Sala</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Añadir Clase</h4>
 				</div>
 				<div class="modal-body">
 <!-- 					<form class="form-horizontal" th:action="@{/salas/add}" -->
@@ -490,8 +493,8 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button id="addSalaSbmit" type="submit" class="btn btn-default">Submit</button>
-							<button type="button" class="btn btn-default"
+							<button id="addSalaSbmit" type="submit" class="btn btn-primary">Submit</button>
+							<button type="button" class="btn btn-primary"
 								data-dismiss="modal">Close</button>
 						</div>
 <!-- 					</form> -->
