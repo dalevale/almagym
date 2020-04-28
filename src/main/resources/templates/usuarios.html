@@ -21,6 +21,10 @@
                 $("#valorarModal").modal("toggle"); 
             });
             
+            $(".listActions>.btn-primary").click(function() {
+                $("#addModal").modal("toggle");
+            });
+            
             $(".listActions>.btn-danger").click(function() {
                 $("#removeModal").modal("toggle");
                 $("#yesRemove").val($(this).parent().parent().children().first().text());

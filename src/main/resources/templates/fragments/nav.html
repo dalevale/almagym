@@ -42,6 +42,9 @@
 							<li class="nav-item ml-2"><a class="nav-link"
 								th:if="${session.u.hasRole('ADMIN')}" th:href="@{/usuarios/}"><i
 									class="fas fa-info-circle"></i>Usuarios</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:href="@{/message/}" th:text="${session.unread} ? 'Nuevo Mensaje': '0 Mensajes'">mensajes<i
+									class="fas fa-info-circle"></i>mensajes</a></li>		
 						</ul>
 
 						<ul class="nav navbar-nav ml-auto col-2">
