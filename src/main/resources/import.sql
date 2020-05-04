@@ -73,18 +73,18 @@ INSERT INTO lesson(id,name,date_ini,date_fin,total_students,profe_id,room_id) VA
 );
 
 -- Aquí empieza la tabla de los equipments
-INSERT INTO equipment(id,name,img_path,quantity,room_id) VALUES (
-	1, 'Bicicleta estática', '/img/maquina1.jpg', 5, 1
+INSERT INTO equipment(id,name,quantity,room_id) VALUES (
+	1, 'Bicicleta estática', 5, 1
 );
 
-INSERT INTO equipment(id,name,img_path,quantity,room_id) VALUES (
-	2, 'Cintas de correr', '/img/sala2.jpg', 5, 1
+INSERT INTO equipment(id,name,quantity,room_id) VALUES (
+	2, 'Cintas de correr', 5, 1
 );
 
-INSERT INTO equipment(id,name,img_path,quantity,room_id) VALUES (
-	3, 'Peso 5 kgs', '/img/portada.jpg', 6, 2
+INSERT INTO equipment(id,name,quantity,room_id) VALUES (
+	3, 'Peso 5 kgs', 6, 2
 );
 
-INSERT INTO equipment(id,name,img_path,quantity,room_id) VALUES (
-	4, 'Banco Press', '/img/portada.jpg', 4, 2
+INSERT INTO equipment(id,name,quantity,room_id) VALUES (
+	4, 'Banco Press', 4, 2
 );

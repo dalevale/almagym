@@ -99,17 +99,16 @@ public class RoomController {
     @PostMapping("del/{id}")
    	@Transactional
    	@ResponseBody
-   	public String deleteRoom(@PathVariable long id, HttpServletResponse response, @ModelAttribute Room edited,
-   			Model model, HttpSession session) throws IOException {
+   	public String deleteRoom(@PathVariable long id, HttpServletResponse response,
+   			HttpSession session) throws IOException {
     	
     	if(hasPermissions(response, session)) {
-    		Room target = entityManager.find(Room.class, edited.getId());
+    		Room target = entityManager.find(Room.class, id);
        		entityManager.remove(target);
-       		log.info("Successfully removed Room with id {} ", edited.getId());
-       		getRooms(model);
+       		log.info("Successfully removed Room with id {} ", id);
     	}
     	else
-       		log.info("Failed to remove Room with id {} ", edited.getId());
+       		log.info("Failed to remove Room with id {} ", id);
    		return "exito";
    	}
     
