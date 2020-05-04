@@ -13,6 +13,8 @@ const ws = {
 	 */
 	receive: (text) => {
 		console.log(text);
+		// recibe algo de la forma {"from":"a","to":"t","text":"esto funciona","id":2}
+		// alert(text);
 	},
 	
 	headers: {'X-CSRF-TOKEN' : config.csrf.value},
