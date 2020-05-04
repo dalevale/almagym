@@ -1,5 +1,7 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,10 +14,30 @@ public class Equipment {
 
 	private long id;
 	private String name;
-	private String imgPath;
 	private int quantity;
 	private Room room;
-
+	
+	/**
+	 * Objeto para persistir a/de JSON
+	 * @author mfreire
+	 * @author EnriqueTorrijos
+	 */
+	public static class Transfer {
+		public long id;
+		public String name;
+		public int quantity;
+		public long room;
+		
+		public Transfer() { 
+		}
+		
+		public Transfer(Equipment e) {
+			this.id = e.getId();
+			this.name = e.getName();
+			this.quantity = e.getQuantity();
+			this.room = e.room.getId();
+		}
+	}
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public long getId() {
@@ -41,14 +63,6 @@ public class Equipment {
 
 	public void setRoom(Room room) {
 		this.room = room;
-	}
-
-	public String getImgPath() {
-		return imgPath;
-	}
-
-	public void setImgPath(String imgPath) {
-		this.imgPath = imgPath;
 	}
 
 	public int getQuantity() {
