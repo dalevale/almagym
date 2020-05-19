@@ -38,62 +38,13 @@ public class LessonController {
     @GetMapping("/")
     public String getLessons(HttpSession session, Model model) {
     	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
-    	List<Lesson> r = entityManager.createQuery("select r from Room r").getResultList();
+    	List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
+    	List<User> p = entityManager.createQuery("select p from User p where roles = 'USER,TEACHER'").getResultList();
     	model.addAttribute("lessons", l);
     	model.addAttribute("rooms", r);
+    	model.addAttribute("profes", p);
     	return "clases";
     }
-//    @PostMapping("remove/{id}")
-//    @Transactional 
-//	public String removeClass(@PathVariable long id, HttpSession session,Model model) {
-//    	int f =2;
-//    	//long testf =  id;
-//    	
-//    	//Lesson lesson = entityManager.find(Lesson.class, id);
-//    	//entityManager.remove(lesson);
-////    	Room target = entityManager.find(Room.class, id);
-//////		model.addAttribute("room", target);
-////		entityManager.remove(target);
-//    	return "exito";
-//	}
-//    
-//    @PostMapping("edit/{id}")
-//    @Transactional 
-//	public String editClass(@PathVariable long id, HttpSession session,Model model) {
-//    	int f =2;
-//    	//long testf =  id;
-//    	
-//    	//Lesson lesson = entityManager.find(Lesson.class, id);
-//    	//entityManager.remove(lesson);
-//    	
-//    	return "exito";
-//	}
-//    
-//    @PostMapping("add/{id}")
-//    @Transactional 
-//	public String addClass(@PathVariable long id, HttpSession session,Model model) {
-//    	int f =2;
-//    	//long testf =  id;
-//    	
-//    	//Lesson lesson = entityManager.find(Lesson.class, id);
-//    	//entityManager.remove(lesson);
-//    	
-//    	return "exito";
-//	}
-	
-//    @RequestMapping(value = "generateData", method = RequestMethod.POST)
-//	public String generateData(@RequestBody Lesson r, HttpServletRequest req, HttpServletResponse resp) {
-//    	int f =2;
-//    	 
-//    	//long testf =  id;
-//    	
-//    	//Lesson lesson = entityManager.find(Lesson.class, id);
-//    	//entityManager.remove(lesson);
-//    	
-//    	
-//    	return "exito";
-//	}
-//    
     @PostMapping("addLesson")        
     @ResponseBody
     @Transactional
@@ -115,7 +66,8 @@ public class LessonController {
     public String editLesson(@RequestBody Lesson.Transfer lessonRequest) { 
         Lesson lesson = new Lesson();
         lesson.setId(lessonRequest.id); 
-        lesson.setRoom(entityManager.find(Room.class, lessonRequest.roomId)); 
+        lesson.setRoom(entityManager.find(Room.class, lessonRequest.roomId));
+        lesson.setProfe(entityManager.find(User.class, lessonRequest.profeId));
         lesson.setName(lessonRequest.name);
         lesson.setTotalStudents(lessonRequest.totalStudents);
         lesson.setDateIni(LocalDateTime.parse(lessonRequest.dateIni, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
