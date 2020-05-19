@@ -41,8 +41,6 @@ public class Message {
 	@ManyToOne(targetEntity = User.class)
 	private User recipient;
 	private String text;
-	private String subject;
-	
 	
 	private LocalDateTime dateSent;
 	private LocalDateTime dateRead;
@@ -71,18 +69,16 @@ public class Message {
 		private String to;
 		private String sent;
 		private String received;
-		private String subject;
 		private String text;
-		String id;
+		long id;
 		public Transfer(Message m) {
 			this.from = m.getSender().getUsername();
 			this.to = m.getRecipient().getUsername();
 			this.sent = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(m.getDateSent());
 			this.received = m.getDateRead() == null ?
 					null : DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(m.getDateRead());
-			this.subject = m.getSubject();
 			this.text = m.getText();
-			this.id = String.valueOf(m.getId());
+			this.id = m.getId();
 		}
 		public String getFrom() {
 			return from;
@@ -108,24 +104,16 @@ public class Message {
 		public void setReceived(String received) {
 			this.received = received;
 		}
-		public String getSubject() {
-			return subject;
-		}
-
-		public void setSubject(String subject) {
-			this.subject = subject;
-		}
-
 		public String getText() {
 			return text;
 		}
 		public void setText(String text) {
 			this.text = text;
 		}
-		public String getId() {
+		public long getId() {
 			return id;
 		}
-		public void setId(String id) {
+		public void setId(long id) {
 			this.id = id;
 		}		
 	}
@@ -153,13 +141,7 @@ public class Message {
 	public void setRecipient(User recipient) {
 		this.recipient = recipient;
 	}
-	public String getSubject() {
-		return subject;
-	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
 	public String getText() {
 		return text;
 	}

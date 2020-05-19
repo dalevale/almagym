@@ -90,7 +90,7 @@
 								style="min-width: 50px;">
 								<span class="glyphicon glyphicon-info-sign" aria-hidden="true">&#10069</span>
 							</button> <a class="btn btn-success btn-xs ml-2"
-							th:href=@{/user/{id}(id=${u.id})} th:text="'&#x270e;'" /></a>
+							th:href=@{/user/{id}(id=${u.id})} th:text="'&#x270e;'" />
 							<button type="button"
 								class="btn btn-warning btn-default btn-xs ml-2 d-none">
 								<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -106,8 +106,8 @@
 			</table>
 			<div>
 				<p>
-					<a th:href="@{/user/adduser}" class="btn btn-success btn-xs">Crear
-						Usuario</a>
+					<a th:href="@{/user/adduser}" class="btn btn-success btn-xs">crear
+						cliente</a>
 				</p>
 			</div>
 		</div>
@@ -173,6 +173,7 @@
 						class="btn btn-danger btn-lg">Si</button>
 				</div>
 			</div>
+
 		</div>
 	</div>
 	<footer th:replace="fragments/footer.html :: footer"> Footer

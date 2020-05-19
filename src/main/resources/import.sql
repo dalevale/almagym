@@ -19,13 +19,6 @@ INSERT INTO user(id,enabled,username,password,roles,first_name,last_name) VALUES
 	'Profesoro', 'Muéstrez'
 );
 
-INSERT INTO user(id,enabled,username,password,roles,first_name,last_name) VALUES (
-	4, 1, 't2', 
-	'{bcrypt}$2a$10$xLFtBIXGtYvAbRqM95JhcOaG23fHRpDoZIJrsF2cCff9xEHTTdK1u',
-	'USER,TEACHER',
-	'OtroProfesoro', 'Garcia'
-);
-
 -- Otro usuario de ejemplo con username = b y contraseña = aa  
 INSERT INTO user(id,enabled,username,password,roles,first_name,last_name) VALUES (
 	3, 1, 'c', 

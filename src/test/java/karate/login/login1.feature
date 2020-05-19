@@ -24,6 +24,6 @@ Scenario: html url encoded form submit - post
     When method post
     Then status 200
     * string response = response    
-    * def h1s = util.selectHtml(response, "h1");
-    * print h1s
-    And match h1s contains 'Inicio'
+    * def h4s = util.selectHtml(response, "h4");
+    * print h4s
+    And match h4s contains 'Usuarios'

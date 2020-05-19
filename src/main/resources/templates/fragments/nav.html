@@ -6,17 +6,19 @@
 <title>Nav fragment - rest intentionally left empty</title>
 </head>
 <body>
-	<nav th:fragment="nav" style="height: 75px">
+	<nav th:fragment="nav" style="height:75px">
+		<!-- 		<a class="logo" href="" th:href="@{/}"></a> -->
+
 		<div class="logx" th:if="${session.u}">
+
 			<div
 				class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary ml-2"
 				style="">
 				<div class="container">
-					<div>
-						<a href="../"
-							class="navbar-brand animated bounceIn pt-0 pb-0 pr-0"> <img
-							th:src="@{/img/logo-ejemplo.png}" class="img-rounded" alt="logo"
-							style="width: 75px;"></a>
+					<div href="../"
+						class="navbar-brand animated bounceIn pt-0 pb-0 pr-0">
+						<img th:src="@{/img/logo-ejemplo.png}" class="img-rounded"
+							alt="logo" style="width: 75px;">
 					</div>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarResponsive" aria-controls="navbarResponsive"
@@ -34,13 +36,15 @@
 								th:href="@{/salas/}"><i class="fas fa-person-booth mr-1"></i>Salas</a></li>
 							<li class="nav-item ml-2"><a class="nav-link"
 								th:href="@{/clases/}"><i class="fas fa-person-booth mr-1"></i>Clases</a></li>
-							<li th:if="${session.u.hasRole('ADMIN')}" class="nav-item ml-2">
-								<a class="nav-link" th:href="@{/usuarios/}"><i
-									class="fas fa-info-circle"></i>Usuarios</a>
-							</li>
-							<li class="nav-item ml-2"><a id="navMensajes"
-								class="nav-link" th:href="@{/messages/}"><i
-									class="fas fa-info-circle"></i>Mensajes</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:if="${session.u.hasRole('ADMIN')}" th:href="@{/admin/}"><i
+									class="fas fa-info-circle"></i>Administrar</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:if="${session.u.hasRole('ADMIN')}" th:href="@{/usuarios/}"><i
+									class="fas fa-info-circle"></i>Usuarios</a></li>
+							<li class="nav-item ml-2"><a class="nav-link"
+								th:href="@{/message/}" th:text="${session.unread} ? 'Nuevo Mensaje': '0 Mensajes'">mensajes<i
+									class="fas fa-info-circle"></i>mensajes</a></li>		
 						</ul>
 
 						<ul class="nav navbar-nav ml-auto col-2">
@@ -51,6 +55,9 @@
 									class="caret" th:text="${session.u.username}">Pepe</span></a>
 								<div class="dropdown-menu animate slideIn"
 									aria-labelledby="themes">
+									<a class="dropdown-item" th:href="@{/mensajes/}"><i
+										class="fas fa-comments"></i> Mis mensajes</a>
+									<div class="dropdown-divider"></div>
 									<a class="dropdown-item"
 										th:if="${not session.u.hasRole('ADMIN')}"
 										th:href="@{/user/{id}(id=${session.u.id})}"><i
@@ -80,11 +87,6 @@
 					<input type="hidden" name="username" value="t"> <input
 						type="hidden" name="password" value="aa">
 					<button type="submit">t</button>
-				</form>
-				<form th:action="@{/login}" method="post">
-					<input type="hidden" name="username" value="t2"> <input
-						type="hidden" name="password" value="aa">
-					<button type="submit">t2</button>
 				</form>
 				<form th:action="@{/login}" method="post">
 					<input type="hidden" name="username" value="c"> <input

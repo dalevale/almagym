@@ -114,7 +114,6 @@ public class UserController {
 		throws JsonProcessingException {
 		
 		String text = o.get("message").asText();
-		String subj = o.get("subject").asText();
 		User u = entityManager.find(User.class, id);
 		User sender = entityManager.find(
 				User.class, ((User)session.getAttribute("u")).getId());
@@ -125,7 +124,6 @@ public class UserController {
 		m.setRecipient(u);
 		m.setSender(sender);
 		m.setDateSent(LocalDateTime.now());
-		m.setSubject(subj);
 		m.setText(text);
 		entityManager.persist(m);
 		entityManager.flush(); // to get Id before commit
@@ -135,7 +133,6 @@ public class UserController {
 		ObjectNode rootNode = mapper.createObjectNode();
 		rootNode.put("from", sender.getUsername());
 		rootNode.put("to", u.getUsername());
-		rootNode.put("subject", subj);
 		rootNode.put("text", text);
 		rootNode.put("id", m.getId());
 		String json = mapper.writeValueAsString(rootNode);
