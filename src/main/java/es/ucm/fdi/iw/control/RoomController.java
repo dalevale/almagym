@@ -88,6 +88,10 @@ public class RoomController {
 	        room.setName(roomRequest.name);
 	        room.setMaxSize(roomRequest.maxSize); 
 	        room.setDescrip(roomRequest.descrip);
+	        //Get list of equipments and lessons
+	        Room orig = entityManager.find(Room.class, room.getId());
+	        room.setEquipments(orig.getEquipments());
+	        room.setLessons(orig.getLessons());
 			entityManager.merge(room);  
 			log.info("Successfully edited Room with id {} ", room.getId());
 		}

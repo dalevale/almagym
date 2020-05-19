@@ -48,6 +48,11 @@ nav>*{
 	display: inline;
 }
 
+#navMensajes.forNewMessages {
+	color : gold;
+	font-weight : bold;
+}
+
 /* setup main container */
 div.container {
 	display: flex;
@@ -108,4 +113,17 @@ nav div.debug {
 	border: none;
 	margin: 0;
 	padding: 0;
+}
+
+div#userPhoto {
+	float:left;
+	width :30%;
+}
+div#userDetails{
+	float: left;
+	width :30%;
+}
+div#userSendMsg{
+	float:left;
+	width :40%;
 }
