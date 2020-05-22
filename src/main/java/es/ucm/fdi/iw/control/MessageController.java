@@ -58,6 +58,7 @@ public class MessageController {
 		return mess;
 	}	
 	
+	// ojo: solo si has recibido ese mensaje
 	@GetMapping(value = "/setread/{id}")
 	@Transactional
 	@ResponseBody
@@ -68,8 +69,12 @@ public class MessageController {
 		return DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(m.getDateRead());
 	}
 	
+	// @GetMapping("/recevedFrom/{id}")
+	// mensajes recibidos sólo de id
+
 	
-	//show how many unread
+	
+	//show how many unread -- FIXME: añadir, para cada interlocutuar, id, nombre, y cuantos sin leer
 	@GetMapping(value = "/unread", produces = "application/json")
 	@ResponseBody
 	public String checkUnread(HttpSession session) {
