@@ -2,6 +2,8 @@ package es.ucm.fdi.iw.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import es.ucm.fdi.iw.model.Message.Transfer;
 
 //Clase encargada guardar información sobre una clase del gimnasio (fitboxing,pilates,etc)
 @Entity
@@ -26,6 +30,20 @@ public class Lesson {
 	private int totalStudents;
 	private List<Inscription> inscriptions; // tiene esta relacion ya que una clase esta enlazada con muchos usuarios
 
+	/**
+	 * Convierte colecciones de mensajes a formato JSONificable
+	 * @param messages
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	public static List<Transfer> asTransferObjects(Collection<Lesson> lessons) {
+		ArrayList<Transfer> all = new ArrayList<>();
+		for (Lesson l : lessons) {
+			all.add(new Transfer(l));
+		}
+		return all;
+	}
+	
 	/**
 	 * Objeto para persistir a/de JSON
 	 * @author mfreire

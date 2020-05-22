@@ -3,6 +3,7 @@ package es.ucm.fdi.iw.control;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import es.ucm.fdi.iw.model.Lesson;
 import es.ucm.fdi.iw.model.Room;
 import es.ucm.fdi.iw.model.User;
+import es.ucm.fdi.iw.model.Lesson.Transfer;
 
 @Controller
 @RequestMapping("clases")
@@ -45,6 +47,18 @@ public class LessonController {
     	model.addAttribute("profes", p);
     	return "clases";
     }
+    
+    @PostMapping(path = "/getLessons", produces = "application/json")
+	@Transactional // para no recibir resultados inconsistentes
+	@ResponseBody // para indicar que no devuelve vista, sino un objeto (jsonizado)
+	public List<Lesson.Transfer> retrieveLessons(HttpSession session) {		
+		log.info("Generating lessons list");
+    	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
+		List<Transfer> lessons = new ArrayList<Transfer>();
+				lessons = Lesson.asTransferObjects(l);
+		return lessons;
+	}	
+    
     @PostMapping("addLesson")        
     @ResponseBody
     @Transactional

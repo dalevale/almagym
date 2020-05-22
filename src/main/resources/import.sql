@@ -57,25 +57,25 @@ INSERT INTO room(id,name,descrip,max_size) VALUES (
 --Aquí empieza la tabla de lessons
 INSERT INTO lesson(id,name,date_ini,date_fin,total_students,profe_id,room_id) VALUES (
 	1, 'Boxeo mañana',
-	'2020-03-09 11:00:00', '2020-03-09 13:00:00',
+	'2020-05-22 11:00:00', '2020-05-22 13:00:00',
 	12, 2, 1
 );
 
 INSERT INTO lesson(id,name,date_ini,date_fin,total_students,profe_id,room_id) VALUES (
 	2, 'Boxeo tarde',
-	'2020-03-09 15:00:00', '2020-03-09 17:00:00',
+	'2020-05-22 15:00:00', '2020-05-22 17:00:00',
 	25, 2, 3
 );
 
 INSERT INTO lesson(id,name,date_ini,date_fin,total_students,profe_id,room_id) VALUES (
 	3, 'Twerking',
-	'2020-03-16 13:00:00', '2020-03-16 15:00:00',
+	'2020-05-22 13:00:00', '2020-05-22 15:00:00',
 	50, 2, 2
 );
 
 INSERT INTO lesson(id,name,date_ini,date_fin,total_students,profe_id,room_id) VALUES (
 	4, 'Boxeo noche',
-	'2020-04-02 20:00:00', '2020-04-02 22:00:00', 
+	'2020-05-22 20:00:00', '2020-05-22 22:00:00', 
 	28, 2, 1
 );
 

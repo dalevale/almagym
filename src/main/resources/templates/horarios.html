@@ -1,24 +1,87 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <th:block th:replace="fragments/head :: header" />
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Horarios</title>
- 
-</head> 
-<body>
-	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>	
-	<div class="container flex-column"> 
-	<div class="h2">En desarrollo!</div>
+
+<link href="/css/calendar.css" rel="stylesheet">
+<link href='/js/calendar/fullcalendar/packages/core/main.css'
+	rel='stylesheet' />
+<link href='/js/calendar/fullcalendar/packages/daygrid/main.css'
+	rel='stylesheet' />
+<link href='/js/calendar/fullcalendar/packages/timegrid/main.css'
+	rel='stylesheet' />
+<script src='/js/calendar/fullcalendar/packages/core/main.js'></script>
+<script src='/js/calendar/fullcalendar/packages/interaction/main.js'></script>
+<script src='/js/calendar/fullcalendar/packages/daygrid/main.js'></script>
+<script src='/js/calendar/fullcalendar/packages/timegrid/main.js'></script>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+   	$.ajax({
+    	headers: {"X-CSRF-TOKEN": config.csrf.value},
+		type : "POST",
+		url : config.rootUrl + "clases/getLessons",
+        success: function(data) {
+            var events = [];
+            $.each(data, function(index) {
+                events.push({
+                    title: data[index].name,
+                    start: data[index].dateIni,
+                    url: config.rootUrl + 'clases/',
+                    end:   data[index].dateFin
+    			});  
+    		});
+			var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: [ 'interaction', 'dayGrid', 'timeGrid' ],
+                header: {
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                select: function(arg) { 
+                 },
+                
+                editable: false,
+                eventLimit: true, // allow "more" link when too many events
+                events: events
+            });
+            calendar.render();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log( textStatus +" - "+ errorThrown );
+        }
+    });
+    
+  
+  });
+
+</script>
+</head>
+<body class="d-flex flex-column h-100">
+	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
+	<div class="container flex-column">
+		<div class="h2">Horarios</div>
 	</div>
+	<main role="main" class="flex-shrink-0">
+
+		<div id='calendar'></div>
+
+		<div style='clear: both'></div>
+
+	</main>
+
 	<footer th:replace="fragments/footer.html :: footer"> Footer
 		goes here </footer>
-
 </body>
-
-
-
 </html>
