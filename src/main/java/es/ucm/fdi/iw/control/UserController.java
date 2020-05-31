@@ -105,6 +105,8 @@ public class UserController {
 		return "user";
 	}
 
+	// @GetMapping("/search") con un parametro nombre, devuelve usuarios+ids con un nombre LIKE ese
+	// para poder enviarles mensajes	
 
 	@PostMapping("/{id}/msg")
 	@ResponseBody

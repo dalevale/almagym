@@ -39,37 +39,49 @@ public class LessonController {
 
     @GetMapping("/")
     public String getLessons(HttpSession session, Model model) {
-    	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
-    	List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
-    	List<User> p = entityManager.createQuery("select p from User p where roles = 'USER,TEACHER'").getResultList();
+        List<Lesson> l = entityManager
+            .createQuery("select l from Lesson l", Lesson.class)
+            .getResultList();
+        List<Room> r = entityManager
+            .createQuery("select r from Room r", Room.class)
+            .getResultList();
+        List<User> p = entityManager
+            .createQuery("select p from User p where roles = 'USER,TEACHER'", User.class)
+            .getResultList();
     	model.addAttribute("lessons", l);
     	model.addAttribute("rooms", r);
     	model.addAttribute("profes", p);
     	return "clases";
     }
-    
+
     @PostMapping(path = "/getLessons", produces = "application/json")
 	@Transactional // para no recibir resultados inconsistentes
 	@ResponseBody // para indicar que no devuelve vista, sino un objeto (jsonizado)
 	public List<Lesson.Transfer> retrieveLessons(HttpSession session) {		
 		log.info("Generating lessons list");
-    	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
+        List<Lesson> l = entityManager
+            .createQuery("select l from Lesson l", Lesson.class)
+            .getResultList();
 		List<Transfer> lessons = new ArrayList<Transfer>();
 				lessons = Lesson.asTransferObjects(l);
 		return lessons;
 	}	
     
-    @PostMapping("addLesson")        
-    @ResponseBody
-    @Transactional
-    public String addLesson(@RequestBody Lesson.Transfer lessonRequest) {
+    private Lesson fromTransfer(Lesson.Transfer lessonRequest) {
         Lesson lesson = new Lesson();
         lesson.setProfe(entityManager.find(User.class, lessonRequest.profeId)); 
-        lesson.setRoom(entityManager.find(Room.class, lessonRequest.roomId)); 
         lesson.setName(lessonRequest.name);
         lesson.setTotalStudents(lessonRequest.totalStudents);
         lesson.setDateIni(LocalDateTime.parse(lessonRequest.dateIni, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         lesson.setDateFin(LocalDateTime.parse(lessonRequest.dateFin, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        return lesson;
+    }
+
+    @PostMapping("addLesson")        
+    @ResponseBody
+    @Transactional
+    public String addLesson(@RequestBody Lesson.Transfer lessonRequest) {
+        Lesson lesson = fromTransfer(lessonRequest);
         entityManager.persist(lesson);
         return String.valueOf(lesson.getId());
     }
@@ -78,15 +90,9 @@ public class LessonController {
     @ResponseBody
     @Transactional
     public String editLesson(@RequestBody Lesson.Transfer lessonRequest) { 
-        Lesson lesson = new Lesson();
+        Lesson lesson = fromTransfer(lessonRequest);
         lesson.setId(lessonRequest.id); 
-        lesson.setRoom(entityManager.find(Room.class, lessonRequest.roomId));
-        lesson.setProfe(entityManager.find(User.class, lessonRequest.profeId));
-        lesson.setName(lessonRequest.name);
-        lesson.setTotalStudents(lessonRequest.totalStudents);
-        lesson.setDateIni(LocalDateTime.parse(lessonRequest.dateIni, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        lesson.setDateFin(LocalDateTime.parse(lessonRequest.dateFin, DateTimeFormatter.ISO_LOCAL_DATE_TIME)); 
-		entityManager.merge(lesson);  
+       	entityManager.merge(lesson);  
 		return "exito";
     }
     
@@ -96,8 +102,6 @@ public class LessonController {
     public String removeLesson(@PathVariable long id, Model model) {
         Lesson target = entityManager.find(Lesson.class, id);
    		entityManager.remove(target);
-    	List<Lesson> l = entityManager.createQuery("select l from Lesson l").getResultList();
-    	model.addAttribute("lessons", l);
    		return "exito";
     }
 }
