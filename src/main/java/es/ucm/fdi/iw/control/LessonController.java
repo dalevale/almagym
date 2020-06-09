@@ -70,10 +70,12 @@ public class LessonController {
     private Lesson fromTransfer(Lesson.Transfer lessonRequest) {
         Lesson lesson = new Lesson();
         lesson.setProfe(entityManager.find(User.class, lessonRequest.profeId)); 
+        lesson.setRoom(entityManager.find(Room.class, lessonRequest.roomId)); 
         lesson.setName(lessonRequest.name);
         lesson.setTotalStudents(lessonRequest.totalStudents);
         lesson.setDateIni(LocalDateTime.parse(lessonRequest.dateIni, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         lesson.setDateFin(LocalDateTime.parse(lessonRequest.dateFin, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        
         return lesson;
     }
 
