@@ -1,63 +1,124 @@
 $(document).ready(function(){
+	function viewInfo(root){
+		$("#infoModalName p").text($($(root).parent().parent().children()[1]).text());
+		$("#infoModalSala p").text($($(root).parent().parent().children()[2]).text());
+		$("#infoModalProfesor p").text($($(root).parent().parent().children()[3]).text());
+		$("#infoModalNumPlazas p").text($($(root).parent().parent().children()[4]).text());
+		
+		var fechaIni = $($(root).parent().parent().children()[5]).text();
+		var fechaFin = $($(root).parent().parent().children()[6]).text();
+		var HoraIni = $($(root).parent().parent().children()[7]).text();
+		var HoraFin = $($(root).parent().parent().children()[8]).text();
+		var day = new Date(fechaIni).getDay();
+		var weekday = new Array(7);
+		weekday[0] = "Sunday";
+		weekday[1] = "Monday";
+		weekday[2] = "Tuesday";
+		weekday[3] = "Wednesday";
+		weekday[4] = "Thursday";
+		weekday[5] = "Friday";
+		weekday[6] = "Saturday";
+		var n = weekday[day];
+		$("#infoModalFechaIni p").text(fechaIni);
+		$("#infoModalFechaFin p").text(fechaFin);
+		$("#infoModalDia p").text($($(root).parent().parent().children()[7]).text());
+
+		$("#infoModalHoraIni p").text(HoraIni);
+		$("#infoModalHoraFin p").text(HoraFin);
+		$("#infoModalDia p").text(n);
+		$("#infoModal").modal("toggle");
+	}
+
     $(".listActions>.btn-info").click(function() {
-
-    	$("#infoModalName p").text($($(this).parent().parent().children()[1]).text());
-        $("#infoModalSala p").text($($(this).parent().parent().children()[2]).text());
-        $("#infoModalProfesor p").text($($(this).parent().parent().children()[3]).text());
-        $("#infoModalNumPlazas p").text($($(this).parent().parent().children()[4]).text());
+		viewInfo(this);
+    	// $("#infoModalName p").text($($(this).parent().parent().children()[1]).text());
+        // $("#infoModalSala p").text($($(this).parent().parent().children()[2]).text());
+        // $("#infoModalProfesor p").text($($(this).parent().parent().children()[3]).text());
+        // $("#infoModalNumPlazas p").text($($(this).parent().parent().children()[4]).text());
         
-        var fechaIni = $($(this).parent().parent().children()[5]).text();
-        var fechaFin = $($(this).parent().parent().children()[6]).text();
-        var HoraIni = $($(this).parent().parent().children()[7]).text();
-        var HoraFin = $($(this).parent().parent().children()[8]).text();
-        var day = new Date(fechaIni).getDay();
-        var weekday = new Array(7);
-        weekday[0] = "Sunday";
-        weekday[1] = "Monday";
-        weekday[2] = "Tuesday";
-        weekday[3] = "Wednesday";
-        weekday[4] = "Thursday";
-        weekday[5] = "Friday";
-        weekday[6] = "Saturday";
-        var n = weekday[day];
-        $("#infoModalFechaIni p").text(fechaIni);
-        $("#infoModalFechaFin p").text(fechaFin);
-        $("#infoModalDia p").text($($(this).parent().parent().children()[7]).text());
+        // var fechaIni = $($(this).parent().parent().children()[5]).text();
+        // var fechaFin = $($(this).parent().parent().children()[6]).text();
+        // var HoraIni = $($(this).parent().parent().children()[7]).text();
+        // var HoraFin = $($(this).parent().parent().children()[8]).text();
+        // var day = new Date(fechaIni).getDay();
+        // var weekday = new Array(7);
+        // weekday[0] = "Sunday";
+        // weekday[1] = "Monday";
+        // weekday[2] = "Tuesday";
+        // weekday[3] = "Wednesday";
+        // weekday[4] = "Thursday";
+        // weekday[5] = "Friday";
+        // weekday[6] = "Saturday";
+        // var n = weekday[day];
+        // $("#infoModalFechaIni p").text(fechaIni);
+        // $("#infoModalFechaFin p").text(fechaFin);
+        // $("#infoModalDia p").text($($(this).parent().parent().children()[7]).text());
 
-        $("#infoModalHoraIni p").text(HoraIni);
-        $("#infoModalHoraFin p").text(HoraFin);
-        $("#infoModalDia p").text(n);
+        // $("#infoModalHoraIni p").text(HoraIni);
+        // $("#infoModalHoraFin p").text(HoraFin);
+        // $("#infoModalDia p").text(n);
  
-        $("#infoModal").modal("toggle");
+        // $("#infoModal").modal("toggle");
     });
     
-    $(".listActions>.btn-success").click(function() {
-        $("#editModalName input").val($($(this).parent().parent().children()[1]).text());
-        var r = $("#editModalRoomSelect option[value='"+$(this).data("roomid")+"']").index();
-        $("#editModalRoomSelect").prop("selectedIndex",$("#editModalRoomSelect option[value='"+$(this).data("roomid")+"']").index())
-        $("#editModalNumPlazas input").val($($(this).parent().parent().children()[4]).text());
-        var p = $("#editModalProfSelect option[value='"+$(this).data("profid")+"']").index();
-        $("#editModalProfSelect").prop("selectedIndex",$("#editModalProfSelect option[value='"+$(this).data("profid")+"']").index())
+    function editInfo(root){
+    	 $("#editModalName input").val($($(root).parent().parent().children()[1]).text());
+         var r = $("#editModalRoomSelect option[value='"+$(root).data("roomid")+"']").index();
+         $("#editModalRoomSelect").prop("selectedIndex",$("#editModalRoomSelect option[value='"+$(root).data("roomid")+"']").index())
+         $("#editModalNumPlazas input").val($($(root).parent().parent().children()[4]).text());
+         var p = $("#editModalProfSelect option[value='"+$(root).data("profid")+"']").index();
+         $("#editModalProfSelect").prop("selectedIndex",$("#editModalProfSelect option[value='"+$(root).data("profid")+"']").index())
+          
+         var fechaIni = $($(root).parent().parent().children()[5]).text();
+         var fechaFin = $($(root).parent().parent().children()[6]).text();
          
-        var fechaIni = $($(this).parent().parent().children()[5]).text();
-        var fechaFin = $($(this).parent().parent().children()[6]).text();
-        
-        function formatDate(d){
-        	  var date = new Date(d),
-              yr = date.getFullYear(),
-              month   = date.getMonth() > 8 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)  ,
-    		  day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
-              newDate = yr + '-' + month + '-' + day;
-    		  return newDate;
-        }
-        
-        $("#editModalFechaIni input").val(formatDate(fechaIni));
-        $("#editModalFechaFin input").val(formatDate(fechaFin));
-        $("#editModalHoraIni input").val($($(this).parent().parent().children()[7]).text());
-        $("#editModalHoraFin input").val($($(this).parent().parent().children()[8]).text());
+         function formatDate(d){
+         	  var date = new Date(d),
+               yr = date.getFullYear(),
+               month   = date.getMonth() > 8 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)  ,
+     		  day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
+               newDate = yr + '-' + month + '-' + day;
+     		  return newDate;
+         }
+         
+         $("#editModalFechaIni input").val(formatDate(fechaIni));
+         $("#editModalFechaFin input").val(formatDate(fechaFin));
+         $("#editModalHoraIni input").val($($(root).parent().parent().children()[7]).text());
+         $("#editModalHoraFin input").val($($(root).parent().parent().children()[8]).text());
 
-        $("#editBtn").val($(this).parent().parent().children().first().text());
-        $("#editModal").modal("toggle");
+         $("#editBtn").val($(root).parent().parent().children().first().text());
+         $("#editModal").modal("toggle");
+    	
+    }
+    
+    $(".listActions>.btn-success").click(function() {
+    	editInfo(this);
+//        $("#editModalName input").val($($(this).parent().parent().children()[1]).text());
+//        var r = $("#editModalRoomSelect option[value='"+$(this).data("roomid")+"']").index();
+//        $("#editModalRoomSelect").prop("selectedIndex",$("#editModalRoomSelect option[value='"+$(this).data("roomid")+"']").index())
+//        $("#editModalNumPlazas input").val($($(this).parent().parent().children()[4]).text());
+//        var p = $("#editModalProfSelect option[value='"+$(this).data("profid")+"']").index();
+//        $("#editModalProfSelect").prop("selectedIndex",$("#editModalProfSelect option[value='"+$(this).data("profid")+"']").index())
+//         
+//        var fechaIni = $($(this).parent().parent().children()[5]).text();
+//        var fechaFin = $($(this).parent().parent().children()[6]).text();
+//        
+//        function formatDate(d){
+//        	  var date = new Date(d),
+//              yr = date.getFullYear(),
+//              month   = date.getMonth() > 8 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)  ,
+//    		  day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
+//              newDate = yr + '-' + month + '-' + day;
+//    		  return newDate;
+//        }
+//        
+//        $("#editModalFechaIni input").val(formatDate(fechaIni));
+//        $("#editModalFechaFin input").val(formatDate(fechaFin));
+//        $("#editModalHoraIni input").val($($(this).parent().parent().children()[7]).text());
+//        $("#editModalHoraFin input").val($($(this).parent().parent().children()[8]).text());
+//
+//        $("#editBtn").val($(this).parent().parent().children().first().text());
+//        $("#editModal").modal("toggle");
     });
     
     $(".listActions>.btn-warning").click(function() {
@@ -68,9 +129,17 @@ $(document).ready(function(){
         $("#addModal").modal("toggle");
     });
     
+    function removeLesson(root){
+    	
+    	  $("#removeModal").modal("toggle");
+          $("#yesRemove").val($(root).parent().parent().children().first().text());
+    	
+    }
+    
     $(".listActions>.btn-danger").click(function() {
-        $("#removeModal").modal("toggle");
-        $("#yesRemove").val($(this).parent().parent().children().first().text());
+    	removeLesson(this);
+//        $("#removeModal").modal("toggle");
+//        $("#yesRemove").val($(this).parent().parent().children().first().text());
     })
     
     $("#addModalBtn").click(function() {
@@ -189,7 +258,7 @@ $(document).ready(function(){
    		    		'<td class="d-none" value="'+data+'">Nada</td>'+
    		    		'<td>'+ $("#addClassModalName input").val()+'</td>'+
    		    		'<td>'+$("#addClassModalSala option:selected").text()+'</td>'+
-   		    		'<td>'+$("#addClassModalProfe option:selected").text()+'</td>'+
+   		    		'<td>'+$("#addModalProfSelect option:selected").text()+'</td>'+
    		    		'<td>'+$("#addClassModalNumPlazas input").val()+'</td>'+
    		    		'<td>'+formatDateToClient(fechaIni)+'</td>'+
    		    		'<td>'+formatDateToClient(fechaFin)+'</td>'+
@@ -202,7 +271,17 @@ $(document).ready(function(){
    		    		'<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span></button>'+
    		    		'<button  type="button" class="btn btn-danger btn-default btn-xs ml-2"  style="min-width: 50px;">'+
    		    		'<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>'+
-   		    		'</button></td></tr>');
+					   '</button></td></tr>');
+					   $(".listActions>.btn-info").click(function() {
+						   viewInfo(this);
+					   });
+					   $(".listActions>.btn-success").click(function() {
+					    	editInfo(this);
+					   });	
+					   $(".listActions>.btn-danger").click(function() {
+					    	removeLesson(this);
+					    });
+					   				    
   		    	$("#addClassModal").modal("hide");
   		       },
   		       error: e => console.log(e)
