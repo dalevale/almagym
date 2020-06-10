@@ -9,9 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -45,6 +47,7 @@ import es.ucm.fdi.iw.model.Lesson;
 import es.ucm.fdi.iw.model.Message;
 import es.ucm.fdi.iw.model.User;
 import es.ucm.fdi.iw.model.User.Role;
+import es.ucm.fdi.iw.model.User.Transfer;
 
 /**
  * User-administration controller
@@ -106,7 +109,37 @@ public class UserController {
 	}
 
 	// @GetMapping("/search") con un parametro nombre, devuelve usuarios+ids con un nombre LIKE ese
-	// para poder enviarles mensajes	
+	// para poder enviarles mensajes
+	@GetMapping(value = "/searchUsers/{username}", produces = "application/json")
+	@ResponseBody
+	public List<Transfer> searchUsersByUsername(@PathVariable String username, HttpSession session) {
+		List<User> userList = entityManager.createQuery("SELECT u FROM User u WHERE u.username LIKE CONCAT('%',:username,'%') AND u.enabled = 1", User.class)
+				.setParameter("username", username).getResultList();
+		List<Transfer> transferUserList = new ArrayList<Transfer>();
+		for(User u: userList) {
+			if (u.getId() != ((User)session.getAttribute("u")).getId()){
+				Transfer t = new Transfer(u);
+				transferUserList.add(t);
+			}
+		}
+		return transferUserList;
+	}
+	
+	@GetMapping(value = "/getIdByUsername/{username}")
+	@ResponseBody
+	public long getIdByUsername(@PathVariable String username, HttpSession session) {
+		long t;
+		try {
+			User u = entityManager.createNamedQuery("User.byUsername", User.class)
+					.setParameter("username", username)
+					.getSingleResult();
+			t = u.getId();
+		}
+		catch (NoResultException e){
+			t = 0;
+		}
+		return t;
+	}
 
 	@PostMapping("/{id}/msg")
 	@ResponseBody
@@ -116,7 +149,6 @@ public class UserController {
 		throws JsonProcessingException {
 		
 		String text = o.get("message").asText();
-		String subj = o.get("subject").asText();
 		User u = entityManager.find(User.class, id);
 		User sender = entityManager.find(
 				User.class, ((User)session.getAttribute("u")).getId());
@@ -127,7 +159,6 @@ public class UserController {
 		m.setRecipient(u);
 		m.setSender(sender);
 		m.setDateSent(LocalDateTime.now());
-		m.setSubject(subj);
 		m.setText(text);
 		entityManager.persist(m);
 		entityManager.flush(); // to get Id before commit
@@ -137,9 +168,9 @@ public class UserController {
 		ObjectNode rootNode = mapper.createObjectNode();
 		rootNode.put("from", sender.getUsername());
 		rootNode.put("to", u.getUsername());
-		rootNode.put("subject", subj);
 		rootNode.put("text", text);
 		rootNode.put("id", m.getId());
+		rootNode.put("userId", sender.getId());
 		String json = mapper.writeValueAsString(rootNode);
 		
 		log.info("Sending a message to {} with contents '{}'", id, json);
@@ -149,7 +180,7 @@ public class UserController {
 	}	
 
 	@GetMapping(value = "/{id}/photo")
-	public StreamingResponseBody getPhoto(@PathVariable long id, Model model) throws IOException {
+	public StreamingResponseBody getPhoto(@PathVariable long id) throws IOException {
 		File f = localData.getFile("user", "" + id);
 		InputStream in;
 		if (f.exists()) {

@@ -136,8 +136,7 @@ $(document).ready(
 				e.preventDefault();
 				console.log(b, b.parentNode)
 				go(b.parentNode.action, 'POST', {message: 
-						document.getElementById("message").value, subject:
-						document.getElementById("subject").value})
+						document.getElementById("message").value})
 					.then(d => console.log("happy", d))
 					//show message sent by the sender
 					.catch(e => console.log("sad", e))

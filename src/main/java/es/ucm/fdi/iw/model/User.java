@@ -1,5 +1,6 @@
 package es.ucm.fdi.iw.model;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +18,8 @@ import javax.persistence.OneToMany;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
@@ -68,7 +71,26 @@ public class User {
 
 	private List<Message> sent = new ArrayList<>();
 	private List<Message> received = new ArrayList<>();
-
+	
+	
+	public static class Transfer {
+		public long id;
+		public String username;
+		public String firstName;
+		public String lastName;
+		
+		public Transfer() { 
+		}
+		
+		public Transfer(User u) {
+			this.id = u.getId();
+			this.username = u.getUsername();
+			this.firstName = u.getFirstName();
+			this.lastName = u.getLastName();
+		}
+	}
+	
+	
 	/**
 	 * Checks whether this user has a given role.
 	 * @param role to check
@@ -186,6 +208,7 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity = Message.class)
 	@JoinColumn(name = "sender_id")
 	public List<Message> getSent() {
@@ -196,6 +219,7 @@ public class User {
 		this.sent = sent;
 	}
 
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity = Message.class)
 	@JoinColumn(name = "recipient_id")
 	public List<Message> getReceived() {

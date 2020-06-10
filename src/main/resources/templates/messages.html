@@ -13,19 +13,39 @@
 	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
 	<div class="container">
 		<div class="main">
-			<h1>Mensajes recibidos</h1>
-
-			<table class="datatable" id="datatable"></table>
-			<div id="messageInbox" style="display: none;">
-				<div>
-				<label><b>Message From:&nbsp</b></label><span class="messageFrom"></span>
+			<h1>Mensajes</h1>
+			<div id="messenger">
+				<div id="convosList">
+					<h3>Conversaciones</h3>
+					<div id="searchUser">
+						<input type="text" maxLength="200" name="username" placeholder="Busca un usuario aqui:" autocomplete="off">
+					</div>
+					<div id="usersList" th:each="message: ${lastMessages}">
+						<div th:with="otherUser = ${message.sender.username} == ${session.u.username}? 
+							${message.recipient} : ${message.sender}" 
+						  	th:class="|user${otherUser.id} convoWithUsers|"
+						  	th:classappend="${message.dateRead} == null 
+						  		AND ${message.sender.username} != ${session.u.username}? newMessage : convo">
+							<input class="userId" type="hidden" th:value="${otherUser.id}">
+							<img th:src="@{/user/{id}/photo(id=${otherUser.id})}" width="50px" height="50px">
+							<div>
+								<p class="username" th:text="${otherUser.username}"></p>
+								<p class="convoLastMsg" th:text="${message.text}"></p>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div>
 				
-				<label><b>Subject:&nbsp</b></label><span class="messageSubj"></span>
-				</div>
-				<div style="word-wrap: break-word; width: 800px; white-space: normal">
-					<label><b>Message:&nbsp</b></label><p class="messageText"></p>
+				<div id="convoPart">
+					<div id="convoTitle">
+					</div>
+					<div id="convoBox">
+					</div>
+					<div id="newMessageBox">
+						<textarea class="inputNewMessage" rows="3%" cols="65%" name="newMessage" placeholder="Nuevo Mensaje"></textarea>
+						<input id="newMsgUsername" type="hidden">
+						<button type="button" id="newMessageBtn">Enviar</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -36,34 +56,63 @@
 		return new Date(d).toLocaleString("es-ES").split(" ").join("@")
 	}
 	
-	new simpleDatatables.DataTable('#datatable', {
-		ajax : {
-			url : config.rootUrl + "messages/received", // empieza siempre por config.rootUrl
-			load : function(xhr) {
-				let data = JSON.parse(xhr.responseText);
-				for (let i = 0; i < data.length; i++) {
-					let row = data[i];
-					row.sent = formatDate(row.sent);
-					if (row.received) {
-						row.received = formatDate(row.received);
-					}
-				}
-				//If no messages, show header.
-				if(data.length == 0){
-					data[0]={
-							from: null,
-							to:	null,
-							sent: null,
-							received: null,
-							subject: null,
-							text: null,
-							id: null
-					}
-				}
-				return JSON.stringify(data);
-			}
-		}
-	});
+// 	$(document).ready(function(){
+// 		$.ajax({
+// 			headers: {"X-CSRF-TOKEN": config.csrf.value},
+// 			type : "GET",
+// 			url : config.rootUrl + "messages/getConvos",
+// 			success: data => { 
+// 				for(var i = 0; i < data.length; i++){
+// 					var message = data[i];
+// 					var username = message.from == $("#username").text()? message.to : message.from;
+// 					$.ajax({
+// 						headers: {"X-CSRF-TOKEN": config.csrf.value},
+// 						type : "GET",
+// 						url : config.rootUrl + "user/getUser/"+username,
+// 						success: data => { 
+// 							var divName = $('<p><img src="/user/' + data.id +'/photo" width="50px" height="50px">'+ data.firstName + ' ' + data.lastName +'</p>');
+// 							var div = $('<div class ="convoWithUser"></div>');
+// 							div.append(divName);
+// 							$("#usersList").append(div);
+// 						},
+// 						error: e => console.log(e)
+// 					});
+// 				}
+// 			},
+// 			error: e => console.log(e)
+// 		});
+// 	});
+// 	new simpleDatatables.DataTable('#datatable', {
+// 		ajax : {
+// 			url : config.rootUrl + "messages/received", // empieza siempre por config.rootUrl
+// 			load : function(xhr) {
+// 				let data = JSON.parse(xhr.responseText);
+// 				for (let i = 0; i < data.length; i++) {
+// 					let row = data[i];
+// 					row.sent = formatDate(row.sent);
+// 					if (row.received) {
+// 						row.received = formatDate(row.received);
+// 					}
+// 				}
+// 				//If no messages, show header.
+// 				if(data.length == 0){
+// 					data[0]={
+// 							from: null,
+// 							to:	null,
+// 							sent: null,
+// 							received: null,
+// 							subject: null,
+// 							text: null,
+// 							id: null
+// 					}
+// 				}
+// 				return JSON.stringify(data);
+// 			}
+// 		}
+// 	});
+
+
+
 	</script>
 	<th:block th:replace="fragments/footer :: footer" />
 

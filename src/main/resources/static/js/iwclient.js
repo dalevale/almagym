@@ -1,5 +1,3 @@
-
-
 /**
  * WebSocket API, which only works once initialized
  */
@@ -15,21 +13,18 @@ const ws = {
 	 */
 	receive: (text) => {
 		console.log(text);
-		// recibe algo de la forma {"from":"a","to":"t","text":"esto funciona","id":2}
-		// alert(text);
-		checkUnread();
-		var row = (document).getElementById('datatable').insertRow();
-		row.insertCell(0).innerHTML = text.from;
-		row.insertCell(1).innerHTML = text.to;
-		row.insertCell(2).innerHTML = new Date().toLocaleString("es-ES").split(" ").join("@");
-		row.insertCell(3).innerHTML = '';
-		row.insertCell(4).innerHTML = text.subject;
-		var c = row.insertCell(5);
-		c.innerHTML = text.text;
-		c.style.display = "none";
-		row.insertCell(6).innerHTML = text.id;
-		row.style.fontWeight = "bold";
-		row.onclick = readMessage();
+		updateUsersList(text.userId, text.text);
+		$("#usersList div.user"+ text.userId).removeClass("convo");
+		$("#usersList div.user"+ text.userId).addClass("newMessage");
+		var img = $("#usersList div.user"+ text.userId + " img").attr("src");
+		printMessage(img, text.text, 'toUser', text.userId, text.sent, "");
+		readNewMessages(text.userId);
+		
+		$("#usersList div.user"+ text.userId).click(function(){
+			var img = config.rootUrl + "user/" + toUserId + "/photo";
+			loadMessages(text.userId, text.from, img);
+		});
+	
 	},
 	
 	headers: {'X-CSRF-TOKEN' : config.csrf.value},

@@ -44,11 +44,13 @@
 						</ul>
 
 						<ul class="nav navbar-nav ml-auto col-2">
-							<li class="nav-item dropdown"><a class="nav-link"
-								data-toggle="dropdown" id="themes" aria-expanded="false"
-								href="#"> <img class="userthumb"
-									th:src="@{/user/{id}/photo(id=${session.u.id})}"> <span
-									class="caret" th:text="${session.u.username}">Pepe</span></a>
+							<li class="nav-item dropdown">
+								<a class="nav-link" data-toggle="dropdown" id="themes" 
+									aria-expanded="false" href="#"> 
+								<img id="userPhoto"class="userthumb"
+									th:src="@{/user/{id}/photo(id=${session.u.id})}"> 
+								<span id="username" class="caret" th:text="${session.u.username}">Pepe</span></a>
+								<input type="hidden" id="userId" th:value="${session.u.id}">
 								<div class="dropdown-menu animate slideIn"
 									aria-labelledby="themes">
 									<a class="dropdown-item"

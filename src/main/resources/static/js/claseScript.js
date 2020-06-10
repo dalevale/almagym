@@ -134,7 +134,7 @@ $(document).ready(function(){
   		    	$("#editModal").modal("toggle");
   		    	$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[1]).text($("#editModalName input").val()); // nombre
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[2]).text($("#editModalSala option:selected").text()); // sala
-				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[3]).text($("#editModalProfe option:selected").text()); // numero
+				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[3]).text($("#editModalProfesor option:selected").text()); // numero
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[4]).text($("#editModalNumPlazas input").val()); // numero
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[5]).text(formatDateToClient(dateIni)); // fecha
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[6]).text(formatDateToClient(dateFin)); // fecha
