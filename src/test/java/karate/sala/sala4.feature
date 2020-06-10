@@ -22,7 +22,7 @@ Background:
 
 Scenario: Modify created room
 	Given path 'salas/edit' 
-	And request { id: '#idCreated', name: 'Sala Ejemplo modified', maxSize: 5, descrip: 'Description' }
+	And request { id: idCreated, name: 'Sala Ejemplo modified', maxSize: 5, descrip: 'Description' }
 	And header X-CSRF-TOKEN = csrf
 	And header Accept = 'application/json'
 	When method post
