@@ -1,64 +1,91 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Leeme: AlmaGym</title>
-  <style type="text/css">
-    .nota { color: gray; }
-  </style>
+	<meta charset="utf-8">
+	<title>Léeme: Almagym</title>
+	<style type="text/css">
+		
+ 
+	</style>
 </head>
 <body>
-  <h1>AlmaGym</h1>
-  <h2>Cosas a cambiar</h2>
-  <ul>
-    <li>
-      Este html debería seguir el formato visto en la plantilla. En particular, 
-      debe repetir lo que hace la aplicación, con enlaces a las principales páginas (
-      asumiendo que está corriendo, del tipo localhost:8080/patatas)
-      1h
-    <li>
-      Teneis pruebas internas, pero no externas (que automaticen un navegador de verdad, tipo chrome o firefox).
-      La idea es probar una historia: un usuario que entra en la aplicación y se apunta a dos clases, y las ve en su horario, por ejemplo.
-      3h
-    <li>
-      No teneis mensajes funcionando. Posibilidades: uno a uno (pestaña de mensajes y reinventar whatsapp pero sin grupos), 
-      y uno a muchos (poder hablar con toda una clase)
-      - para montar mensajes, necesario saber quién es quién y poder enviar mensajes a un username (y no por id)
-      - panel lateral con destinatarios + busqueda por nombre, eliges destinatario o añades vía búsqueda
-      - una vez elegido destinatario, se cargan últimos mensajes con ese destinatario, y ya puedes enviar nuevos
-      4h
-    <li>
-      Faltan los horarios, que mostrarían para cada sala, qué clases tienen lugar en ella.
-      - si eres capaz de encontrar el formato para RealCalendar o similar, es cuestión de montar un JSON con eventos
-      - eventos se cargan por consulta con BD
-      2h
-    <li>
-      Falta poder apuntarse a las clases. Usuarios no-profe entran y se apuntan, y luego pueden ver sus clases en *su* horario
-      - método del controlador sencillo. Puntos si evitais conflictos de horario. Ejemplo: https://github.com/manuel-freire/plan/blob/master/web/js/plan.js
-      1h
-    <li>
-      Hasta aquí, un MVP (minimum viable product) - lo más pequeño que puede decirse que funciona.
-    <li>
-      Que admin pueda customizar el inicio, y el aspecto de la página:
-      - logo se pueda subir por admin
-      - texto de entrada, y foto de portada, puedan subirse vía formulario
-      - (mira como funciona el texto #{} de thymeleaf: Messages_en / _es .properties)
-      - color de barra de arriba
-      2h
-    <li>
-      Que admin pueda borrar mensajes reportados; y que los usuarios puedan reportar mensajes.
-      - sencillo: un Usuario que reporta en un Mensaje. 
-      - complicado: N usuarios pueden reportar un Mensaje, con una nueva relación N a N (muchos usuarios reportan muchos mensajes)
-      1h (fácil) 2h (si N a N)
-      y/o
-      Que los usuarios se puedan bloquear unos a otros, y que no se pueda enviar mensajes a alguien que te ha bloqueado.
-    <li>
-      Que profe pueda subir fotos a su grupo. 
-      - subida de fotos a data/lesson/id, y que se muestren en una galería asociada a la lección.
-      - data = application.properties :: es.ucm.fdi.iw.localStorage      
-      2h (sin ponerlo bonito)
-  </ul>
-  <img src="./images/diagrama.jpg">
+	<h1>Léeme: Almagym</h1>
+	<h2>Objetivo</h2>
+	<p>
+		Una aplicación que gestione las clases y salas de un gimnasio, además de permitir la interactuación entre los clientes.
+	</p>
+	<p>
+		En cualquier momento, un profesor podrá reservar una sala para impartir una clase en ella,
+		dichas clases podrán ser modificadas en cualquier momento, una vez creadas las clases, 
+		los clientes podrán apuntarse o desapuntarse de las clases en cualquier momento,
+		además de esto, los clientes también podrán intercambiar mensajes con otros usuarios a los cuales pueden
+		preguntar dudas sobre las clases, buscar consejos sobre rutinas, o simplemente tener una conversación
+		amistosa con sus compañeros. Esta aplicación permitirá en todo momento visualizar las salas
+		con todo el equipamiento que tenga cada una, visualizar las clases, y el perfil de cada usuario, 
+		permitiendo además modificarlos, incluso subiendo imágenes.   
+	</p>
+	<p>
+		Soporta los siguientes roles:
+		<ul>
+		<li>
+		El <b>administrador</b> (usuario: a, clave: aa) puede crear, eliminar o modificar usuarios, salas, y clases, es decir,
+		tiene control total sobre la aplicación. Además puede acceder a toda la información disponible, 
+		entre ella el perfil de los usuarios, las clases, y las salas.	
+		</li>
+		<li>
+		El <b>profesor</b> (usuario: t, clave: aa) puede crear, eliminar o modificar clases, reservando así las aulas
+		disponibles, también puede visualizar información acerca de las salas y las clases.
+		</li>
+		<li>
+		El <b>cliente</b> (usuario: c, clave: aa) este es el usuario con menos privilegios, solo puede visualizar las salas y las clases,
+		así como apuntarse a las clases. 
+		</li>
+		</ul>
+	</p>
+	<h2>Base de datos</h2>
+		
+		<img src="src/main/resources/static/img/schema.png" alt="esquema de la BD">
+	
+	<h2>Vistas</h2>
+		<ul>
+		<li><a href="http://localhost:8080/inicio/">home</a> - vista inicial.
+		Contiene una introducción sobre el gimnasio.
+		<li><a href="http://localhost:8080/horarios">horarios</a> - vista del calendario.
+		Contiene un calendario con las clases que actualmente se imparten en el gimnasio.
+		 <li><a href="http://localhost:8080/salas/">clase</a> - vista de las clases. 
+		 Esta vista contiene información sobre todas las salas del gimnasio, puede verla cualquier usuario
+		 pero solo puede ser modificada por el administrador.
+		 <li><a href="http://localhost:8080/clases">clases</a> - vista de las clases. 
+		Contiene todas las clases que se imparten en el gimnasio, puede ser modificada tanto por profesores
+		como por administradores, y los clientes pueden apuntarse a las clases.
+		<li><a href="http://localhost:8080/usuarios">usuarios</a> - vista de los usuarios. 
+		Solo puede ser vista por el administrador, contiene un listado de todos los usuarios,
+		en ella puede administrar los usuarios del gimnasio.
+		<li><a href="http://localhost:8080/messages">mensajes</a> - vista de mensajería. 
+		Contiene una lista de los usuarios, y permite el envió de mensajes entre ellos.
+		<li><a href="http://localhost:8080/user">perfil</a> - vista del perfil de usuario. 
+		Contiene información sobre el perfil del propio usuario,
+		permitiendo además la información del mismo.
+		<li><a href="http://localhost:8080/cabecera.html/">Cabecera</a> - Vista de la cabecera de la web,
+		 contiene accesos a todas las vistas anterior mente expuestas, 
+		 dependiendo del tipo de usuario estos enlaces pueden permaneces ocultos, 
+		 a la derecha de la misma es posible registrarse o loguearse.
+		</ul>
+	<h2>Recursos</h2>
+		<ul>
+		<li>Todas las imágenes incorporadas en esta web han sido encontradas en pinterest, por ejemplo: 
+		<a href="https://www.pinterest.es/alfonsopolo1971/dise%C3%B1o-de-gimnasio/"> todas las imágenes de dicha web tienen licencia
+		Creative Commons <a href="https://es.wikipedia.org/wiki/Licencias_Creative_Commons#:~:text=Las%20licencias%20Creative%20Commons%20(CC,del%20autor%20de%20la%20obra."></a>.
+		
+		 <li><a href="https://getbootstrap.com/"/> Pagina oficial bootstrap </a> 
+   		 <p>
+     	 Usamos bootstrap para mejorar la interfaz de nuestra web, en este caso, en forma de botones, pero mas adelante su potencial nos llevara a usarlo para otras labores.
+   		 </p>
+   		  <li><a href=" https://es.wikipedia.org/wiki/Bootstrap_(framework)"/> Licencia Bootstrap </a> 
+   		  
+		</ul>
+	
+	</ul>
 </body>
+
 </html>
