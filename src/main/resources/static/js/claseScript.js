@@ -91,6 +91,7 @@ $(document).ready(function(){
     	
     }
     
+    
     $(".listActions>.btn-success").click(function() {
     	editInfo(this);
 //        $("#editModalName input").val($($(this).parent().parent().children()[1]).text());
@@ -122,7 +123,24 @@ $(document).ready(function(){
     });
     
     $(".listActions>.btn-warning").click(function() {
-        $("#valorarModal").modal("toggle"); 
+    	
+    	id = $(this).val();
+	       var clase = {
+	       "id" : id,
+	       "name" : $("#editModalName input").val(), 
+	       "roomId": $("#editModalRoomSelect").val(),
+	      };
+    	
+    	$.ajax({
+			headers: {"X-CSRF-TOKEN": config.csrf.value},
+			type : "POST",
+			url : config.rootUrl + "clases/switchInscription,
+			success: data => { 
+			$("#dtBasicExample tbody tr.table"+id).hide();
+			$("#removeModal").modal("toggle");
+			},
+			error: e => console.log(e)
+		});
     });
     
     $(".listActions>.btn-primary").click(function() {
@@ -203,7 +221,7 @@ $(document).ready(function(){
   		    	$("#editModal").modal("toggle");
   		    	$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[1]).text($("#editModalName input").val()); // nombre
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[2]).text($("#editModalSala option:selected").text()); // sala
-				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[3]).text($("#editModalProfesor option:selected").text()); // numero
+				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[3]).text($("#editModalProfe option:selected").text()); // numero
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[4]).text($("#editModalNumPlazas input").val()); // numero
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[5]).text(formatDateToClient(dateIni)); // fecha
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[6]).text(formatDateToClient(dateFin)); // fecha
