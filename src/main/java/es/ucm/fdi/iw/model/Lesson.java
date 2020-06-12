@@ -14,6 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.transaction.Transactional;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import es.ucm.fdi.iw.model.Message.Transfer;
 
@@ -28,7 +35,7 @@ public class Lesson {
 	private LocalDateTime dateIni;
 	private LocalDateTime dateFin;
 	private int totalStudents;
-	private List<Inscription> inscriptions; // tiene esta relacion ya que una clase esta enlazada con muchos usuarios
+	private List<Inscription> inscriptions = new ArrayList<>(); // tiene esta relacion ya que una clase esta enlazada con muchos usuarios
 
 	/**
 	 * Convierte colecciones de mensajes a formato JSONificable
@@ -136,6 +143,7 @@ public class Lesson {
 		this.room = room;
 	}
 
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(targetEntity = Inscription.class)
 	@JoinColumn(name = "lesson_id")
 	public List<Inscription> getInscriptions() {
@@ -145,4 +153,50 @@ public class Lesson {
 	public void setInscriptions(List<Inscription> inscriptions) {
 		this.inscriptions = inscriptions;
 	}
+	
+//	public void addInscription(User user) {
+//		
+//		Inscription insc = new Inscription(user, this);
+//		
+//		
+//		this.inscriptions.add(insc);
+//	}
+	
+	
+	public void removeInscription(User user) {
+		
+			for(int i=0;i<this.inscriptions.size();i++) {
+   			
+   			if(this.inscriptions.get(i).getUser() == user && 
+   					this.inscriptions.get(i).getLesson() == this) {
+   				this.inscriptions.remove(i);
+   			}
+ 		
+   		}
+	}
+	
+
+    public boolean isInscript(User user) {
+    	boolean esta = false;
+
+   		for(int i=0;i<this.inscriptions.size();i++) {
+   			
+   			if(this.inscriptions.get(i).getUser().getId() == user.getId())
+   				
+   				esta = true;
+   		}
+        
+   		return esta;
+    }
+	
+    public boolean estaVacio() {
+    	boolean esta = false;
+
+   			if(this.inscriptions.size() >= this.totalStudents)
+   				
+   				esta = true;
+   		
+        
+   		return !esta;
+    }
 }
