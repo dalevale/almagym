@@ -154,7 +154,7 @@ public class LessonController {
 		
 		
    		log.info("Successfully switch inscription: ", lesson.getId());
-    	return "redirect:/clases/";
+    	return "forward:/clases/";
     }
     
 }
