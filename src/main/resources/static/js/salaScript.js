@@ -20,9 +20,10 @@ $(document).ready(
 					.children().eq(0)
 					.children()).val();
 			var table = "#salaIteracion div div.table"+id;
+			var salaName = $("#salaIteracion div div.table"+ id +" div.salaName").text();
 			$("#editModalSala").modal("toggle");
 			$("#editSalaSbmit").val(id);
-			$("#editModalSalaName").val($(table+" .salaName").text());
+			$("#editModalSalaName input").val(salaName);
 			$("#editModalCapacidad input").val($(table+" .salaCapacidad").text());
 			$("#editModalDesc textarea").val($(table+" .salaDesc").text());
 			

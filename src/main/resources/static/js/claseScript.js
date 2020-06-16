@@ -29,38 +29,6 @@ $(document).ready(function(){
 		$("#infoModal").modal("toggle");
 	}
 
-    $(".listActions>.btn-info").click(function() {
-		viewInfo(this);
-    	// $("#infoModalName p").text($($(this).parent().parent().children()[1]).text());
-        // $("#infoModalSala p").text($($(this).parent().parent().children()[2]).text());
-        // $("#infoModalProfesor p").text($($(this).parent().parent().children()[3]).text());
-        // $("#infoModalNumPlazas p").text($($(this).parent().parent().children()[4]).text());
-        
-        // var fechaIni = $($(this).parent().parent().children()[5]).text();
-        // var fechaFin = $($(this).parent().parent().children()[6]).text();
-        // var HoraIni = $($(this).parent().parent().children()[7]).text();
-        // var HoraFin = $($(this).parent().parent().children()[8]).text();
-        // var day = new Date(fechaIni).getDay();
-        // var weekday = new Array(7);
-        // weekday[0] = "Sunday";
-        // weekday[1] = "Monday";
-        // weekday[2] = "Tuesday";
-        // weekday[3] = "Wednesday";
-        // weekday[4] = "Thursday";
-        // weekday[5] = "Friday";
-        // weekday[6] = "Saturday";
-        // var n = weekday[day];
-        // $("#infoModalFechaIni p").text(fechaIni);
-        // $("#infoModalFechaFin p").text(fechaFin);
-        // $("#infoModalDia p").text($($(this).parent().parent().children()[7]).text());
-
-        // $("#infoModalHoraIni p").text(HoraIni);
-        // $("#infoModalHoraFin p").text(HoraFin);
-        // $("#infoModalDia p").text(n);
- 
-        // $("#infoModal").modal("toggle");
-    });
-    
     function editInfo(root){
     	 $("#editModalName input").val($($(root).parent().parent().children()[1]).text());
          var r = $("#editModalRoomSelect option[value='"+$(root).data("roomid")+"']").index();
@@ -85,79 +53,30 @@ $(document).ready(function(){
          $("#editModalFechaFin input").val(formatDate(fechaFin));
          $("#editModalHoraIni input").val($($(root).parent().parent().children()[7]).text());
          $("#editModalHoraFin input").val($($(root).parent().parent().children()[8]).text());
-
          $("#editBtn").val($(root).parent().parent().children().first().text());
          $("#editModal").modal("toggle");
-    	
     }
     
+
+    function removeLesson(root){
+    	  $("#removeModal").modal("toggle");
+          $("#yesRemove").val($(root).parent().parent().children().first().text());
+    }
     
     $(".listActions>.btn-success").click(function() {
     	editInfo(this);
-//        $("#editModalName input").val($($(this).parent().parent().children()[1]).text());
-//        var r = $("#editModalRoomSelect option[value='"+$(this).data("roomid")+"']").index();
-//        $("#editModalRoomSelect").prop("selectedIndex",$("#editModalRoomSelect option[value='"+$(this).data("roomid")+"']").index())
-//        $("#editModalNumPlazas input").val($($(this).parent().parent().children()[4]).text());
-//        var p = $("#editModalProfSelect option[value='"+$(this).data("profid")+"']").index();
-//        $("#editModalProfSelect").prop("selectedIndex",$("#editModalProfSelect option[value='"+$(this).data("profid")+"']").index())
-//         
-//        var fechaIni = $($(this).parent().parent().children()[5]).text();
-//        var fechaFin = $($(this).parent().parent().children()[6]).text();
-//        
-//        function formatDate(d){
-//        	  var date = new Date(d),
-//              yr = date.getFullYear(),
-//              month   = date.getMonth() > 8 ? (date.getMonth() + 1) : '0' + (date.getMonth() + 1)  ,
-//    		  day = date.getDate()  < 10 ? '0' + date.getDate()  : date.getDate(),
-//              newDate = yr + '-' + month + '-' + day;
-//    		  return newDate;
-//        }
-//        
-//        $("#editModalFechaIni input").val(formatDate(fechaIni));
-//        $("#editModalFechaFin input").val(formatDate(fechaFin));
-//        $("#editModalHoraIni input").val($($(this).parent().parent().children()[7]).text());
-//        $("#editModalHoraFin input").val($($(this).parent().parent().children()[8]).text());
-//
-//        $("#editBtn").val($(this).parent().parent().children().first().text());
-//        $("#editModal").modal("toggle");
-    });
-    
-    $(".listActions>.btn-warning").click(function() {
-    	
-    	id = $(this).val();
-	       var clase = {
-	       "id" : id,
-	       "name" : $("#editModalName input").val(), 
-	       "roomId": $("#editModalRoomSelect").val(),
-	      };
-    	
-    	$.ajax({
-			headers: {"X-CSRF-TOKEN": config.csrf.value},
-			type : "POST",
-			url : config.rootUrl + "clases/switchInscription,
-			success: data => { 
-			$("#dtBasicExample tbody tr.table"+id).hide();
-			$("#removeModal").modal("toggle");
-			},
-			error: e => console.log(e)
-		});
     });
     
     $(".listActions>.btn-primary").click(function() {
         $("#addModal").modal("toggle");
     });
-    
-    function removeLesson(root){
-    	
-    	  $("#removeModal").modal("toggle");
-          $("#yesRemove").val($(root).parent().parent().children().first().text());
-    	
-    }
+        
+    $(".listActions>.btn-info").click(function() {
+		viewInfo(this);
+    });
     
     $(".listActions>.btn-danger").click(function() {
     	removeLesson(this);
-//        $("#removeModal").modal("toggle");
-//        $("#yesRemove").val($(this).parent().parent().children().first().text());
     })
     
     $("#addModalBtn").click(function() {
@@ -221,7 +140,7 @@ $(document).ready(function(){
   		    	$("#editModal").modal("toggle");
   		    	$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[1]).text($("#editModalName input").val()); // nombre
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[2]).text($("#editModalSala option:selected").text()); // sala
-				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[3]).text($("#editModalProfe option:selected").text()); // numero
+				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[3]).text($("#editModalProfesor option:selected").text()); // numero
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[4]).text($("#editModalNumPlazas input").val()); // numero
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[5]).text(formatDateToClient(dateIni)); // fecha
 				$($("#dtBasicExample tbody tr td.d-none:contains('"+id+"')").parent().children()[6]).text(formatDateToClient(dateFin)); // fecha

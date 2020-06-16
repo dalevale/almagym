@@ -81,7 +81,7 @@
 								<table th:if="${session.u.hasRole('ADMIN')}">
 									<tr>
 										<!-- Botones para los modales Equipo-->
-										<td class="listActions">
+										<td class="equipoListActions">
 											<button type="button"
 												class="btn photoEquipo btn-info btn-default btn-xs ml-2">
 												<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
@@ -91,7 +91,7 @@
 												<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
 											</button>
 											<button type="button"
-												class="btn removeEquipo btn-danger deletable btn-default btn-xs ml-2 removeEquipo">
+												class="btn removeEquipo btn-danger btn-default btn-xs ml-2">
 												<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 											</button>
 										</td>
@@ -162,11 +162,11 @@
 					<div class="form-group" id="editModalId">
 						<input type="hidden" name="id">
 					</div>
-					<div class="form-group" id="editModalName">
+					<div class="form-group" id="editModalSalaName">
 						<label class="col-sm-4 control-label text-success"> Nombre
 							de la sala </label>
 						<div class="col-sm-8">
-							<input id="editModalSalaName" name="name" class="form-control"></input>
+							<input name="name" class="form-control"></input>
 						</div>
 					</div>
 					<div class="form-group" id="editModalCapacidad">

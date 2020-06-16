@@ -29,7 +29,8 @@ public class AppConfig {
 	 */	
     @Bean(name="localData")
     public LocalData getLocalData() {
-    	return new LocalData(new File(env.getProperty("es.ucm.fdi.base-path")));
+    	String s = System.getProperty("user.dir") + env.getProperty("es.ucm.fdi.base-path");
+    	return new LocalData(new File(s));
     } 
     
 	/**

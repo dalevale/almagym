@@ -1,0 +1,339 @@
+{
+  "id": "8131c9a8-9ed0-406b-8eb5-93b245269b25",
+  "version": "2.0",
+  "name": "AlmaGym-Testing",
+  "url": "http://localhost:8080",
+  "tests": [{
+    "id": "467f4afc-39a7-4967-9f92-1b9bc51d0885",
+    "name": "Crear Clase",
+    "commands": [{
+      "id": "b05623e1-f9c6-45c1-83e5-917466c4fc9d",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d32dc9eb-8063-4b0c-97ed-f9ee53f5dad2",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1011x747",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "477cc3a8-beb1-4c94-a106-a82b0356e778",
+      "comment": "",
+      "command": "click",
+      "target": "css=form:nth-child(1) > button",
+      "targets": [
+        ["css=form:nth-child(1) > button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'a')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc14371c-8f2f-4339-b8bb-08caf2fc3c7f",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Clases",
+      "targets": [
+        ["linkText=Clases", "linkText"],
+        ["css=.nav-item:nth-child(4) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Clases')]", "xpath:link"],
+        ["xpath=//div[@id='navbarResponsive']/ul/li[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/clases/')]", "xpath:href"],
+        ["xpath=//li[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Clases')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "46a5c75f-2ff3-4528-9c41-03288dd06c96",
+      "comment": "",
+      "command": "click",
+      "target": "id=addModalBtn",
+      "targets": [
+        ["id=addModalBtn", "id"],
+        ["css=#addModalBtn", "css:finder"],
+        ["xpath=//button[@id='addModalBtn']", "xpath:attributes"],
+        ["xpath=//div[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'➕ Añadir Clase')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0c493487-52c1-421b-bbc1-d291fe72e517",
+      "comment": "",
+      "command": "click",
+      "target": "css=#addClassModalName .form-control",
+      "targets": [
+        ["css=#addClassModalName .form-control", "css:finder"],
+        ["xpath=//div[@id='addClassModalName']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "9682b869-1a20-493b-8125-c5323af7ccce",
+      "comment": "",
+      "command": "type",
+      "target": "css=#addClassModalName .form-control",
+      "targets": [
+        ["css=#addClassModalName .form-control", "css:finder"],
+        ["xpath=//div[@id='addClassModalName']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div/div/input", "xpath:position"]
+      ],
+      "value": "Clase Selenium Ejemplo"
+    }, {
+      "id": "e00a4044-7a6c-4c05-9680-073a98653521",
+      "comment": "",
+      "command": "click",
+      "target": "css=#addClassModalNumPlazas .form-control",
+      "targets": [
+        ["css=#addClassModalNumPlazas .form-control", "css:finder"],
+        ["xpath=//input[@type='number']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalNumPlazas']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[4]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "51b402a8-805e-4870-b15a-de560e6342fd",
+      "comment": "",
+      "command": "type",
+      "target": "css=#addClassModalNumPlazas .form-control",
+      "targets": [
+        ["css=#addClassModalNumPlazas .form-control", "css:finder"],
+        ["xpath=//input[@type='number']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalNumPlazas']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[4]/div/input", "xpath:position"]
+      ],
+      "value": "25"
+    }, {
+      "id": "db33d2ab-7513-4b8b-8cc0-ce2e433db51f",
+      "comment": "",
+      "command": "click",
+      "target": "css=#addClassModalHoraIni .form-control",
+      "targets": [
+        ["css=#addClassModalHoraIni .form-control", "css:finder"],
+        ["xpath=//input[@value='00:00']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalHoraIni']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[7]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bdb3bc47-83d6-4d66-9b88-c47379dadacb",
+      "comment": "",
+      "command": "type",
+      "target": "css=#addClassModalHoraIni .form-control",
+      "targets": [
+        ["css=#addClassModalHoraIni .form-control", "css:finder"],
+        ["xpath=//input[@value='00:00']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalHoraIni']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[7]/div/input", "xpath:position"]
+      ],
+      "value": "01:00"
+    }, {
+      "id": "41f386a6-2aae-49cb-a399-ee0c4cb516d1",
+      "comment": "",
+      "command": "type",
+      "target": "css=#addClassModalHoraIni .form-control",
+      "targets": [
+        ["css=#addClassModalHoraIni .form-control", "css:finder"],
+        ["xpath=//input[@value='00:00']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalHoraIni']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[7]/div/input", "xpath:position"]
+      ],
+      "value": "12:00"
+    }, {
+      "id": "fdd09da6-3c7d-4845-a3e4-3d9ded90ab68",
+      "comment": "",
+      "command": "click",
+      "target": "css=#addClassModalHoraFin .form-control",
+      "targets": [
+        ["css=#addClassModalHoraFin .form-control", "css:finder"],
+        ["xpath=(//input[@value='00:00'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalHoraFin']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[8]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "71f4df8e-6ffe-4ada-ae32-2b51e67e1427",
+      "comment": "",
+      "command": "type",
+      "target": "css=#addClassModalHoraFin .form-control",
+      "targets": [
+        ["css=#addClassModalHoraFin .form-control", "css:finder"],
+        ["xpath=(//input[@value='00:00'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalHoraFin']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[8]/div/input", "xpath:position"]
+      ],
+      "value": "01:00"
+    }, {
+      "id": "04d8ae1b-f3d7-4261-856e-3c2556146607",
+      "comment": "",
+      "command": "type",
+      "target": "css=#addClassModalHoraFin .form-control",
+      "targets": [
+        ["css=#addClassModalHoraFin .form-control", "css:finder"],
+        ["xpath=(//input[@value='00:00'])[2]", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModalHoraFin']/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[2]/form/div[8]/div/input", "xpath:position"]
+      ],
+      "value": "13:00"
+    }, {
+      "id": "bec110db-e95a-4cd4-bbef-4bfe0ec9e439",
+      "comment": "",
+      "command": "click",
+      "target": "id=addClassBtn",
+      "targets": [
+        ["id=addClassBtn", "id"],
+        ["css=#addClassBtn", "css:finder"],
+        ["xpath=//button[@id='addClassBtn']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModal']/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bcbc7713-c2ff-49ce-904d-80e2f03369e3",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "id=addClassBtn",
+      "targets": [
+        ["id=addClassBtn", "id"],
+        ["css=#addClassBtn", "css:finder"],
+        ["xpath=//button[@id='addClassBtn']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModal']/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8ededfc1-feda-41c1-aa2a-974214cf78ca",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "id=addClassBtn",
+      "targets": [
+        ["id=addClassBtn", "id"],
+        ["css=#addClassBtn", "css:finder"],
+        ["xpath=//button[@id='addClassBtn']", "xpath:attributes"],
+        ["xpath=//div[@id='addClassModal']/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div/div[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "479454ea-3e6f-486c-85de-fc8195af1649",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//td[contains(.,'Clase Selenium Ejemplo')]",
+      "targets": [
+        ["css=tr:nth-child(5) > td:nth-child(2)", "css:finder"],
+        ["xpath=//table[@id='dtBasicExample']/tbody/tr[5]/td[2]", "xpath:idRelative"],
+        ["xpath=//tr[5]/td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'Clase Selenium Ejemplo')]", "xpath:innerText"]
+      ],
+      "value": "Clase Selenium Ejemplo"
+    }]
+  }, {
+    "id": "6636a387-add9-483c-892e-f688c5ab827e",
+    "name": "Borrar Clase",
+    "commands": [{
+      "id": "2843185f-6f8b-4563-8d33-546e6209e450",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0fd16ff6-aae1-490c-abab-6c0d94c6d8d3",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1011x747",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "40114b2a-f24f-4774-b35f-c6603f0f0212",
+      "comment": "",
+      "command": "click",
+      "target": "css=form:nth-child(1) > button",
+      "targets": [
+        ["css=form:nth-child(1) > button", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'a')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1d74ca48-1b49-4ceb-b57c-beaf6e3c3476",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Clases",
+      "targets": [
+        ["linkText=Clases", "linkText"],
+        ["css=.nav-item:nth-child(4) > .nav-link", "css:finder"],
+        ["xpath=//a[contains(text(),'Clases')]", "xpath:link"],
+        ["xpath=//div[@id='navbarResponsive']/ul/li[4]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/clases/')]", "xpath:href"],
+        ["xpath=//li[4]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Clases')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a440b18f-bea8-4364-96ed-0e6c3b3b3d2b",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//button[@type='button'])[16]",
+      "targets": [
+        ["css=.table6 .btn-danger", "css:finder"],
+        ["xpath=(//button[@type='button'])[16]", "xpath:attributes"],
+        ["xpath=//table[@id='dtBasicExample']/tbody/tr[5]/td[10]/button[3]", "xpath:idRelative"],
+        ["xpath=//tr[5]/td[10]/button[3]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cb8c363c-e0c7-4207-ac0b-9eb350e01893",
+      "comment": "",
+      "command": "click",
+      "target": "css=.modal-body > p",
+      "targets": [
+        ["css=.modal-body > p", "css:finder"],
+        ["xpath=//div[@id='removeModal']/div/div/div[2]/p", "xpath:idRelative"],
+        ["xpath=//div[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'¿Estás seguro que quieres eliminarlo?')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "99af9870-3e75-4d05-8aa3-bb96dd6990ab",
+      "comment": "",
+      "command": "click",
+      "target": "id=yesRemove",
+      "targets": [
+        ["id=yesRemove", "id"],
+        ["css=#yesRemove", "css:finder"],
+        ["xpath=//button[@id='yesRemove']", "xpath:attributes"],
+        ["xpath=//div[@id='removeModal']/div/div/div[3]/button", "xpath:idRelative"],
+        ["xpath=//div[5]/div/div/div[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Si')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "40acaa2f-531e-4444-8793-83bf59e70de5",
+      "comment": "",
+      "command": "assertNotText",
+      "target": "xpath=//tr[4]/td[2]",
+      "targets": [
+        ["css=.table4 > td:nth-child(2)", "css:finder"],
+        ["xpath=//table[@id='dtBasicExample']/tbody/tr[4]/td[2]", "xpath:idRelative"],
+        ["xpath=//tr[4]/td[2]", "xpath:position"],
+        ["xpath=//td[contains(.,'Boxeo noche')]", "xpath:innerText"]
+      ],
+      "value": "Clase Selenium Ejemplo"
+    }]
+  }],
+  "suites": [{
+    "id": "209f6ef0-ad0b-4237-b94f-da3855c772e8",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/"],
+  "plugins": []
+}

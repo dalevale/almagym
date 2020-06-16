@@ -40,7 +40,7 @@
 								<span class="glyphicon glyphicon-info-sign" aria-hidden="true">&#10069</span>
 							</button>
 							<button th:if="${session.u.hasRole('ADMIN')} or (${session.u.id} eq ${lesson.profe.id})"
-								 th:data-profid="${lesson.profe.id}" th:data-room="${lesson.room.id}" type="button"
+								 th:data-profid="${lesson.profe.id}" th:data-roomid="${lesson.room.id}" type="button"
 								class="btn btn-success btn-default btn-xs ml-2 " style="min-width: 50px;">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
 							</button>
@@ -48,9 +48,6 @@
 								class="btn btn-danger btn-default btn-xs ml-2" style="min-width: 50px;">
 								<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 							</button>
-<!-- 							<button th:if="${session.u.hasRole('CUSTOMER')}" type="button" -->
-<!-- 								class="btn btn-warning btn-default btn-xs ml-2" -->
-<!-- 								style="min-width: 50px;"> -->
 
 							<th:block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')}">
 								<a 

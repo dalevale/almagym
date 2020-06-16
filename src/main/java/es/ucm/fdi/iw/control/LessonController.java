@@ -108,31 +108,7 @@ public class LessonController {
    		entityManager.remove(target);
    		return "exito";
     }
-    
-
-    @PostMapping("switchInscription")    
-    @ResponseBody
-    @Transactional
-    public String switchInscription(@RequestBody Inscription.Transfer inscriptionRequest) {
-    	
-//    	Inscription inscription = new Inscription();
-//    	inscription.setLesson(entityManager.find(Lesson.class, inscriptionRequest.lesson));
-//    	inscription.setUser(entityManager.find(User.class, inscriptionRequest.user));
-//    	
-//        Lesson lesson = inscription.getLesson();
-//        User usuario = inscription.getUser();
-//        
-//        if(lesson.isInscript(usuario)) {
-//        	lesson.removeInscription(usuario);
-//        }else {
-//        	lesson.addInscription(usuario);
-//        }
-//   	
-//   		
-//   		log.info("Successfully switch inscription: ", lesson.getId());
-   		return "exito";
-    }
-    
+   
     
     @GetMapping(value = "switchInscription2")    
     @Transactional
@@ -143,7 +119,9 @@ public class LessonController {
 		if (lesson.isInscript(usuario)) {
 			lesson.removeInscription(usuario);
 		} else if(lesson.estaVacio()){
-			Inscription insc = new Inscription(usuario, lesson);
+			Inscription insc = new Inscription();
+			insc.setLesson(lesson);
+			insc.setUser(usuario);
 			
 			entityManager.persist(insc);
 			lesson.getInscriptions().add(insc);
@@ -158,5 +136,3 @@ public class LessonController {
     }
     
 }
-
-// file edit selection view go run [terminal] help

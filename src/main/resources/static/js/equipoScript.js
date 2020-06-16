@@ -1,6 +1,6 @@
 $(document).ready(
 	function() {
-		$(".listActions>.removeEquipo").click(function() {
+		$(".equipoListActions>.removeEquipo").click(function() {
 			var id = $($(this).parent().parent().parent()
 					.parent().parent()
 					.children().eq(0)
@@ -9,7 +9,7 @@ $(document).ready(
 			$("#removeModalEquipo").modal("toggle");
 		});	
 		
-		$(".listActions>.editEquipo").click(function() {
+		$(".equipoListActions>.editEquipo").click(function() {
 					var id = $($(this).parent().parent().parent()
 											.parent().parent()
 											.children().eq(0)
@@ -25,13 +25,13 @@ $(document).ready(
 					$("#editModalEquipo").modal("toggle");
 		});
 	
-		$(".listActions>.addEquipo").click(function() {
+		$(".equipoListActions>.addEquipo").click(function() {
 			$("#addEquipoModalRoom input").val($($(this).parent().parent().parent()
 					.children().eq(0).children().eq(0).children()).val());
 			$("#addModalEquipo").modal("toggle");
 		});	
 		
-		$(".listActions>.photoEquipo").click(function() {
+		$(".equipoListActions>.photoEquipo").click(function() {
 			var id= $($(this).parent().parent()
 					.parent().parent().parent()
 					.children().eq(0).children()).val();
@@ -111,7 +111,7 @@ $(document).ready(
 									'<p class="equipoCantidad">'+$("#addEquipoModalCantidad input").val()+'</p></div>'+
 								'<table><tr>'+
 										'<!-- Botones para los modales Equipo-->'+
-										'<td class="listActions">'+
+										'<td class="equipoListActions">'+
 											'<button type="button"class="btn photoEquipo btn-info btn-default btn-xs ml-2">'+
 												'<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span></button>'+
 											'<button type="button"class="btn editEquipo btn-success btn-default btn-xs ml-2">'+

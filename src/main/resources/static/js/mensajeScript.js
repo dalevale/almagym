@@ -268,7 +268,7 @@ function initializeUserList(){
 
 setInterval(function(){
 	checkUnread();
-}, 2000);
+}, 500);
 
 $(document).ready(function(){
 	$("#usersList div.convoWithUsers").click(function(){	
@@ -279,7 +279,7 @@ $(document).ready(function(){
 	});	
 	
 	$("#newMessageBtn").click(function(){
-		var newMsg = $("#newMessage").val();
+		var newMsg = $("#newMessageBox textarea.inputNewMessage").val();
 		var toUserId = $(this).val();
 		var img = config.rootUrl + "user/" + $("#userId").val() + "/photo";
 		var data = {
@@ -289,7 +289,7 @@ $(document).ready(function(){
 		}
 		if(newMsg){
 			sendMessage(newMsg, toUserId, img, data);
-			$("#newMessage").val("");
+			$("#newMessageBox textarea.inputNewMessage").val("");
 		}
 	});
 	
