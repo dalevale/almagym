@@ -2,17 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<th:block th:replace="fragments/head :: header" />
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Clases</title>
+<th:block th:replace="fragments/head :: header" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clases</title>
 </head>
 <body>
 	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
 	<div class="container flex-column">
 		<div class="row h2">Clases</div>
 		<div class="row justify-content-center mb-3">
-			<table id="dtBasicExample" class="table table-striped table-bordered text-center" cellspacing="0" width="100%">
+			<table id="dtBasicExample"
+				class="table table-striped table-bordered text-center"
+				cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th class="th-sm text-center">Nombre de Clase</th>
@@ -28,44 +30,53 @@
 					<tr th:each="lesson: ${lessons}" th:class="|table${lesson.id}|">
 						<td class="d-none" th:text="${lesson.id}">Nada</td>
 						<td th:text="${lesson.name}">Nada</td>
-						<td th:text="${lesson.room.name}" th:value="${lesson.room.id}">Sala 0</td>
+						<td th:text="${lesson.room.name}" th:value="${lesson.room.id}">Sala
+							0</td>
 						<td th:text="${lesson.profe.username}"></td>
-						<td th:text="${lesson.totalStudents}">0</td>
+						<td th:text="${lesson.totalStudentsNow()}">0</td>
 						<td th:text="${#temporals.format(lesson.dateIni, 'MM-dd-yyyy')}">01/01/1990</td>
 						<td th:text="${#temporals.format(lesson.dateFin, 'MM-dd-yyyy')}">01/01/1990</td>
-						<td class="d-none" th:text="${#temporals.format(lesson.dateIni, 'HH:mm')}"></td>
-						<td class="d-none" th:text="${#temporals.format(lesson.dateFin, 'HH:mm')}"></td>
+						<td class="d-none"
+							th:text="${#temporals.format(lesson.dateIni, 'HH:mm')}"></td>
+						<td class="d-none"
+							th:text="${#temporals.format(lesson.dateFin, 'HH:mm')}"></td>
 						<td class="listActions text-center">
-							<button type="button" class="btn btn-info btn-default btn-xs" style="min-width: 50px;">
+							<button type="button" class="btn btn-info btn-default btn-xs"
+								style="min-width: 50px;">
 								<span class="glyphicon glyphicon-info-sign" aria-hidden="true">&#10069</span>
 							</button>
-							<button th:if="${session.u.hasRole('ADMIN')} or (${session.u.id} eq ${lesson.profe.id})"
-								 th:data-profid="${lesson.profe.id}" th:data-roomid="${lesson.room.id}" type="button"
-								class="btn btn-success btn-default btn-xs ml-2 " style="min-width: 50px;">
+							<button
+								th:if="${session.u.hasRole('ADMIN')} or ${lesson.isTeacherClass({session.u.id})}"
+								th:data-profid="${lesson.profe.id}"
+								th:data-roomid="${lesson.room.id}" type="button"
+								class="btn btn-success btn-default btn-xs ml-2 "
+								style="min-width: 50px;">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
 							</button>
-							<button th:if="${session.u.hasRole('ADMIN')} or (${session.u.id} eq ${lesson.profe.id})" type="button"
-								class="btn btn-danger btn-default btn-xs ml-2" style="min-width: 50px;">
+							<button
+								th:if="${session.u.hasRole('ADMIN')} or ${lesson.isTeacherClass({session.u.id})}"
+								type="button" class="btn btn-danger btn-default btn-xs ml-2"
+								style="min-width: 50px;">
 								<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
-							</button>
-
-							<th:block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')}">
-								<a 
-									th:href="@{/clases/switchInscription2(idUser=${session.u.id},idLesson=${lesson.id})}"
+							</button> 
+							<block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')}">
+								<a th:href="@{/clases/switchInscription2(idUser=${session.u.id},idLesson=${lesson.id})}"
 									class="btn btn-success btn-xs">Apuntado</a>
-									
-								 								<span th:if="${lesson.isInscript({session.u})}"
-								 										class="glyphicon glyphicon-pencil" aria-hidden="true">&#10004</span>
-																<span th:unless="${lesson.isInscript({session.u})}" 
-								 									class="glyphicon glyphicon-pencil" aria-hidden="true">&#128473</span>
-							</th:block>
+
+								<span th:if="${lesson.isInscript({session.u})}"
+									class="glyphicon glyphicon-pencil" aria-hidden="true">&#10004</span>
+								<span th:unless="${lesson.isInscript({session.u})}"
+									class="glyphicon glyphicon-pencil" aria-hidden="true">&#128473</span>
+							<block>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<button th:if="${!session.u.hasRole('CUSTOMER')}" type="button" class="btn btn-primary p-2" id="addModalBtn">&#10133 Añadir Clase</button>
+			<button th:if="${!session.u.hasRole('CUSTOMER')}" type="button"
+				class="btn btn-primary p-2" id="addModalBtn">&#10133 Añadir
+				Clase</button>
 		</div>
-		
+
 		<!-- Modal -->
 		<div id="infoModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
@@ -79,7 +90,8 @@
 					<div class="modal-body">
 						<form class="form-horizontal">
 							<div class="form-group" id="infoModalName">
-								<label class="col-12 control-label text-info">Nombre de la clase</label>
+								<label class="col-12 control-label text-info">Nombre de
+									la clase</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
@@ -97,37 +109,43 @@
 								</div>
 							</div>
 							<div class="form-group" id="infoModalNumPlazas">
-								<label class="col-12 control-label text-info">Número de plazas disponibles</label>
+								<label class="col-12 control-label text-info">Número de
+									plazas disponibles</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
 							</div>
 							<div class="form-group" id="infoModalFechaIni">
-								<label class="col-12 control-label text-info">Fecha de inicio</label>
+								<label class="col-12 control-label text-info">Fecha de
+									inicio</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
 							</div>
 							<div class="form-group" id="infoModalFechaFin">
-								<label class="col-12 control-label text-info">Fecha de fin</label>
+								<label class="col-12 control-label text-info">Fecha de
+									fin</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
 							</div>
 							<div class="form-group" id="infoModalDia">
-								<label class="col-sm-6 control-label text-info">Día de la semana</label>
+								<label class="col-sm-6 control-label text-info">Día de
+									la semana</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
 							</div>
 							<div class="form-group" id="infoModalHoraIni">
-								<label class="col-sm-6 control-label text-info">Hora de inicio</label>
+								<label class="col-sm-6 control-label text-info">Hora de
+									inicio</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
 							</div>
 							<div class="form-group" id="infoModalHoraFin">
-								<label class="col-sm-6 control-label text-info">Hora de fin</label>
+								<label class="col-sm-6 control-label text-info">Hora de
+									fin</label>
 								<div class="col-sm-6">
 									<p class="form-control-static"></p>
 								</div>
@@ -153,7 +171,8 @@
 					<div class="modal-body">
 						<form class="form-horizontal">
 							<div class="form-group" id="editModalName">
-								<label class="col-12 control-label text-success">Nombre de la clase</label>
+								<label class="col-12 control-label text-success">Nombre
+									de la clase</label>
 								<div class="col-sm-8">
 									<input class="form-control"></input>
 								</div>
@@ -162,49 +181,56 @@
 								<label class="col-12 control-label text-success">Sala</label>
 								<div class="col-sm-8">
 									<select id="editModalRoomSelect" class="form-control">
-										<option th:each="room: ${rooms}" th:value="${room.id}" th:text="${room.name}">0</option>
+										<option th:each="room: ${rooms}" th:value="${room.id}"
+											th:text="${room.name}">0</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group" id="editModalProfesor">
 								<label class="col-12 control-label text-success">Profesor</label>
 								<div class="col-sm-8">
-									<select th:if="${session.u.hasRole('ADMIN')}" id="editModalProfSelect" class="form-control">
-										<option th:each="profesor: ${profes}" th:value="${profesor.id}"
-										 th:text="${profesor.username}">Nombre</option>
-									</select>
-									<select th:if="${session.u.hasRole('TEACHER')}" id="editModalProfSelect" class="form-control">
+									<select th:if="${session.u.hasRole('ADMIN')}"
+										id="editModalProfSelect" class="form-control">
+										<option th:each="profesor: ${profes}"
+											th:value="${profesor.id}" th:text="${profesor.username}">Nombre</option>
+									</select> <select th:if="${session.u.hasRole('TEACHER')}"
+										id="editModalProfSelect" class="form-control">
 										<option th:value="${session.u.id}"
-										 th:text="${session.u.username}">Nombre</option>
+											th:text="${session.u.username}">Nombre</option>
 									</select>
 								</div>
 							</div>
 							<div class="form-group" id="editModalNumPlazas">
-								<label class="col-12 control-label text-success">Número de plazas disponibles</label>
+								<label class="col-12 control-label text-success">Número
+									de plazas disponibles</label>
 								<div class="col-sm-8">
 									<input class="form-control"></input>
 								</div>
 							</div>
 							<div class="form-group" id="editModalFechaIni">
-								<label class="col-sm-4 control-label text-success">Fecha de inicio</label>
+								<label class="col-sm-4 control-label text-success">Fecha
+									de inicio</label>
 								<div class="col-sm-8">
 									<input type="date" class="form-control"></input>
 								</div>
 							</div>
 							<div class="form-group" id="editModalFechaFin">
-								<label class="col-sm-4 control-label text-success">Fecha de fin</label>
+								<label class="col-sm-4 control-label text-success">Fecha
+									de fin</label>
 								<div class="col-sm-8">
 									<input type="date" class="form-control"></input>
 								</div>
 							</div>
 							<div class="form-group" id="editModalHoraIni">
-								<label class="col-sm-4 control-label text-success">Hora de inicio</label>
+								<label class="col-sm-4 control-label text-success">Hora
+									de inicio</label>
 								<div class="col-sm-8">
 									<input type="time" class="form-control"></input>
 								</div>
 							</div>
 							<div class="form-group" id="editModalHoraFin">
-								<label class="col-sm-4 control-label text-success">Hora fin</label>
+								<label class="col-sm-4 control-label text-success">Hora
+									fin</label>
 								<div class="col-sm-8">
 									<input type="time" class="form-control"></input>
 								</div>
@@ -218,7 +244,7 @@
 
 			</div>
 		</div>
-		
+
 		<div id="removeModal" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 
@@ -251,7 +277,8 @@
 				<div class="modal-body">
 					<form class="form-horizontal">
 						<div class="form-group" id="addClassModalName">
-							<label class="col-12 control-label text-primary">Nombre de la clase</label>
+							<label class="col-12 control-label text-primary">Nombre
+								de la clase</label>
 							<div class="col-sm-8">
 								<input class="form-control"></input>
 							</div>
@@ -260,50 +287,67 @@
 							<label class="col-12 control-label text-primary">Sala</label>
 							<div class="col-sm-8">
 								<select class="form-control">
-									<option th:each="room: ${rooms}" th:value="${room.id}" th:attr="capacity=${room.maxSize}"
+									<option th:each="room: ${rooms}" th:value="${room.id}"
 										th:text="${room.name}">0</option>
 								</select>
 							</div>
+							<!-- <div class="form-group" id="addClassModalSala">
+							<label class="col-12 control-label text-primary">Sala</label>
+							<div class="col-sm-8">
+								<select class="form-control">
+									<option th:each="room: ${rooms}" th:value="${room.id}"
+										th:text="${room.name}" th:data-maxSize = "${room.maxSize}">0</option>
+								</select>
+							</div> -->
 						</div>
-						<div  class="form-group" id="addClassModalProf">
+						<div class="form-group" id="addClassModalProf">
 							<label class="col-12 control-label text-primary">Profesor</label>
 							<div class="col-sm-8">
-								<select th:if="${session.u.hasRole('ADMIN')}" id="addModalProfSelect" class="form-control">
+								<select th:if="${session.u.hasRole('ADMIN')}"
+									id="addModalProfSelect" class="form-control">
 									<option th:each="profesor: ${profes}" th:value="${profesor.id}"
 										th:text="${profesor.username}">Nombre</option>
-								</select>
-								<select th:if="${session.u.hasRole('TEACHER')}" id="addModalProfSelect" class="form-control">
+								</select> <select th:if="${session.u.hasRole('TEACHER')}"
+									id="addModalProfSelect" class="form-control">
 									<option th:value="${session.u.id}"
 										th:text="${session.u.username}">Nombre</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group" id="addClassModalNumPlazas">
-							<label class="col-12 control-label text-primary">Número de plazas disponibles</label>
+							<label class="col-12 control-label text-primary">Número
+								de plazas disponibles</label>
 							<div class="col-sm-8">
-								<input class="form-control" type="number" min="1" max="50" required></input>
+								<input class="form-control" type="number" min="1" max="50"
+									required></input>
 							</div>
 						</div>
 						<div class="form-group" id="addClassModalFechaIni">
-							<label class="col-sm-4 control-label text-primary">Fecha de inicio</label>
+							<label class="col-sm-4 control-label text-primary">Fecha
+								de inicio</label>
 							<div class="col-sm-8">
-								<input type="date" value="2020-01-01" min="2020-01-01" max="2020-12-31" class="form-control"></input>
+								<input type="date" value="2020-01-01" min="2020-01-01"
+									max="2020-12-31" class="form-control"></input>
 							</div>
 						</div>
 						<div class="form-group" id="addClassModalFechaFin">
-							<label class="col-sm-4 control-label text-primary">Fecha de fin</label>
+							<label class="col-sm-4 control-label text-primary">Fecha
+								de fin</label>
 							<div class="col-sm-8">
-								<input type="date" value="2020-01-01" min="2020-01-01" max="2020-12-31" class="form-control"></input>
+								<input type="date" value="2020-01-01" min="2020-01-01"
+									max="2020-12-31" class="form-control"></input>
 							</div>
 						</div>
 						<div class="form-group" id="addClassModalHoraIni">
-							<label class="col-sm-4 control-label text-primary">Hora Inicio</label>
+							<label class="col-sm-4 control-label text-primary">Hora
+								Inicio</label>
 							<div class="col-sm-8">
 								<input type="time" value="00:00" class="form-control"></input>
 							</div>
 						</div>
 						<div class="form-group" id="addClassModalHoraFin">
-							<label class="col-sm-4 control-label text-primary">Hora Fin</label>
+							<label class="col-sm-4 control-label text-primary">Hora
+								Fin</label>
 							<div class="col-sm-8">
 								<input type="time" value="00:00" class="form-control"></input>
 							</div>
@@ -311,7 +355,8 @@
 					</form>
 				</div>
 				<div class="modal-footer d-flex justify-content-center">
-					<button type="button" class="btn btn-primary btn-lg" id="addClassBtn">Añadir</button>
+					<button type="button" class="btn btn-primary btn-lg"
+						id="addClassBtn">Añadir</button>
 				</div>
 			</div>
 		</div>

@@ -33,31 +33,39 @@
 							<li class="nav-item ml-2"><a class="nav-link"
 								th:href="@{/salas/}"><i class="fas fa-person-booth mr-1"></i>Salas</a></li>
 							<li class="nav-item ml-2"><a class="nav-link"
-								th:href="@{/clases/}"><i class="fas fa-person-booth mr-1"></i>Clases</a></li>
+								th:href="@{/clases/}"><i class="fas fa-dumbbell mr-1"></i>Clases</a></li>
 							<li th:if="${session.u.hasRole('ADMIN')}" class="nav-item ml-2">
 								<a class="nav-link" th:href="@{/usuarios/}"><i
 									class="fas fa-info-circle"></i>Usuarios</a>
 							</li>
 							<li class="nav-item ml-2"><a id="navMensajes"
 								class="nav-link" th:href="@{/messages/}"><i
-									class="fas fa-info-circle"></i>Mensajes</a></li>
+									class="fas fa-envelope"></i>Mensajes</a>
+							</li>
 						</ul>
 
 						<ul class="nav navbar-nav ml-auto col-2">
-							<li class="nav-item dropdown">
-								<a class="nav-link" data-toggle="dropdown" id="themes" 
-									aria-expanded="false" href="#"> 
-								<img id="userPhoto"class="userthumb"
-									th:src="@{/user/{id}/photo(id=${session.u.id})}"> 
-								<span id="username" class="caret" th:text="${session.u.username}">Pepe</span></a>
+							<li class="nav-item dropdown"><a class="nav-link"
+								data-toggle="dropdown" id="themes" aria-expanded="false"
+								href="#"> <img id="userPhoto" class="userthumb"
+									th:src="@{/user/{id}/photo(id=${session.u.id})}"> <span
+									id="username" class="caret" th:text="${session.u.username}">Pepe</span></a>
 								<input type="hidden" id="userId" th:value="${session.u.id}">
 								<div class="dropdown-menu animate slideIn"
 									aria-labelledby="themes">
 									<a class="dropdown-item"
 										th:if="${not session.u.hasRole('ADMIN')}"
 										th:href="@{/user/{id}(id=${session.u.id})}"><i
-										class="fas fa-user-edit"></i> Editar Perfil</a>
-									<div class="dropdown-divider"></div>
+										class="fas fa-user-edit"></i> Editar Perfil</a> 
+									<a	class="dropdown-item"
+										th:if="${not session.u.hasRole('ADMIN') and not session.u.hasRole('TEACHER')}"
+										th:href="@{/clases/apuntadas/{id}(id=${session.u.id})}"><i
+										class="fas fa-snowboarding"></i> Clases apuntadas</a>
+									<a	class="dropdown-item"
+										th:if="${not session.u.hasRole('ADMIN') and session.u.hasRole('TEACHER')}"
+										th:href="@{/clases/misClases/{id}(id=${session.u.id})}"><i
+										class="fas fa-star"></i> Mis clases</a>
+								<div class="dropdown-divider"></div>
 									<a class="dropdown-item" th:href="@{/logout}"><i
 										class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
 								</div></li>

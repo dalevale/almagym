@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<th:block th:replace="fragments/head :: header" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clases apuntadas</title>
+</head>
+<body>
+	<nav th:replace="fragments/nav.html :: nav">Nav goes here</nav>
+	<div class="container flex-column">
+		<div class="row h2">Clases apuntadas</div>
+		<div class="row justify-content-center mb-3">
+			<table id="dtBasicExample"
+				class="table table-striped table-bordered text-center"
+				cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th class="th-sm text-center">Nombre de Clase</th>
+						<th class="th-sm text-center">Sala</th>
+						<th class="th-sm text-center">Profesor</th>
+						<th class="th-sm text-center">Número de plazas</th>
+						<th class="th-sm text-center">Fecha Inicio</th>
+						<th class="th-sm text-center">Fecha Fin</th>
+						<th class="th-sm text-center">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="lesson: ${lessons}" th:class="|table${lesson.id}|" th:if="${lesson.isInscript({session.u})}">
+						<td class="d-none" th:text="${lesson.id}">Nada</td>
+						<td th:text="${lesson.name}">Nada</td>
+						<td th:text="${lesson.room.name}" th:value="${lesson.room.id}">Sala
+							0</td>
+						<td th:text="${lesson.profe.username}"></td>
+						<td th:text="${lesson.totalStudentsNow()}">0</td>
+						<td th:text="${#temporals.format(lesson.dateIni, 'MM-dd-yyyy')}">01/01/1990</td>
+						<td th:text="${#temporals.format(lesson.dateFin, 'MM-dd-yyyy')}">01/01/1990</td>
+						<td class="d-none"
+							th:text="${#temporals.format(lesson.dateIni, 'HH:mm')}"></td>
+						<td class="d-none"
+							th:text="${#temporals.format(lesson.dateFin, 'HH:mm')}"></td>
+						<td class="listActions text-center">
+							<block th:if="${lesson.estaVacio()} and ${usuario.hasRole('CUSTOMER')}">
+								<a th:href="@{/clases/switchInscription2(idUser=${usuario.id},idLesson=${lesson.id})}"
+									class="btn btn-success btn-xs">Apuntado</a>
+
+								<span th:if="${lesson.isInscript({session.u})}"
+									class="glyphicon glyphicon-pencil" aria-hidden="true">&#10004</span>
+								<span th:unless="${lesson.isInscript({session.u})}"
+									class="glyphicon glyphicon-pencil" aria-hidden="true">&#128473</span>
+							<block>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	<th:block th:replace="fragments/footer :: footer" />
+</body>
+</html>

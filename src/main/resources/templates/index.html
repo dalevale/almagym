@@ -1,40 +1,34 @@
 <!DOCTYPE html>
-<html 
-	xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head><th:block th:replace="fragments/head :: header"/>
-	<title>IW: Plantilla</title>
+<head>
+<th:block th:replace="fragments/head :: header" />
+<title>IW: Plantilla</title>
 </head>
-<body>
-	<nav th:replace="fragments/nav.html :: nav">
-		Nav goes here
-	</nav>
-	
+<body style="text-align: justify;">
+	<nav th:replace="fragments/nav.html :: nav"></nav>
+
 	<div class="container">
-	<div class="main">
-	
-	<h1 th:text="#{index.welcome}">Bienvenido a la plantilla de IW</h1>
-	
-	<p>
-	Esta plantilla sirve para lorem ipsum dolor sit amet, consectetuer adipiscing elit. 
-	Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis 
-	dis parturient montes, nascetur ridiculus mus. Donec qu
-	</p>
-	
-	<div th:if="${session.u == null}">
-	<h4>Intenta ver un perfil</h4>
-	<ul>
-		<li><a th:href="@{/user/1}">Uno</a>
-		<li><a th:href="@{/user/2}">Dos</a>
-		<li><a th:href="@{/user/3}">Tres</a>
-	</li>
+		<div class="main">
+
+			<h1 th:text="#{index.welcome}">Bienvenido a ALMAGYM</h1>
+
+			<p>
+				Para acceder a la pagina por favor, seleccione un tipo de usuario: </br>
+			<ul>
+				<li><b>A:</b> administrador.</li>
+				<li><b>T:</b> profesor.</li>
+				<li><b>T2:</b> profesor2.</li>
+				<li><b>c:</b> Cliente.</li>
+
+				</ul>
+			</p>
+
+		</div>
 	</div>
-	
-	</div>
-	</div>
-		
-	<footer th:replace="fragments/footer.html :: footer">
-		Footer goes here
-	</footer>
+
+	<footer th:replace="fragments/footer.html :: footer"> Footer
+		goes here </footer>
 </body>
 </html>
+
