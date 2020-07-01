@@ -199,4 +199,19 @@ public class Lesson {
         
    		return !esta;
     }
+    
+
+	public int totalStudentsNow() {
+		int result = this.totalStudents;
+		if (this.inscriptions != null)
+			result -= this.inscriptions.size();
+		return result;
+	}
+
+	public boolean isTeacherClass(Long idUser) {
+		boolean loEs = false;
+		if (this.getProfe().getId() == idUser)
+				loEs = true;
+		return loEs;
+	}
 }
