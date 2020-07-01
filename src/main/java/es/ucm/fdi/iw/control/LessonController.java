@@ -135,4 +135,41 @@ public class LessonController {
     	return "forward:/clases/";
     }
     
+    @GetMapping("apuntadas/{id}")
+    public String getSignedLessons(@PathVariable long id, HttpSession session, Model model) {
+        List<Lesson> l = entityManager
+            .createQuery("select l from Lesson l", Lesson.class)
+            .getResultList();
+        List<Room> r = entityManager
+            .createQuery("select r from Room r", Room.class)
+            .getResultList();
+        List<User> p = entityManager
+            .createQuery("select p from User p where roles = 'USER,TEACHER'", User.class)
+            .getResultList();
+        User u = entityManager.find(User.class, id);
+    	model.addAttribute("lessons", l);
+    	model.addAttribute("rooms", r);
+    	model.addAttribute("profes", p);
+    	model.addAttribute("usuario", u);
+		
+    	return "apuntadas";
+    }
+    
+    @GetMapping("misClases/{id}")
+    public String getLessonsMe(@PathVariable long id, HttpSession session, Model model) {
+        List<Lesson> l = entityManager
+            .createQuery("select l from Lesson l", Lesson.class)
+            .getResultList();
+        List<Room> r = entityManager
+            .createQuery("select r from Room r", Room.class)
+            .getResultList();
+        List<User> p = entityManager
+            .createQuery("select p from User p where roles = 'USER,TEACHER'", User.class)
+            .getResultList();
+    	model.addAttribute("lessons", l);
+    	model.addAttribute("rooms", r);
+    	model.addAttribute("profes", p);
+		
+    	return "misClases";
+    }
 }
