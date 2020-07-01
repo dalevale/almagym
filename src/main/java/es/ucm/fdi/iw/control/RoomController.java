@@ -52,23 +52,11 @@ public class RoomController {
 	private LocalData localData;
     
     private void getRooms(Model model) {
-    	List<Room> r = entityManager.createQuery("select r from Room r").getResultList();
+    	List<Room> r = entityManager.createQuery("select r from Room r", Room.class)
+    			.getResultList();
 		model.addAttribute("rooms", r);
 		log.info("Successfully fetched rooms list from database.");
     }
-    
-	private boolean hasPermissions(HttpServletResponse response, 
-			HttpSession session) throws IOException {
-		boolean valid = true;
-		// check permissions
-		User requester = (User) session.getAttribute("u");
-		if (!requester.hasRole(Role.ADMIN)) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "No eres administrador!");
-			valid = false;
-			log.info("Error, no adiministrator priveleges!");
-		}
-		return valid;
-	}
     
     @GetMapping("/")
 	public String getIndex(Model model) {
@@ -79,64 +67,48 @@ public class RoomController {
     @PostMapping("edit")
 	@Transactional
 	@ResponseBody
-	public String editRoom(HttpServletResponse response, @RequestBody Room.Transfer roomRequest
-			, HttpSession session) throws IOException {
+	public String editRoom(@RequestBody Room.Transfer roomRequest) throws IOException {
+		Room room = new Room();
+        room.setId(roomRequest.id); 
+        room.setName(roomRequest.name);
+        room.setMaxSize(roomRequest.maxSize); 
+        room.setDescrip(roomRequest.descrip);
+        //Get list of equipments and lessons
+        Room orig = entityManager.find(Room.class, room.getId());
+        room.setEquipments(orig.getEquipments());
+        room.setLessons(orig.getLessons());
+		entityManager.merge(room);  
+		log.info("Successfully edited Room with id {} ", room.getId());
 		
-    	if(hasPermissions(response, session)) {
-			Room room = new Room();
-	        room.setId(roomRequest.id); 
-	        room.setName(roomRequest.name);
-	        room.setMaxSize(roomRequest.maxSize); 
-	        room.setDescrip(roomRequest.descrip);
-	        //Get list of equipments and lessons
-	        Room orig = entityManager.find(Room.class, room.getId());
-	        room.setEquipments(orig.getEquipments());
-	        room.setLessons(orig.getLessons());
-			entityManager.merge(room);  
-			log.info("Successfully edited Room with id {} ", room.getId());
-		}
-    	else
-       		log.info("Failed to edit Room with id {} ", roomRequest.id);
    		return "exito";
 	}
     
-    @PostMapping("del/{id}")
+    @GetMapping("del/{id}")
    	@Transactional
    	@ResponseBody
-   	public String deleteRoom(@PathVariable long id, HttpServletResponse response,
-   			HttpSession session) throws IOException {
-    	
-    	if(hasPermissions(response, session)) {
-    		Room target = entityManager.find(Room.class, id);
-       		entityManager.remove(target);
-       		log.info("Successfully removed Room with id {} ", id);
-    	}
-    	else
-       		log.info("Failed to remove Room with id {} ", id);
+   	public String deleteRoom(@PathVariable long id) throws IOException {
+		Room target = entityManager.find(Room.class, id);
+   		entityManager.remove(target);
+   		log.info("Successfully removed Room with id {} ", id);
+   		
    		return "exito";
    	}
     
     @PostMapping("add")
    	@Transactional
    	@ResponseBody
-   	public String addRoom(HttpServletResponse response, @RequestBody Room.Transfer roomRequest,
-   			HttpSession session) throws IOException {
-    	
-    	if(hasPermissions(response, session)) {
-    		Room room = new Room();
-    		room.setDescrip(roomRequest.descrip); 
-    		room.setName(roomRequest.name);
-    		room.setMaxSize(roomRequest.maxSize);
-            entityManager.persist(room);
-       		log.info("Successfully added Room with id {} ", room.getId());
+   	public String addRoom(@RequestBody Room.Transfer roomRequest) throws IOException {
+		Room room = new Room();
+		room.setDescrip(roomRequest.descrip); 
+		room.setName(roomRequest.name);
+		room.setMaxSize(roomRequest.maxSize);
+        entityManager.persist(room);
+   		log.info("Successfully added Room with id {} ", room.getId());
+   		
             return String.valueOf(room.getId());
-    	}
-    	else
-       		log.info("Failed to add Room");
-   		return "salas";
    	}
     
-    @GetMapping(value = "/{id}/photo")
+    @GetMapping("{id}/photo")
 	public StreamingResponseBody getPhoto(@PathVariable long id) throws IOException {
 		File f = localData.getFile("room", "" + id);
 		InputStream in;
@@ -156,25 +128,21 @@ public class RoomController {
     
 	@PostMapping("changephoto/{id}")
 	@ResponseBody
-	public String postPhoto(@PathVariable long id, HttpServletResponse response, @RequestParam("photo") MultipartFile photo,
-			HttpSession session) throws IOException {
-		// check permissions
-		if(hasPermissions(response, session)) {
-			String idStr = String.valueOf(id);
-			log.info("Updating photo for Room Id {}", id);
-			File f = localData.getFile("room", idStr);
-			if (photo.isEmpty()) {
-				log.info("failed to upload photo: emtpy file?");
-			} else {
-				try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
-					byte[] bytes = photo.getBytes();
-					stream.write(bytes);
-					stream.close();
-				} catch (Exception e) {
-					log.warn("Error uploading " + id + " ", e);
-				}
-				log.info("Successfully uploaded photo for Room Id {} into {}!", id, f.getAbsolutePath());
+	public String postPhoto(@PathVariable long id, @RequestParam("photo") MultipartFile photo) throws IOException {
+		String idStr = String.valueOf(id);
+		log.info("Updating photo for Room Id {}", id);
+		File f = localData.getFile("room", idStr);
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+		} else {
+			try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+				stream.close();
+			} catch (Exception e) {
+				log.warn("Error uploading " + id + " ", e);
 			}
+			log.info("Successfully uploaded photo for Room Id {} into {}!", id, f.getAbsolutePath());
 		}
 		
 		return "exito";

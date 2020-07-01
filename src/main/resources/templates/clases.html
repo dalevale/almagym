@@ -260,7 +260,7 @@
 							<label class="col-12 control-label text-primary">Sala</label>
 							<div class="col-sm-8">
 								<select class="form-control">
-									<option th:each="room: ${rooms}" th:value="${room.id}"
+									<option th:each="room: ${rooms}" th:value="${room.id}" th:attr="capacity=${room.maxSize}"
 										th:text="${room.name}">0</option>
 								</select>
 							</div>

@@ -39,8 +39,6 @@ public class RootController {
     	return "inicio";
     }
     
-  
-    
     @GetMapping("/horarios/")
 	public String getHorarios(HttpSession session, Model model) { 
 		return "horarios";

@@ -37,11 +37,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	            .antMatchers("/css/**", "/js/**", "/img/**", "/", "/error").permitAll()
 	            // .antMatchers("/clase/enter").permitAll() 		 <-- only when logging in to vote 
 	            .antMatchers("/admin/**").hasRole("ADMIN")		// <-- administration
+	            .antMatchers("/salas/").hasRole("USER")
+	            .antMatchers("/salas/**/photo").hasRole("USER")
+	            .antMatchers("/salas/**").hasRole("ADMIN")
+	            .antMatchers("/equipos/**/photo").hasRole("USER")
+	            .antMatchers("/equipos/**").hasRole("ADMIN")
+	            .antMatchers("/clases/removeLesson/").hasAnyRole("ADMIN", "TEACHER")
+	            .antMatchers("/clases/addLesson/").hasAnyRole("ADMIN", "TEACHER")
+	            .antMatchers("/clases/editLesson/").hasAnyRole("ADMIN", "TEACHER")
+	            .antMatchers("/messages/**").hasRole("USER")
 	            .anyRequest().authenticated()
 	            .and()
 	        .formLogin()
 	        	.permitAll().successHandler(loginSuccessHandler);// <-- called when login Ok; can redirect
+	    
 	}
+	
+	
 	
 	/**
 	 * Declares a PasswordEncoder bean.

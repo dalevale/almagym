@@ -1,4 +1,5 @@
 $(document).ready(function(){
+	
 	function viewInfo(root){
 		$("#infoModalName p").text($($(root).parent().parent().children()[1]).text());
 		$("#infoModalSala p").text($($(root).parent().parent().children()[2]).text());
@@ -174,54 +175,59 @@ $(document).ready(function(){
 		var fechaFin = $("#addClassModalFechaFin input").val()
     	var horaIni = $("#addClassModalHoraIni input").val();
     	var horaFin = $("#addClassModalHoraFin input").val();
-		var clase = { 
-			"name" : $("#addClassModalName input").val(),
-	        "roomId": $("#addClassModalSala option:selected").val(),
-	        "profeId": $("#addClassModalProf option:selected").val(),
-	        "totalStudents": $("#addClassModalNumPlazas input").val(),
-	        "dateIni": formatDateToServer(fechaIni, horaIni),
-	        "dateFin": formatDateToServer(fechaFin, horaFin)
-	    };
-	 
-		$.ajax({
-			headers: {"X-CSRF-TOKEN": config.csrf.value},
-			type: "POST",
-			contentType: "application/json",
-			url: "/clases/addLesson", 
-			data: JSON.stringify(clase), 
-			success: data => { 
-				console.log("exito");
-	   		    $("#dtBasicExample tbody").append('<tr>'+
-   		    		'<td class="d-none" value="'+data+'">Nada</td>'+
-   		    		'<td>'+ $("#addClassModalName input").val()+'</td>'+
-   		    		'<td>'+$("#addClassModalSala option:selected").text()+'</td>'+
-   		    		'<td>'+$("#addModalProfSelect option:selected").text()+'</td>'+
-   		    		'<td>'+$("#addClassModalNumPlazas input").val()+'</td>'+
-   		    		'<td>'+formatDateToClient(fechaIni)+'</td>'+
-   		    		'<td>'+formatDateToClient(fechaFin)+'</td>'+
-   		    		'<td class="d-none">'+horaIni+'</td>'+
-   		    		'<td class="d-none">'+horaFin+'</td>'+		
-   		    		'<td class="listActions text-center">'+
-   		    		'<button type="button" class="btn btn-info btn-default btn-xs" style="min-width: 50px;">'+
-   		    		'<span class="glyphicon glyphicon-info-sign" aria-hidden="true">&#10069</span></button>'+
-   		    		'<button type="button" class="btn btn-success btn-default btn-xs ml-2 "  style="min-width: 50px;">'+
-   		    		'<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span></button>'+
-   		    		'<button  type="button" class="btn btn-danger btn-default btn-xs ml-2"  style="min-width: 50px;">'+
-   		    		'<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>'+
-					   '</button></td></tr>');
-					   $(".listActions>.btn-info").click(function() {
-						   viewInfo(this);
-					   });
-					   $(".listActions>.btn-success").click(function() {
-					    	editInfo(this);
-					   });	
-					   $(".listActions>.btn-danger").click(function() {
-					    	removeLesson(this);
-					    });
-					   				    
-  		    	$("#addClassModal").modal("hide");
-  		       },
-  		       error: e => console.log(e)
-  		 });
+    	var totalStudents = $("#addClassModalNumPlazas input").val();
+    	var roomCapacity = $("#addClassModalSala option:selected").attr("capacity");
+    	if(totalStudents && totalStudents <= roomCapacity){
+    		var clase = { 
+    				"name" : $("#addClassModalName input").val(),
+    		        "roomId": $("#addClassModalSala option:selected").val(),
+    		        "profeId": $("#addClassModalProf option:selected").val(),
+    		        "totalStudents": $("#addClassModalNumPlazas input").val(),
+    		        "dateIni": formatDateToServer(fechaIni, horaIni),
+    		        "dateFin": formatDateToServer(fechaFin, horaFin)
+    		    };
+    		 
+    			$.ajax({
+    				headers: {"X-CSRF-TOKEN": config.csrf.value},
+    				type: "POST",
+    				contentType: "application/json",
+    				url: "/clases/addLesson", 
+    				data: JSON.stringify(clase), 
+    				success: data => { 
+    					console.log("exito");
+    		   		    $("#dtBasicExample tbody").append('<tr>'+
+    	   		    		'<td class="d-none" value="'+data+'">Nada</td>'+
+    	   		    		'<td>'+ $("#addClassModalName input").val()+'</td>'+
+    	   		    		'<td>'+$("#addClassModalSala option:selected").text()+'</td>'+
+    	   		    		'<td>'+$("#addModalProfSelect option:selected").text()+'</td>'+
+    	   		    		'<td>'+$("#addClassModalNumPlazas input").val()+'</td>'+
+    	   		    		'<td>'+formatDateToClient(fechaIni)+'</td>'+
+    	   		    		'<td>'+formatDateToClient(fechaFin)+'</td>'+
+    	   		    		'<td class="d-none">'+horaIni+'</td>'+
+    	   		    		'<td class="d-none">'+horaFin+'</td>'+		
+    	   		    		'<td class="listActions text-center">'+
+    	   		    		'<button type="button" class="btn btn-info btn-default btn-xs" style="min-width: 50px;">'+
+    	   		    		'<span class="glyphicon glyphicon-info-sign" aria-hidden="true">&#10069</span></button>'+
+    	   		    		'<button type="button" class="btn btn-success btn-default btn-xs ml-2 "  style="min-width: 50px;">'+
+    	   		    		'<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span></button>'+
+    	   		    		'<button  type="button" class="btn btn-danger btn-default btn-xs ml-2"  style="min-width: 50px;">'+
+    	   		    		'<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>'+
+    						   '</button></td></tr>');
+    						   $(".listActions>.btn-info").click(function() {
+    							   viewInfo(this);
+    						   });
+    						   $(".listActions>.btn-success").click(function() {
+    						    	editInfo(this);
+    						   });	
+    						   $(".listActions>.btn-danger").click(function() {
+    						    	removeLesson(this);
+    						    });
+    						   				    
+    	  		    	$("#addClassModal").modal("hide");
+    	  		       },
+    	  		       error: e => console.log(e)
+    	  		 });
+    	}
+		
     })
 });

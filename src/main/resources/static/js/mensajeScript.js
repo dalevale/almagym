@@ -3,6 +3,7 @@ function checkUnread(){
 		headers: {"X-CSRF-TOKEN": config.csrf.value},
 	    type : "GET",
 	    url : config.rootUrl + "messages/unread/",
+	    async : false,
 	    success: data => { 
 	    	console.log(data.unread)
 	    	var num = data.unread;
@@ -46,6 +47,9 @@ function readNewMessages(otherId){
 		div.removeClass("newMessage");
 		div.addClass("convo");
 	}
+	setTimeout(function wait(){
+		checkUnread();
+    }, 1000);
 }
 
 function addUserDestination(){
@@ -196,13 +200,22 @@ function loadMessages(otherId, otherUsername, otherImg){
 	});
 }
 
+function escapeHtmlChars(string) {
+    return string
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
+ }
+
 function printMessage(img, msg, className, userId, messageId, dateSent, dateRead){
 	var newConvoLine = $(
 			'<div class="convoLine ' + className + '">' +
 			'<input type="hidden" class="messageId" value="'+ messageId + '">' +
 			'<input type="hidden" class="messageDateSent" value="'+ dateSent + '">' +
 			'<input type="hidden" class="messageDateRead" value="'+ dateRead + '">' +
-			'<img src="'+ img +'" width="50px" height="50px">'+ msg +'</div>'
+			'<img src="'+ img +'" width="50px" height="50px">'+ escapeHtmlChars(msg) +'</div>'
 			);
 	$("#convoBox.user" + userId).prepend(newConvoLine);
 }
@@ -266,11 +279,9 @@ function initializeUserList(){
 	$("#convosList").append(usersList);
 }
 
-setInterval(function(){
-	checkUnread();
-}, 500);
-
 $(document).ready(function(){
+	checkUnread();
+	
 	$("#usersList div.convoWithUsers").click(function(){	
 		var otherId = $(this).children().eq(0).val();
 		var otherUsername = $(this).children().eq(2).children().eq(0).text();

@@ -85,9 +85,13 @@ public class LessonController {
     @ResponseBody
     @Transactional
     public String addLesson(@RequestBody Lesson.Transfer lessonRequest) {
+    	String ret = "fallo";
         Lesson lesson = fromTransfer(lessonRequest);
-        entityManager.persist(lesson);
-        return String.valueOf(lesson.getId());
+        if(lesson.getTotalStudents() <= lesson.getRoom().getMaxSize()) {
+            entityManager.persist(lesson);
+            ret = String.valueOf(lesson.getId());
+        }
+        return ret;
     }
  
     @PostMapping("editLesson")        
@@ -100,17 +104,16 @@ public class LessonController {
 		return "exito";
     }
     
-    @PostMapping("removeLesson/{id}")    
+    @GetMapping("removeLesson/{id}")    
     @ResponseBody
     @Transactional
-    public String removeLesson(@PathVariable long id, Model model) {
+    public String removeLesson(@PathVariable long id) {
         Lesson target = entityManager.find(Lesson.class, id);
    		entityManager.remove(target);
    		return "exito";
     }
    
-    
-    @GetMapping(value = "switchInscription2")    
+    @GetMapping("switchInscription2")    
     @Transactional
     public String switchInscription2(@RequestParam long idUser, @RequestParam long idLesson, HttpSession session) {
     	User usuario = entityManager.find(User.class, idUser);
@@ -122,16 +125,13 @@ public class LessonController {
 			Inscription insc = new Inscription();
 			insc.setLesson(lesson);
 			insc.setUser(usuario);
-			
 			entityManager.persist(insc);
 			lesson.getInscriptions().add(insc);
 			
 		}
-   		
 		entityManager.flush();
-		
-		
    		log.info("Successfully switch inscription: ", lesson.getId());
+   		
     	return "forward:/clases/";
     }
     

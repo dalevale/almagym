@@ -50,100 +50,65 @@ public class EquipmentController {
     @PostMapping("edit")
 	@Transactional
 	@ResponseBody
-	public String editEquipment(HttpServletResponse response, @RequestBody Equipment.Transfer eRequest,
-			HttpSession session) throws IOException {
-    	
-    	if(hasPermissions(response, session)) {
-			Equipment e = new Equipment();
-	        e.setId(eRequest.id); 
-	        e.setName(eRequest.name);
-	        e.setQuantity(eRequest.quantity);
-	        e.setRoom(entityManager.find(Room.class, eRequest.room));
-			entityManager.merge(e);  
-			log.info("Successfully edited Room with id {} ", e.getId());
-		}
-    	else
-       		log.info("Failed to edit Room with id {} ", 1);
+	public String editEquipment(@RequestBody Equipment.Transfer eRequest) throws IOException {
+		Equipment e = new Equipment();
+        e.setId(eRequest.id); 
+        e.setName(eRequest.name);
+        e.setQuantity(eRequest.quantity);
+        e.setRoom(entityManager.find(Room.class, eRequest.room));
+		entityManager.merge(e);  
+		log.info("Successfully edited Room with id {} ", e.getId());
+		
    		return "exito";
 	}
     
-    @PostMapping("del/{id}")
+    @GetMapping("del/{id}")
    	@Transactional
    	@ResponseBody
-   	public String deleteEquipment(@PathVariable long id, HttpServletResponse response,
-   			HttpSession session) throws IOException {
-    	
-    	if(hasPermissions(response, session)) {
-    		Equipment target = entityManager.find(Equipment.class, id);
-       		entityManager.remove(target);
-       		log.info("Successfully removed Room with id {} ", id);
-    	}
-    	else
-       		log.info("Failed to remove Room with id {} ", id);
+   	public String deleteEquipment(@PathVariable long id) throws IOException {
+		Equipment target = entityManager.find(Equipment.class, id);
+   		entityManager.remove(target);
+   		log.info("Successfully removed Room with id {} ", id);
+	
    		return "exito";
    	}
     
     @PostMapping("add")
    	@Transactional
    	@ResponseBody
-   	public String addEquipment(HttpServletResponse response, @RequestBody Equipment.Transfer eRequest,
-   			HttpSession session) throws IOException {
-    	
-    	if(hasPermissions(response, session)) {
-    		Equipment e= new Equipment();
-    		e.setName(eRequest.name);
-    		e.setQuantity(eRequest.quantity);
-    		e.setRoom(entityManager.find(Room.class, eRequest.room));
-            entityManager.persist(e);
-       		log.info("Successfully added Room with id {} ", eRequest.id);
-            return String.valueOf(e.getId());
-    	}
-    	else
-       		log.info("Failed to add Room");
-   		return "exito";
+   	public String addEquipment(@RequestBody Equipment.Transfer eRequest) throws IOException {
+		Equipment e= new Equipment();
+		e.setName(eRequest.name);
+		e.setQuantity(eRequest.quantity);
+		e.setRoom(entityManager.find(Room.class, eRequest.room));
+        entityManager.persist(e);
+   		log.info("Successfully added Room with id {} ", eRequest.id);
+   		
+        return String.valueOf(e.getId());
    	}
-    
-    
-	private boolean hasPermissions(HttpServletResponse response, 
-			HttpSession session) throws IOException {
-		boolean valid = true;
-		// check permissions
-		User requester = (User) session.getAttribute("u");
-		if (!requester.hasRole(Role.ADMIN)) {
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "No eres administrador!");
-			valid = false;
-			log.info("Error, no adiministrator priveleges!");
-		}
-		return valid;
-	}
-    
     
 	@PostMapping("changephoto/{id}")
 	@ResponseBody
-	public String postPhoto(@PathVariable long id, HttpServletResponse response, @RequestParam("photo") MultipartFile photo,
-			HttpSession session) throws IOException {
-		// check permissions
-		if(hasPermissions(response, session)) {
-			String idStr = String.valueOf(id);
-			log.info("Updating photo for Room Id {}", id);
-			File f = localData.getFile("equipment", idStr);
-			if (photo.isEmpty()) {
-				log.info("failed to upload photo: emtpy file?");
-			} else {
-				try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
-					byte[] bytes = photo.getBytes();
-					stream.write(bytes);
-				} catch (Exception e) {
-					log.warn("Error uploading " + id + " ", e);
-				}
-				log.info("Successfully uploaded photo for Room Id {} into {}!", id, f.getAbsolutePath());
+	public String postPhoto(@PathVariable long id, @RequestParam("photo") MultipartFile photo) throws IOException {
+		String idStr = String.valueOf(id);
+		log.info("Updating photo for Room Id {}", id);
+		File f = localData.getFile("equipment", idStr);
+		if (photo.isEmpty()) {
+			log.info("failed to upload photo: emtpy file?");
+		} else {
+			try (BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(f))) {
+				byte[] bytes = photo.getBytes();
+				stream.write(bytes);
+			} catch (Exception e) {
+				log.warn("Error uploading " + id + " ", e);
 			}
+			log.info("Successfully uploaded photo for Room Id {} into {}!", id, f.getAbsolutePath());
 		}
-		
+			
 		return "exito";
 	}
  
-	@GetMapping(value = "/{id}/photo")
+	@GetMapping("/{id}/photo")
 	public StreamingResponseBody getPhoto(@PathVariable long id, Model model) throws IOException {
 		File f = localData.getFile("equipment", "" + id);
 		InputStream in;

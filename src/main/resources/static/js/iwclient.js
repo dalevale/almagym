@@ -21,9 +21,10 @@ const ws = {
 		readNewMessages(text.userId);
 		
 		$("#usersList div.user"+ text.userId).click(function(){
-			var img = config.rootUrl + "user/" + toUserId + "/photo";
+			var img = config.rootUrl + "user/" + text.userId + "/photo";
 			loadMessages(text.userId, text.from, img);
 		});
+		checkUnread();
 	
 	},
 	
