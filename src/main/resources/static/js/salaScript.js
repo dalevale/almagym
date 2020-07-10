@@ -123,7 +123,7 @@ $(document).ready(
 			var table = "#salaIteracion div div.table"+id;
 			$.ajax({
 				headers: {"X-CSRF-TOKEN": config.csrf.value},
-			    type : "POST",
+			    type : "GET",
 			    url : config.rootUrl + "salas/del/" + id,
 			    success: data => { 
 				$(table).hide();

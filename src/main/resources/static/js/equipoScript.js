@@ -75,7 +75,7 @@ $(document).ready(
 		 	  var table = "#equipoIteracion div div.table"+id;
 		      $.ajax({
 				   headers: {"X-CSRF-TOKEN": config.csrf.value},
-	  		       type : "POST",
+	  		       type : "GET",
 	  		       url : config.rootUrl + "equipos/del/" + id,
 	  		       success: data => { 
 	  		    	 $(table).hide();

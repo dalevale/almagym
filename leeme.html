@@ -48,7 +48,7 @@
 	
 	<h2>Vistas</h2>
 		<ul>
-		<li><a href="http://localhost:8080/inicio/">home</a> - vista inicial.
+		<li><a href="http://localhost:8080/index/">home</a> - vista inicial.
 		Contiene una introducción sobre el gimnasio.
 		<li><a href="http://localhost:8080/horarios">horarios</a> - vista del calendario.
 		Contiene un calendario con las clases que actualmente se imparten en el gimnasio.
@@ -78,6 +78,31 @@
    		  
 		</ul>
 	<p>Las <b>pruebas externas </b>estan en src/test/java con formato '.side' y se usa con la aplicación <a href="https://www.selenium.dev/downloads/">"Selenium"</a>.</p>
+
+	<h2>Modificaciones para las mejoras</h2>
+		<p>Aparte de las respuestas a los ejercicios solucionados en el examen (se han añadido todos) se han añadido varios cambios:</p>
+		<p>Cambios realizado por Dale Calicdan:</p>
+		<ul>
+		<li>
+		La petición que se realizaba cada 500ms en el script mensajeScript.js ya se quitó y en la patición ajax se puso una propiedad
+		"async" con un valor "false" para que espere que el servidor devuelva la respuesta antes de seguir ejecutando codigo.
+		</li>
+		<li>
+		La página de inicio que venía de la plantilla ya se ha cambiado por una que ya teníamos. Es una página de inicio que
+		a un usuario desconocido solo deja acceder a la página de inicio, la de salas y la de clases. Para acceder a los demas
+		se deja un enlace para iniciar sessión.
+		</li>
+		<li>
+		La seguridad se ha configurado y se han añadido enlaces protegidos en la clase SecurityConfig.java para dejar acceder 
+		ciertas personas con autenticación a ciertas páginas. Así se han eliminado las condiciones en los controles ("hasPermission")
+		que preguntan por la autorización antes de ejecutar algo. Además, con esto, se evita que cualquier usuario acceda a un recurso
+		que no tiene permiso (como para borrar una clase cuando el usuario es un cliente).
+		</li>
+		<li>
+		Se ha añadido un metodo "escapeHtmlChars" en el script mensajeScript.js para escapar carácteres HTML que se puede usar
+		para scripting. Está función se usará para evitar dicho ataque.
+		</li>
+		</ul>
 </body>
 
 </html>

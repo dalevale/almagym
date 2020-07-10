@@ -7,7 +7,7 @@
 </head>
 <body>
 	<nav th:fragment="nav" style="height: 75px">
-		<div class="logx" th:if="${session.u}">
+		<div class="logx">
 			<div
 				class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary ml-2"
 				style="">
@@ -27,24 +27,27 @@
 					<div class="collapse navbar-collapse" id="navbarResponsive">
 						<ul class="navbar-nav col-10 mt-2">
 							<li class="nav-item"><a class="nav-link"
-								th:href="@{/inicio/}"><i class="fas fa-home mr-1"></i>Inicio</a></li>
-							<li class="nav-item ml-2"><a class="nav-link"
+								th:href="@{/}"><i class="fas fa-home mr-1"></i>Inicio</a></li>
+							<li th:if="${session.u}" class="nav-item ml-2"><a class="nav-link"
 								th:href="@{/horarios/}"><i class="far fa-calendar-alt mr-1"></i>Horarios</a></li>
 							<li class="nav-item ml-2"><a class="nav-link"
 								th:href="@{/salas/}"><i class="fas fa-person-booth mr-1"></i>Salas</a></li>
 							<li class="nav-item ml-2"><a class="nav-link"
 								th:href="@{/clases/}"><i class="fas fa-dumbbell mr-1"></i>Clases</a></li>
-							<li th:if="${session.u.hasRole('ADMIN')}" class="nav-item ml-2">
-								<a class="nav-link" th:href="@{/usuarios/}"><i
-									class="fas fa-info-circle"></i>Usuarios</a>
-							</li>
-							<li class="nav-item ml-2"><a id="navMensajes"
-								class="nav-link" th:href="@{/messages/}"><i
-									class="fas fa-envelope"></i>Mensajes</a>
-							</li>
+							<th:block th:if="${session.u}">
+								<li th:if="${session.u.hasRole('ADMIN')}" class="nav-item ml-2">
+									<a class="nav-link" th:href="@{/usuarios/}"><i
+										class="fas fa-info-circle"></i>Usuarios</a>
+								</li>
+								<li class="nav-item ml-2"><a id="navMensajes"
+									class="nav-link" th:href="@{/messages/}"><i
+										class="fas fa-envelope"></i>Mensajes</a>
+								</li>
+							</th:block>
 						</ul>
 
 						<ul class="nav navbar-nav ml-auto col-2">
+						<th:block  th:if="${session.u}">
 							<li class="nav-item dropdown"><a class="nav-link"
 								data-toggle="dropdown" id="themes" aria-expanded="false"
 								href="#"> <img id="userPhoto" class="userthumb"
@@ -68,41 +71,47 @@
 								<div class="dropdown-divider"></div>
 									<a class="dropdown-item" th:href="@{/logout}"><i
 										class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
-								</div></li>
+								</div>
+							</li>
+						</th:block>
+						<th:block  th:unless="${session.u}">
+							<li class="nav-item"><a class="nav-link"
+								th:href="@{/login/}"><i class="fas fa-home mr-1"></i>Iniciar Session</a></li>
+						</th:block>
 						</ul>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="logx" th:unless="${session.u}">
-			<!--/*
-				Esto es un comentario "thymeleaf" - no se verÃ¡ en el HTML
-				El bloque de "debug" sÃ³lo estÃ¡ activado si application.properties tiene debug a "true"
-				(ver StartupConfig.java para ver cÃ³mo se lee el atributo y se pone en ${application.debug})
-			*/-->
-			<div class="debug" th:if="${application.debug}">
-				<form th:action="@{/login}" method="post">
-					<input type="hidden" name="username" value="a"> <input
-						type="hidden" name="password" value="aa">
-					<button type="submit">a</button>
-				</form>
-				<form th:action="@{/login}" method="post">
-					<input type="hidden" name="username" value="t"> <input
-						type="hidden" name="password" value="aa">
-					<button type="submit">t</button>
-				</form>
-				<form th:action="@{/login}" method="post">
-					<input type="hidden" name="username" value="t2"> <input
-						type="hidden" name="password" value="aa">
-					<button type="submit">t2</button>
-				</form>
-				<form th:action="@{/login}" method="post">
-					<input type="hidden" name="username" value="c"> <input
-						type="hidden" name="password" value="aa">
-					<button type="submit">c</button>
-				</form>
-			</div>
-		</div>
+<!-- 		<div class="logx" th:unless="${session.u}"> -->
+<!-- 			<!--/* -->
+<!-- 				Esto es un comentario "thymeleaf" - no se verÃ¡ en el HTML -->
+<!-- 				El bloque de "debug" sÃ³lo estÃ¡ activado si application.properties tiene debug a "true" -->
+<!-- 				(ver StartupConfig.java para ver cÃ³mo se lee el atributo y se pone en ${application.debug}) -->
+<!-- 			*/--> -->
+<!-- 			<div class="debug" th:if="${application.debug}"> -->
+<!-- 				<form th:action="@{/login}" method="post"> -->
+<!-- 					<input type="hidden" name="username" value="a"> <input -->
+<!-- 						type="hidden" name="password" value="aa"> -->
+<!-- 					<button type="submit">a</button> -->
+<!-- 				</form> -->
+<!-- 				<form th:action="@{/login}" method="post"> -->
+<!-- 					<input type="hidden" name="username" value="t"> <input -->
+<!-- 						type="hidden" name="password" value="aa"> -->
+<!-- 					<button type="submit">t</button> -->
+<!-- 				</form> -->
+<!-- 				<form th:action="@{/login}" method="post"> -->
+<!-- 					<input type="hidden" name="username" value="t2"> <input -->
+<!-- 						type="hidden" name="password" value="aa"> -->
+<!-- 					<button type="submit">t2</button> -->
+<!-- 				</form> -->
+<!-- 				<form th:action="@{/login}" method="post"> -->
+<!-- 					<input type="hidden" name="username" value="c"> <input -->
+<!-- 						type="hidden" name="password" value="aa"> -->
+<!-- 					<button type="submit">c</button> -->
+<!-- 				</form> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 	</nav>
 </body>
 </html>

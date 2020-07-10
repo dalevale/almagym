@@ -34,18 +34,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 	    http
 	        .authorizeRequests()
-	            .antMatchers("/css/**", "/js/**", "/img/**", "/", "/error").permitAll()
+
+	        	.antMatchers("/css/**", "/js/**", "/img/**", "/", "/error",
+            		"/salas/", "/clases/",
+            		"/salas/**/photo", "/equipos/**/photo").permitAll()
 	            // .antMatchers("/clase/enter").permitAll() 		 <-- only when logging in to vote 
-	            .antMatchers("/admin/**").hasRole("ADMIN")		// <-- administration
-	            .antMatchers("/salas/").hasRole("USER")
-	            .antMatchers("/salas/**/photo").hasRole("USER")
+	            .antMatchers("/admin/**").hasRole("ADMIN")// <-- administration
 	            .antMatchers("/salas/**").hasRole("ADMIN")
-	            .antMatchers("/equipos/**/photo").hasRole("USER")
 	            .antMatchers("/equipos/**").hasRole("ADMIN")
 	            .antMatchers("/clases/removeLesson/").hasAnyRole("ADMIN", "TEACHER")
 	            .antMatchers("/clases/addLesson/").hasAnyRole("ADMIN", "TEACHER")
 	            .antMatchers("/clases/editLesson/").hasAnyRole("ADMIN", "TEACHER")
 	            .antMatchers("/messages/**").hasRole("USER")
+	            
 	            .anyRequest().authenticated()
 	            .and()
 	        .formLogin()

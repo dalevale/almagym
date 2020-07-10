@@ -35,30 +35,32 @@
 					<div class="row mt-1">
 						<p class="salaDesc" th:text="${room.descrip}">Nada</p>
 					</div>
-					<table th:if="${session.u.hasRole('ADMIN')}">
-						<tr>
-							<!-- Botones para los modales -->
-							<td class="listActions">
-								<button type="button"
-									class="btn photoSala btn-info btn-default btn-xs ml-2">
-									<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
-								</button>
-								<button type="button"
-									class="btn editSala btn-success btn-default btn-xs ml-2">
-									<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
-								</button>
-								<button type="button" th:if="${#lists.isEmpty(room.lessons)}"
-									class="btn removeSala btn-danger deletable btn-default btn-xs ml-2">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
-								</button>
-								<button type="button"
-									th:unless="${#lists.isEmpty(room.lessons)}"
-									class="btn removeSala btn-danger undeletable btn-default btn-xs ml-2">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
-								</button>
-							</td>
-						</tr>
-					</table>
+					<th:block th:if="${session.u}">
+						<table th:if="${session.u.hasRole('ADMIN')}">
+							<tr>
+								<!-- Botones para los modales -->
+								<td class="listActions">
+									<button type="button"
+										class="btn photoSala btn-info btn-default btn-xs ml-2">
+										<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
+									</button>
+									<button type="button"
+										class="btn editSala btn-success btn-default btn-xs ml-2">
+										<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
+									</button>
+									<button type="button" th:if="${#lists.isEmpty(room.lessons)}"
+										class="btn removeSala btn-danger deletable btn-default btn-xs ml-2">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
+									</button>
+									<button type="button"
+										th:unless="${#lists.isEmpty(room.lessons)}"
+										class="btn removeSala btn-danger undeletable btn-default btn-xs ml-2">
+										<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
+									</button>
+								</td>
+							</tr>
+						</table>
+					</th:block>
 				</div>
 
 				<!-- Iteración de los equipos en cada sala -->
@@ -78,43 +80,49 @@
 									<p>Cantidad:&nbsp</p>
 									<p class="equipoCantidad" th:text="${equipment.quantity}">0</p>
 								</div>
-								<table th:if="${session.u.hasRole('ADMIN')}">
-									<tr>
-										<!-- Botones para los modales Equipo-->
-										<td class="equipoListActions">
-											<button type="button"
-												class="btn photoEquipo btn-info btn-default btn-xs ml-2">
-												<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
-											</button>
-											<button type="button"
-												class="btn editEquipo btn-success btn-default btn-xs ml-2">
-												<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
-											</button>
-											<button type="button"
-												class="btn removeEquipo btn-danger btn-default btn-xs ml-2">
-												<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
-											</button>
-										</td>
-									</tr>
-								</table>
+								<th:block th:if="${session.u}">
+									<table th:if="${session.u.hasRole('ADMIN')}">
+										<tr>
+											<!-- Botones para los modales Equipo-->
+											<td class="equipoListActions">
+												<button type="button"
+													class="btn photoEquipo btn-info btn-default btn-xs ml-2">
+													<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#127924</span>
+												</button>
+												<button type="button"
+													class="btn editEquipo btn-success btn-default btn-xs ml-2">
+													<span class="glyphicon glyphicon-pencil" aria-hidden="true">&#9999</span>
+												</button>
+												<button type="button"
+													class="btn removeEquipo btn-danger btn-default btn-xs ml-2">
+													<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
+												</button>
+											</td>
+										</tr>
+									</table>
+								</th:block>
 							</div>
 						</div>
 					</div>
-					<div th:if="${session.u.hasRole('ADMIN')}"
-						class="equipolistActions añadir d-flex justify-content-center mb-4">
-						<button type="button" class="btn addEquipo btn-primary btn-lg">&#10133
-							Añadir Equipo</button>
-					</div>
+					<th:block th:if="${session.u}">
+						<div th:if="${session.u.hasRole('ADMIN')}"
+							class="equipolistActions añadir d-flex justify-content-center mb-4">
+							<button type="button" class="btn addEquipo btn-primary btn-lg">&#10133
+								Añadir Equipo</button>
+						</div>
+					</th:block>
 				</div>
 			</div>
 
 		</div>
 	</div>
-	<div th:if="${session.u.hasRole('ADMIN')}"
-		class="listActions añadir d-flex justify-content-center mb-4">
-		<button type="button" class="btn addSala btn-primary btn-lg">&#10133
-			Añadir Sala</button>
-	</div>
+	<th:block th:if="${session.u}">
+		<div th:if="${session.u.hasRole('ADMIN')}"
+			class="listActions añadir d-flex justify-content-center mb-4">
+			<button type="button" class="btn addSala btn-primary btn-lg">&#10133
+				Añadir Sala</button>
+		</div>
+	</th:block>
 
 	<!-- Modal de Cambiar foto -->
 	<div id="changePhotoModal" class="modal fade" role="dialog">
