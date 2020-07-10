@@ -88,6 +88,7 @@ public class UserController {
 		User target = entityManager.find(User.class, id);
 
 		if (target == null) {
+			edited.setEnabled((byte) 1);
 			entityManager.persist(edited);
 			entityManager.flush();
 
@@ -230,7 +231,6 @@ public class UserController {
 	@Transactional
 	public String create(Model model, HttpSession session) {
 		User u = new User();
-		u.setRoles("USER");
 		model.addAttribute("user", u);
 		return "user";
 	}
