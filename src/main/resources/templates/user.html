@@ -82,8 +82,12 @@ $(document).ready(
 							<label for="password">Roles</label>
 							<p id="roles" th:value="${user.roles}"></p>
 						</div>
-						<button type="submit">Modificar</button>
+						</br>
+						<button type="submit">Aceptar</button>
+						</br>
 						</form>
+						<p><a th:if="${session.u.hasRole('ADMIN')}" th:href="@{/usuarios/}"
+					class="btn btn-danger btn-xs">Atras</a></p>
 					</div>
 					<div  th:unless="(${session.u.id} eq ${user.id}) or ${session.u.hasRole('ADMIN')}">
 						<label for="firstname"><b>Nombre:</b></label>
