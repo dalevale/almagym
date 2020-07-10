@@ -92,7 +92,7 @@ public class UserController {
 			entityManager.persist(edited);
 			entityManager.flush();
 
-			return "redirect:/usuarios/";
+			return "redirect:/index/";
 		}
 
 		model.addAttribute("user", target);
@@ -232,6 +232,9 @@ public class UserController {
 	public String create(Model model, HttpSession session) {
 		User u = new User();
 		model.addAttribute("user", u);
+		u.setPassword("0");
+		u.setRoles("CUSTOMER");
+		entityManager.persist(u);
 		return "user";
 	}
 
