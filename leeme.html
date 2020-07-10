@@ -1,108 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Léeme: Almagym</title>
-	<style type="text/css">
-		
- 
-	</style>
+<meta charset="utf-8">
+<title>Léeme: Almagym</title>
+<style type="text/css">
+</style>
 </head>
 <body>
 	<h1>Léeme: Almagym</h1>
 	<h2>Objetivo</h2>
-	<p>
-		Una aplicación que gestione las clases y salas de un gimnasio, además de permitir la interactuación entre los clientes.
-	</p>
-	<p>
-		En cualquier momento, un profesor podrá reservar una sala para impartir una clase en ella,
-		dichas clases podrán ser modificadas en cualquier momento, una vez creadas las clases, 
-		los clientes podrán apuntarse o desapuntarse de las clases en cualquier momento,
-		además de esto, los clientes también podrán intercambiar mensajes con otros usuarios a los cuales pueden
-		preguntar dudas sobre las clases, buscar consejos sobre rutinas, o simplemente tener una conversación
-		amistosa con sus compañeros. Esta aplicación permitirá en todo momento visualizar las salas
-		con todo el equipamiento que tenga cada una, visualizar las clases, y el perfil de cada usuario, 
-		permitiendo además modificarlos, incluso subiendo imágenes.   
-	</p>
-	<p>
-		Soporta los siguientes roles:
-		<ul>
-		<li>
-		El <b>administrador</b> (usuario: a, clave: aa) puede crear, eliminar o modificar usuarios, salas, y clases, es decir,
-		tiene control total sobre la aplicación. Además puede acceder a toda la información disponible, 
-		entre ella el perfil de los usuarios, las clases, y las salas.	
+	<p>Una aplicación que gestione las clases y salas de un gimnasio,
+		además de permitir la interactuación entre los clientes.</p>
+	<p>En cualquier momento, un profesor podrá reservar una sala para
+		impartir una clase en ella, dichas clases podrán ser modificadas en
+		cualquier momento, una vez creadas las clases, los clientes podrán
+		apuntarse o desapuntarse de las clases en cualquier momento, además de
+		esto, los clientes también podrán intercambiar mensajes con otros
+		usuarios a los cuales pueden preguntar dudas sobre las clases, buscar
+		consejos sobre rutinas, o simplemente tener una conversación amistosa
+		con sus compañeros. Esta aplicación permitirá en todo momento
+		visualizar las salas con todo el equipamiento que tenga cada una,
+		visualizar las clases, y el perfil de cada usuario, permitiendo además
+		modificarlos, incluso subiendo imágenes.</p>
+	<p>Soporta los siguientes roles:
+	<ul>
+		<li>El <b>administrador</b> (usuario: a, clave: aa) puede crear,
+			eliminar o modificar usuarios, salas, y clases, es decir, tiene
+			control total sobre la aplicación. Además puede acceder a toda la
+			información disponible, entre ella el perfil de los usuarios, las
+			clases, y las salas.
 		</li>
-		<li>
-		El <b>profesor</b> (usuario: t, clave: aa) puede crear, eliminar o modificar clases, reservando así las aulas
-		disponibles, también puede visualizar información acerca de las salas y las clases.
+		<li>El <b>profesor</b> (usuario: t, clave: aa) puede crear,
+			eliminar o modificar clases, reservando así las aulas disponibles,
+			también puede visualizar información acerca de las salas y las
+			clases.
 		</li>
-		<li>
-		El <b>cliente</b> (usuario: c, clave: aa) este es el usuario con menos privilegios, solo puede visualizar las salas y las clases,
-		así como apuntarse a las clases. 
+		<li>El <b>cliente</b> (usuario: c, clave: aa) este es el usuario
+			con menos privilegios, solo puede visualizar las salas y las clases,
+			así como apuntarse a las clases.
 		</li>
-		</ul>
+	</ul>
 	</p>
 	<h2>Base de datos</h2>
-		
-		<img src="src\main\resources\static\img\schema.png" alt="esquema de la BD">
-	
+
+	<img src="src\main\resources\static\img\schema.png"
+		alt="esquema de la BD">
+
+	<h2>Usuarios preregistrados</h2>
+	<h3>Adminitrador</h3>
+	<ul>
+		<li>Usuario: a</li>
+		<li>Contraseña: aa</li>
+	</ul>
+	<h3>Profesor 1</h3>
+	<ul>
+		<li>Usuario: t</li>
+		<li>Contraseña: aa</li>
+	</ul>
+	<h3>Profesor 2</h3>
+	<ul>
+		<li>Usuario: t2</li>
+		<li>Contraseña: aa</li>
+	</ul>
+	<h3>Cliente</h3>
+	<ul>
+		<li>Usuario: c</li>
+		<li>Contraseña: aa</li>
+	</ul>
+
 	<h2>Vistas</h2>
-		<ul>
-		<li><a href="http://localhost:8080/index/">home</a> - vista inicial.
-		Contiene una introducción sobre el gimnasio.
-		<li><a href="http://localhost:8080/horarios">horarios</a> - vista del calendario.
-		Contiene un calendario con las clases que actualmente se imparten en el gimnasio.
-		 <li><a href="http://localhost:8080/salas/">salas</a> - vista de las salas. 
-		 Esta vista contiene información sobre todas las salas del gimnasio, puede verla cualquier usuario
-		 pero solo puede ser modificada por el administrador.
-		 <li><a href="http://localhost:8080/clases">clases</a> - vista de las clases. 
-		Contiene todas las clases que se imparten en el gimnasio, puede ser modificada tanto por profesores
-		como por administradores, y los clientes pueden apuntarse a las clases.
-		<li><a href="http://localhost:8080/usuarios">usuarios</a> - vista de los usuarios. 
-		Solo puede ser vista por el administrador, contiene un listado de todos los usuarios,
-		en ella puede administrar los usuarios del gimnasio.
-		<li><a href="http://localhost:8080/messages">mensajes</a> - vista de mensajería. 
-		Contiene una lista de los usuarios, y permite el envió de mensajes entre ellos.
-		</ul>
+	<ul>
+		<li><a href="http://localhost:8080/index/">home</a> - vista
+			inicial. Contiene una introducción sobre el gimnasio.
+		<li><a href="http://localhost:8080/horarios">horarios</a> - vista
+			del calendario. Contiene un calendario con las clases que actualmente
+			se imparten en el gimnasio.
+		<li><a href="http://localhost:8080/salas/">salas</a> - vista de
+			las salas. Esta vista contiene información sobre todas las salas del
+			gimnasio, puede verla cualquier usuario pero solo puede ser
+			modificada por el administrador.
+		<li><a href="http://localhost:8080/clases">clases</a> - vista de
+			las clases. Contiene todas las clases que se imparten en el gimnasio,
+			puede ser modificada tanto por profesores como por administradores, y
+			los clientes pueden apuntarse a las clases.
+		<li><a href="http://localhost:8080/usuarios">usuarios</a> - vista
+			de los usuarios. Solo puede ser vista por el administrador, contiene
+			un listado de todos los usuarios, en ella puede administrar los
+			usuarios del gimnasio.
+		<li><a href="http://localhost:8080/messages">mensajes</a> - vista
+			de mensajería. Contiene una lista de los usuarios, y permite el envió
+			de mensajes entre ellos.
+	</ul>
 	<h2>Recursos</h2>
-		<ul>
-		<li>Todas las imágenes incorporadas en esta web han sido encontradas en pinterest, por ejemplo: 
-		<a href="https://www.pinterest.es/alfonsopolo1971/dise%C3%B1o-de-gimnasio/"> todas las imágenes </a>de dicha web tienen licencia
-		<a href="https://es.wikipedia.org/wiki/Licencias_Creative_Commons#:~:text=Las%20licencias%20Creative%20Commons%20(CC,del%20autor%20de%20la%20obra.">Creative Commons </a>.
-		
-		 <li><a href="https://getbootstrap.com/"> Pagina oficial bootstrap </a> 
-   		 <p>
-     	 Usamos bootstrap para mejorar la interfaz de nuestra web, en este caso, en forma de botones, pero mas adelante su potencial nos llevara a usarlo para otras labores.
-   		 </p>
-   		  <li><a href=" https://es.wikipedia.org/wiki/Bootstrap_(framework)"> Licencia Bootstrap </a> 
-   		  
-		</ul>
-	<p>Las <b>pruebas externas </b>estan en src/test/java con formato '.side' y se usa con la aplicación <a href="https://www.selenium.dev/downloads/">"Selenium"</a>.</p>
+	<ul>
+		<li>Todas las imágenes incorporadas en esta web han sido
+			encontradas en pinterest, por ejemplo: <a
+			href="https://www.pinterest.es/alfonsopolo1971/dise%C3%B1o-de-gimnasio/">
+				todas las imágenes </a>de dicha web tienen licencia <a
+			href="https://es.wikipedia.org/wiki/Licencias_Creative_Commons#:~:text=Las%20licencias%20Creative%20Commons%20(CC,del%20autor%20de%20la%20obra.">Creative
+				Commons </a>.
+		<li><a href="https://getbootstrap.com/"> Pagina oficial
+				bootstrap </a>
+			<p>Usamos bootstrap para mejorar la interfaz de nuestra web, en
+				este caso, en forma de botones, pero mas adelante su potencial nos
+				llevara a usarlo para otras labores.</p>
+		<li><a
+			href=" https://es.wikipedia.org/wiki/Bootstrap_(framework)">
+				Licencia Bootstrap </a>
+	</ul>
+	<p>
+		Las <b>pruebas externas </b>estan en src/test/java con formato '.side'
+		y se usa con la aplicación <a
+			href="https://www.selenium.dev/downloads/">"Selenium"</a>.
+	</p>
 
 	<h2>Modificaciones para las mejoras</h2>
-		<p>Aparte de las respuestas a los ejercicios solucionados en el examen (se han añadido todos) se han añadido varios cambios:</p>
-		<p>Cambios realizado por Dale Calicdan:</p>
-		<ul>
-		<li>
-		La petición que se realizaba cada 500ms en el script mensajeScript.js ya se quitó y en la patición ajax se puso una propiedad
-		"async" con un valor "false" para que espere que el servidor devuelva la respuesta antes de seguir ejecutando codigo.
-		</li>
-		<li>
-		La página de inicio que venía de la plantilla ya se ha cambiado por una que ya teníamos. Es una página de inicio que
-		a un usuario desconocido solo deja acceder a la página de inicio, la de salas y la de clases. Para acceder a los demas
-		se deja un enlace para iniciar sessión.
-		</li>
-		<li>
-		La seguridad se ha configurado y se han añadido enlaces protegidos en la clase SecurityConfig.java para dejar acceder 
-		ciertas personas con autenticación a ciertas páginas. Así se han eliminado las condiciones en los controles ("hasPermission")
-		que preguntan por la autorización antes de ejecutar algo. Además, con esto, se evita que cualquier usuario acceda a un recurso
-		que no tiene permiso (como para borrar una clase cuando el usuario es un cliente).
-		</li>
-		<li>
-		Se ha añadido un metodo "escapeHtmlChars" en el script mensajeScript.js para escapar carácteres HTML que se puede usar
-		para scripting. Está función se usará para evitar dicho ataque.
-		</li>
-		</ul>
+	<p>Aparte de las respuestas a los ejercicios solucionados en el
+		examen (se han añadido todos) se han añadido varios cambios:</p>
+	<p>Cambios realizado por Dale Calicdan:</p>
+	<ul>
+		<li>La petición que se realizaba cada 500ms en el script
+			mensajeScript.js ya se quitó y en la patición ajax se puso una
+			propiedad "async" con un valor "false" para que espere que el
+			servidor devuelva la respuesta antes de seguir ejecutando codigo.</li>
+		<li>La página de inicio que venía de la plantilla ya se ha
+			cambiado por una que ya teníamos. Es una página de inicio que a un
+			usuario desconocido solo deja acceder a la página de inicio, la de
+			salas y la de clases. Para acceder a los demas se deja un enlace para
+			iniciar sessión.</li>
+		<li>La seguridad se ha configurado y se han añadido enlaces
+			protegidos en la clase SecurityConfig.java para dejar acceder ciertas
+			personas con autenticación a ciertas páginas. Así se han eliminado
+			las condiciones en los controles ("hasPermission") que preguntan por
+			la autorización antes de ejecutar algo. Además, con esto, se evita
+			que cualquier usuario acceda a un recurso que no tiene permiso (como
+			para borrar una clase cuando el usuario es un cliente).</li>
+		<li>Se ha añadido un metodo "escapeHtmlChars" en el script
+			mensajeScript.js para escapar carácteres HTML que se puede usar para
+			scripting. Está función se usará para evitar dicho ataque.</li>
+	</ul>
 </body>
 
 </html>
