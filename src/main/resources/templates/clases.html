@@ -61,7 +61,7 @@
 								<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 							</button> 
 							
-							<block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')}">
+							<block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')} or ${lesson.isInscript({session.u})}">
 								<a th:href="@{/clases/switchInscription2(idUser=${session.u.id},idLesson=${lesson.id})}"
 									class="btn btn-success btn-xs">Apuntado</a>
 

@@ -41,7 +41,7 @@
 						<td class="d-none"
 							th:text="${#temporals.format(lesson.dateFin, 'HH:mm')}"></td>
 						<td class="listActions text-center">
-							<block th:if="${lesson.estaVacio()} and ${usuario.hasRole('CUSTOMER')}">
+							<block>
 								<a th:href="@{/clases/switchInscription2(idUser=${usuario.id},idLesson=${lesson.id})}"
 									class="btn btn-success btn-xs">Apuntado</a>
 
