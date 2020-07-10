@@ -123,7 +123,11 @@
 			mensajeScript.js ya se quitó y en la patición ajax se puso una
 			propiedad "async" con un valor "false" para que espere que el
 			servidor devuelva la respuesta antes de seguir ejecutando codigo.</li>
-		r54
+		<li>La página de inicio que venía de la plantilla ya se ha
+			cambiado por una que ya teníamos. Es una página de inicio que a un
+			usuario desconocido solo deja acceder a la página de inicio, la de
+			salas y la de clases. Para acceder a los demas se deja un enlace para
+			iniciar sessión.</li>
 		<li>La seguridad se ha configurado y se han añadido enlaces
 			protegidos en la clase SecurityConfig.java para dejar acceder ciertas
 			personas con autenticación a ciertas páginas. Así se han eliminado
@@ -134,29 +138,31 @@
 		<li>Se ha añadido un metodo "escapeHtmlChars" en el script
 			mensajeScript.js para escapar carácteres HTML que se puede usar para
 			scripting. Está función se usará para evitar dicho ataque.</li>
-	</ul> 
+	</ul>
 	<p>Cambios realizado por Ivan Saugar Peinado:</p>
 	<ul>
 		<li>Se le ha permitido al administrador crear usuarios, para
 			ello, se va a usuarios, y debajo hay un boton para crear usuario. Una
-			vez creado, el "nuevo usuario" este aparecera bloqueado por defecto, para
-			así aumentar la seguridad por si se crea un usuario vacio, para activarle
-			se da al icono del candado, y una vez activado, se puede acceder con
-			él.</li>
-		<li>Modificar la pagina de inicio (Trabajo realizado con Dale Calicda).</li>
+			vez creado, el "nuevo usuario" este aparecera bloqueado por defecto,
+			para así aumentar la seguridad por si se crea un usuario vacio, para
+			activarle se da al icono del candado, y una vez activado, se puede
+			acceder con él.</li>
+		<li>Modificar la pagina de inicio (Trabajo realizado con Dale
+			Calicda).</li>
 		<li>Posibilidad de añadir y eliminar maquinas, se llamaba mal al
 			modal (Realizado con Sergio Sanchez Ortiz)</li>
 		<li>Mejoras de usabilidad: (*)Los usuarios clientes poseen un
 			enlace a "Clases apuntadas", que permitira visualizar en una tabla
 			todas las clases a las que se ha apuntado el propio usuario,
 			permitiendo desapuntarse directamente para facilitar el trabajo del
-			usuario. (Realizado con Sergio Sanchez Ortiz)(*)Los profesores poseeen un enlace a "mis clases",
-			permitiendo visualizar solo las clases que ha creado y realizar
-			las mismas funciones que en las clases.</li>
-		<li>Mejoras de seguridad: (*) Se han arreglado algunos
-			modales mal cerrados, (como cuando te apuntas a una clase), (*) los usuarios apuntados
-			a una clase ahora se pueden desapuntar aunque la clase este llena.
-		</li>
+			usuario. (Realizado con Sergio Sanchez Ortiz)(*)Los profesores
+			poseeen un enlace a "mis clases", permitiendo visualizar solo las
+			clases que ha creado y realizar las mismas funciones que en las
+			clases.</li>
+		<li>Mejoras de seguridad: (*) Se han arreglado algunos modales
+			mal cerrados, (como cuando te apuntas a una clase), (*) los usuarios
+			apuntados a una clase ahora se pueden desapuntar aunque la clase este
+			llena.</li>
 	</ul>
 
 </body>
