@@ -61,7 +61,7 @@
 								<span class="glyphicon glyphicon-remove" aria-hidden="true">&#10006</span>
 							</button> 
 							
-							<th:block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')}">
+							<block th:if="${lesson.estaVacio()} and ${session.u.hasRole('CUSTOMER')}">
 								<a th:href="@{/clases/switchInscription2(idUser=${session.u.id},idLesson=${lesson.id})}"
 									class="btn btn-success btn-xs">Apuntado</a>
 
@@ -69,7 +69,7 @@
 									class="glyphicon glyphicon-pencil" aria-hidden="true">&#10004</span>
 								<span th:unless="${lesson.isInscript({session.u})}"
 									class="glyphicon glyphicon-pencil" aria-hidden="true">&#128473</span>
-							</th:block>
+							</block>
 						</th:block>
 						</td>
 					</tr>
